@@ -6,7 +6,7 @@
 
         <variable
             name="recognitionItem"
-            type="com.example.learningmodule.viewmodel.Recognition" />
+            type="com.example.fypcommunicationtool.viewmodel.Recognition" />
     </data>
 
     <LinearLayout
