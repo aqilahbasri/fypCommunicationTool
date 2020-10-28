@@ -8,15 +8,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Score extends AppCompatActivity implements View.OnClickListener{
 
     private Button backhome;
     private TextView score;
 
+    private FirebaseAuth mAuth;
+    DatabaseReference databaseReference;
+    private int xp;
+    private String userID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
+
+        mAuth = FirebaseAuth.getInstance();
+        userID = mAuth.getCurrentUser().getUid();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("LEADERBOARD");
 
         backhome = (Button) findViewById(R.id.backhome);
         backhome.setOnClickListener(new View.OnClickListener() {
@@ -32,7 +46,12 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
         String data = extras.getString("finalscore");
         score.setText(data + "%");
 
-        int xp = Integer.parseInt(data)*20;
+        xp = Integer.parseInt(data)*20;
+
+        UploadScore userscore = new UploadScore(userID, xp);
+        databaseReference.child(userID).setValue(userscore);
+
+
     }
 
     public void backhome() {

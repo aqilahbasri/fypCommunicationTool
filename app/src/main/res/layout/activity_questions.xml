@@ -6,9 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".Questions">
 
+    <include
+        android:id="@+id/main_learning_toolbar"
+        layout="@layout/purple_app_bar">
+    </include>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/main_learning_toolbar"
         android:orientation="vertical">
 
         <TextView

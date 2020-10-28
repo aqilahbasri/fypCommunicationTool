@@ -3,6 +3,7 @@ package com.example.fypcommunicationtool;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -13,7 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivityLearning extends AppCompatActivity {
 
-    private ActionBar toolbar;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +24,9 @@ public class MainActivityLearning extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigationView);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        toolbar = getSupportActionBar();
-        toolbar.setTitle("LEARNING");
+        toolbar = (Toolbar) findViewById(R.id.main_learning_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("LEARNING");
         loadFragment(new CategoryFragment());
 
 

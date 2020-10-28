@@ -7,6 +7,11 @@
     android:orientation="vertical"
     tools:context=".PlayLearn">
 
+    <include
+        android:id="@+id/main_learning_toolbar"
+        layout="@layout/purple_app_bar">
+    </include>
+
 
     <Button
         android:id="@+id/learnbtn"

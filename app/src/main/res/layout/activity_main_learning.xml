@@ -6,10 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivityLearning">
 
+    <include
+        android:id="@+id/main_learning_toolbar"
+        layout="@layout/purple_app_bar">
+    </include>
+
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/main_learning_toolbar"
         android:layout_above="@+id/navigationView"/>
 
 

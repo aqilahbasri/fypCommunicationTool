@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +33,7 @@ public class Practice extends AppCompatActivity {
     ImageView imageView;
     TextView result;
     ImageLabeler labeler;
-    private ActionBar toolbar;
+    private Toolbar toolbar;
     public Uri imguri;
 
    @Override
@@ -44,8 +45,9 @@ public class Practice extends AppCompatActivity {
        Bundle extras = intent.getExtras();
        String data = extras.getString("catTitle");
 
-       toolbar = getSupportActionBar();
-       toolbar.setTitle(data);
+       toolbar = (Toolbar) findViewById(R.id.main_learning_toolbar);
+       setSupportActionBar(toolbar);
+       getSupportActionBar().setTitle(data);
 
         choose = findViewById(R.id.choose);
         imageView = findViewById(R.id.imageView);

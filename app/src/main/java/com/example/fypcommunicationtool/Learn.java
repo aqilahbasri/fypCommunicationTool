@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +29,7 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
     private TextView description;
     private ImageView imagelearn;
     private int slNum;
-    private ActionBar toolbar;
+    private Toolbar toolbar;
 
     DatabaseReference reference;
     ArrayList<SLlist> sllist;
@@ -43,8 +44,9 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
         Bundle extras = intent.getExtras();
         String data = extras.getString("catTitle");
 
-        toolbar = getSupportActionBar();
-        toolbar.setTitle(data);
+        toolbar = (Toolbar) findViewById(R.id.main_learning_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(data);
 
         String slref = data;
 

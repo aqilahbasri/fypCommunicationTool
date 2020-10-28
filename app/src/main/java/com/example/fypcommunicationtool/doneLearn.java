@@ -11,15 +11,13 @@ import android.widget.Button;
 public class doneLearn extends AppCompatActivity implements View.OnClickListener {
 
     Button backhome;
-    ActionBar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_done_learn);
 
-        toolbar = getSupportActionBar();
-        toolbar.hide();
 
         backhome = (Button) findViewById(R.id.backhome);
         backhome.setOnClickListener(new View.OnClickListener() {

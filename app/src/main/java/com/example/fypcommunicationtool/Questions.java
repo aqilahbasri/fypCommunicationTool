@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,7 +32,7 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
     ArrayList<QuestionList> questionList;
     int questionNum;
     int score;
-    private ActionBar toolbar;
+    private Toolbar toolbar;
     DatabaseReference reference;
 
     @Override
@@ -43,8 +44,9 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
         Bundle extras = intent.getExtras();
         String data = extras.getString("catTitle");
 
-        toolbar = getSupportActionBar();
-        toolbar.setTitle(data);
+        toolbar = (Toolbar) findViewById(R.id.main_learning_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(data);
 
         final String questionref = data;
 
