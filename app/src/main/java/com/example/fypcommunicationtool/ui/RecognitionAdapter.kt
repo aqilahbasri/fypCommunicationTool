@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fypcommunicationtool.databinding.RecognitionItemBinding
 import com.example.fypcommunicationtool.viewmodel.Recognition
 
+
 class RecognitionAdapter(private val ctx: Context) :
     ListAdapter<Recognition, RecognitionViewHolder>(RecognitionDiffUtil()) {
 

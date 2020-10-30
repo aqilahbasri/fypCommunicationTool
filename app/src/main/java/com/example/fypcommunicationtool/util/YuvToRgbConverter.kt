@@ -26,7 +26,7 @@ import android.renderscript.Element
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicYuvToRGB
 import android.renderscript.Type
-//import androidx.databinding.library.BuildConfig
+import com.example.fypcommunicationtool.BuildConfig
 import java.nio.ByteBuffer
 
 /**
@@ -87,7 +87,7 @@ class YuvToRgbConverter(context: Context) {
     }
 
     private fun imageToByteBuffer(image: Image, outputBuffer: ByteArray) {
-        if (com.example.fypcommunicationtool.BuildConfig.DEBUG && image.format != ImageFormat.YUV_420_888) {
+        if (BuildConfig.DEBUG && image.format != ImageFormat.YUV_420_888) {
             error("Assertion failed")
         }
 

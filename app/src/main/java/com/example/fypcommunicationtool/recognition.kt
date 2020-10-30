@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.fypcommunicationtool
 
 import android.Manifest
@@ -32,6 +48,7 @@ import com.example.fypcommunicationtool.viewmodel.RecognitionListViewModel
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.model.Model
 import java.util.concurrent.Executors
+import org.tensorflow.lite.gpu.CompatibilityList
 
 // Constants
 private const val MAX_RESULT_DISPLAY = 3 // Maximum number of results displayed
@@ -168,10 +185,11 @@ class recognition : AppCompatActivity() {
                         })
                     }
 
-//            // Select camera, back is the default. If it is not available, choose front camera
+            // Select camera, back is the default. If it is not available, choose front camera
 //            val cameraSelector =
 //                    if (cameraProvider.hasCamera(CameraSelector.DEFAULT_BACK_CAMERA))
 //                        CameraSelector.DEFAULT_BACK_CAMERA else CameraSelector.DEFAULT_FRONT_CAMERA
+
 
             // Select camera, front is the default. If it is not available, choose back camera
             val cameraSelector =
@@ -189,7 +207,7 @@ class recognition : AppCompatActivity() {
                 )
 
                 // Attach the preview to preview view, aka View Finder
-                preview.setSurfaceProvider(viewFinder.createSurfaceProvider())
+                preview.setSurfaceProvider(viewFinder.surfaceProvider)
             } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
@@ -206,7 +224,15 @@ class recognition : AppCompatActivity() {
         private val alphabetModel: AlphabetModel by lazy{
 
             // TODO 6. Optional GPU acceleration
-            val options = Model.Options.Builder().setDevice(Model.Device.GPU).build()
+            val compatList = CompatibilityList()
+
+            val options = if(compatList.isDelegateSupportedOnThisDevice) {
+                Log.d(TAG, "This device is GPU Compatible ")
+                Model.Options.Builder().setDevice(Model.Device.GPU).build()
+            } else {
+                Log.d(TAG, "This device is GPU Incompatible ")
+                Model.Options.Builder().setNumThreads(4).build()
+            }
 
             // Initialize the Flower Model
             AlphabetModel.newInstance(ctx, options)
@@ -231,7 +257,7 @@ class recognition : AppCompatActivity() {
             }
 
 //            // START - Placeholder code at the start of the codelab. Comment this block of code out.
-//            for (i in 0..MAX_RESULT_DISPLAY-1){
+//            for (i in 0 until MAX_RESULT_DISPLAY){
 //                items.add(Recognition("Fake label $i", Random.nextFloat()))
 //            }
 //            // END - Placeholder code at the start of the codelab. Comment this block of code out.
