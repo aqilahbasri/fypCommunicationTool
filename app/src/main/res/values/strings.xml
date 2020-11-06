@@ -3,4 +3,10 @@
     <string name="permission_deny_text">Required permissions denied. Exiting.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="high_enc_word">You are a star student! You finish the challenge successfully. I am so proud of you!</string>
+    <string name="medium_enc_word">You did it well! Keep up with the good work. Soon you will be at the top!</string>
+    <string name="low_enc_word">Do not be discourage with your mark. Keep learning and practicing then you will see your result improve. I believe in you!</string>
+
+
 </resources>
