@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -61,12 +62,20 @@ public class MainActivityLearning extends AppCompatActivity {
     };
 
     private void loadFragment(Fragment fragment) {
-        // load fragment
+        // load fragme nt
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
-        transaction.addToBackStack(null);
+//        transaction.addToBackStack(null);
+        transaction.disallowAddToBackStack();
         transaction.commit();
 
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivityLearning.class);
+        startActivity(intent);
 
     }
 }
