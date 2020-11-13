@@ -1,31 +1,42 @@
 package com.example.fypcommunicationtool;
 
 public class UploadScore {
-//    public String userID;
-    public int xp;
+    public long xp;
+    public String username;
+    public String profileimage;
 
 
-    public UploadScore (){}
+    public UploadScore(){}
 
-    public UploadScore(int xp) {
-//        this.userID = userID;
+    public UploadScore(long xp, String username, String profileimage) {
         this.xp = xp;
+        this.username = username;
+        this.profileimage = profileimage;
+
 
     }
 
-//    public String getUserID() {
-//        return userID;
-//    }
+    public String getUsername() {
+        return username;
+    }
 
-//    public void setUserID(String userID) {
-//        this.userID = userID;
-//    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    public int getXp() {
+    public String getProfileimage() {
+        return profileimage;
+    }
+
+    public void setProfileimage(String profileimage) {
+        this.profileimage = profileimage;
+    }
+
+    public long getXp() {
         return xp;
     }
 
-    public void setXp(int xp) {
+    public void setXp(long xp) {
         this.xp = xp;
     }
 

@@ -49,7 +49,7 @@ public class MainActivityLearning extends AppCompatActivity {
                     loadFragment(new DictionaryFragment());
                     return true;
                 case R.id.rank:
-                    toolbar.setTitle("RANK");
+                    toolbar.setTitle("LEADERBOARD");
                     loadFragment(new RankFragment());
                     return true;
                 case R.id.setting:
@@ -62,7 +62,7 @@ public class MainActivityLearning extends AppCompatActivity {
     };
 
     private void loadFragment(Fragment fragment) {
-        // load fragme nt
+        // load fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
 //        transaction.addToBackStack(null);

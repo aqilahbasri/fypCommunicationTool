@@ -11,6 +11,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,11 +33,14 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
     private TextView score;
 
     private FirebaseAuth mAuth;
-    DatabaseReference databaseReference;
-    private int xp;
+    DatabaseReference databaseReference, userdetailRef;
+    private long xp;
     private String userID;
 
-    int uploadXP;
+    long uploadXP;
+
+    String username;
+    String profileimage;
 
     Dialog encDialog;
     TextView rankTitle, xptext;
@@ -53,6 +57,7 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
         userID = mAuth.getCurrentUser().getUid();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("LEADERBOARD");
+        userdetailRef = FirebaseDatabase.getInstance().getReference("Users");
 
         backhome = (Button) findViewById(R.id.backhome);
         backhome.setOnClickListener(new View.OnClickListener() {
@@ -68,10 +73,23 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
         String data = extras.getString("finalscore");
         score.setText(data + "%");
 
-        int mark = Integer.parseInt(data);
+        long mark = Integer.parseInt(data);
         xp = Integer.parseInt(data) * 20;
 
 
+        //retrieve username n profilepic
+        userdetailRef.child(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                username = dataSnapshot.child("userID").getValue().toString();
+                profileimage = dataSnapshot.child("profileImage").getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -79,14 +97,14 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
                     if (dataSnapshot.hasChild(userID)) {
                         // run some code
                         String getXP = dataSnapshot.child(userID).child("xp").getValue().toString();
-                        int ixp = Integer.parseInt(getXP);
+                        long ixp = Integer.parseInt(getXP);
                         uploadXP = ixp + xp;
                         databaseReference.child(userID).child("xp").setValue(uploadXP);
-//                        databaseReference.child("xp").updateChildren("xp", uploadXP);
 
                     }else {
-                        UploadScore userscore = new UploadScore(xp);
+                        UploadScore userscore = new UploadScore(xp, username, profileimage);
                         databaseReference.child(userID).setValue(userscore);
+                        uploadXP = 0;
                     }
                 }
 
@@ -132,7 +150,7 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
 
     }
 
-    public void encHigh(int xp, int uploadXP) {
+    public void encHigh(long xp, long uploadXP) {
         encDialog = new Dialog(this);
         encDialog.setContentView(R.layout.enc_word_high);
         closebtn = (ImageView) encDialog.findViewById(R.id.closebtn);
@@ -142,7 +160,7 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
         String xxp = String.valueOf(xp);
         xptext.setText("+"+xxp+" xp");
 
-        if(uploadXP>=1 && uploadXP<6000){
+        if(uploadXP>=0 && uploadXP<6000){
            chessRank.setImageResource(R.drawable.ic_chess_pawn);
            int color = Color.parseColor("#3eb959");
            chessRank.setColorFilter(color);
@@ -185,7 +203,7 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
 
     }
 
-    public void encMedium(int xp, int uploadXP) {
+    public void encMedium(long xp, long uploadXP) {
         encDialog = new Dialog(this);
         encDialog.setContentView(R.layout.enc_word_medium);
         closebtn = (ImageView) encDialog.findViewById(R.id.closebtn);
@@ -239,7 +257,7 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
 
     }
 
-    public void encLow(int xp, int uploadXP) {
+    public void encLow(long xp, long uploadXP) {
         encDialog = new Dialog(this);
         encDialog.setContentView(R.layout.enc_word_low);
         closebtn = (ImageView) encDialog.findViewById(R.id.closebtn);

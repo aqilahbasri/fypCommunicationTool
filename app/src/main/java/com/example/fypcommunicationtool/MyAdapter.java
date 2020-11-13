@@ -42,6 +42,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         final String title = categories.get(position).getCategoryname();
 
 
+
         //click here to go to category play learn
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +67,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         TextView categoryname;
         ImageView categoryimage;
 
-        @SuppressLint("WrongViewCast")
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             categoryname = (TextView) itemView.findViewById(R.id.categoryname);
