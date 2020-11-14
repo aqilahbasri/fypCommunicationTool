@@ -3,12 +3,15 @@ package com.example.fypcommunicationtool;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Picasso;
@@ -31,14 +34,14 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
     public class GIFViewHolder extends RecyclerView.ViewHolder
     {
         public TextView engCaption, malayCaption;
-        public GifImageView gifPicture;
+        public WebView gifPicture;
         public CardView cardView;
 
         public GIFViewHolder(@NonNull View itemView)
         {
             super(itemView);
 
-            gifPicture = (GifImageView) itemView.findViewById(R.id.gifPicture);
+            gifPicture = (WebView) itemView.findViewById(R.id.gifPicture);
             engCaption = (TextView) itemView.findViewById(R.id.engCaption);
             malayCaption = (TextView) itemView.findViewById(R.id.malayCaption);
             cardView = (CardView) itemView.findViewById(R.id.cardview_id);
@@ -57,7 +60,9 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
     @Override
     public void onBindViewHolder(@NonNull GIFViewHolder gifViewHolder, int i) {
 
-        Picasso.get().load(gifList.get(i).getGifPicture()).into(gifViewHolder.gifPicture);
+        gifViewHolder.gifPicture.loadUrl(gifList.get(i).getGifPicture());
+        gifViewHolder.gifPicture.getSettings().setLoadWithOverviewMode(true);
+        gifViewHolder.gifPicture.getSettings().setUseWideViewPort(true);
         gifViewHolder.engCaption.setText(gifList.get(i).getEngCaption());
         gifViewHolder.malayCaption.setText(gifList.get(i).getMalayCaption());
 

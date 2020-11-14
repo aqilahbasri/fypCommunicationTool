@@ -56,7 +56,7 @@ public class MyGIFFragment extends Fragment {
         super.onStart();
 
         if(GIFRef != null){
-            GIFRef.addValueEventListener(new ValueEventListener() {
+            GIFRef.orderByChild("malayCaption").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()){
@@ -67,7 +67,7 @@ public class MyGIFFragment extends Fragment {
                         }
 
                         GIFAdapter gifAdapter = new GIFAdapter(list);
-                        myGIFList.setLayoutManager(new GridLayoutManager(getActivity(),2));
+                        myGIFList.setLayoutManager(new GridLayoutManager(getActivity(),3));
                         myGIFList.setAdapter(gifAdapter);
                     }
 

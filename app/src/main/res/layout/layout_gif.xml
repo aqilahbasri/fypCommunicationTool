@@ -20,12 +20,23 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <pl.droidsonroids.gif.GifImageView
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_unfavorite"
+            android:background="@android:color/transparent"
+            android:id="@+id/fav_gif"/>
+
+
+        <WebView
             android:id="@+id/gifPicture"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:scaleType="centerCrop"
-            android:background="#2d2d2d"/>
+            android:layout_height="136dp"
+            android:background="#2d2d2d"
+            android:layout_gravity="center_horizontal"/>
+
+
 
         <TextView
             android:id="@+id/engCaption"

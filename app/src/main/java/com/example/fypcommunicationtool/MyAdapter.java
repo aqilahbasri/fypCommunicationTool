@@ -3,6 +3,7 @@ package com.example.fypcommunicationtool;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
 
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,14 +45,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         //click here to go to category play learn
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "You click " + categories.get(position).getCategoryname(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context,PlayLearn.class);
                 intent.putExtra("catTitle", title);
                 context.startActivity(intent);
+
             }
+
         });
+
 
     }
 
