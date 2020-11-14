@@ -99,11 +99,45 @@ public class MyGIFFragment extends Fragment {
 
     private void search(String s) {
         ArrayList<GIF> myList = new ArrayList<>();
+//        boolean resultExist = false;
 
         for(GIF gif : list){
             if(gif.getEngCaption().toLowerCase().contains(s.toLowerCase()) || gif.getMalayCaption().toLowerCase().contains(s.toLowerCase())){
                 myList.add(gif);
+//                resultExist = true;
             }
+
+        }
+
+        if(myList.isEmpty()){
+            String[] sw = s.split(" "); //search word
+            ArrayList<String> sc = new ArrayList<>(); //search category
+
+            //recommendation by word
+            for(String searchWord : sw){
+                for(GIF gif : list){
+                    if(gif.getEngCaption().toLowerCase().contains(searchWord.toLowerCase()) || gif.getMalayCaption().toLowerCase().contains(searchWord.toLowerCase())){
+                        myList.add(gif);
+                        if(sc.contains(gif.getCategory())){
+
+                        }
+                        else{
+                            sc.add(gif.getCategory());
+                        }
+                    }
+                }
+            }
+
+            //recommendation by category
+            for(String searchCategory : sc){
+                for(GIF gif : list){
+                    if(gif.getCategory().contains(searchCategory.toLowerCase())){
+                        myList.add(gif);
+                    }
+                }
+            }
+
+
         }
 
         GIFAdapter gifAdapter = new GIFAdapter(myList);
