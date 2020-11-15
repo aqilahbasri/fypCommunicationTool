@@ -60,10 +60,10 @@ public class AssessmentHomeFragment extends Fragment implements View.OnClickList
 
         switch (v.getId()) {
 //            case R.id.startAssessment : i = new Intent(getActivity(), StartAssessment_Activity.class);startActivity(i); break;
-//            case R.id.viewResults : i = new Intent(getActivity(), ViewResults.class);startActivity(i); break;
-//            case R.id.submitCoursework : i = new Intent(getActivity(), SubmitCoursework_Activity.class);startActivity(i); break;
+            case R.id.viewResults : i = new Intent(getActivity(), ViewResultsActivity.class);startActivity(i); break;
+            case R.id.submitCoursework : i = new Intent(getActivity(), SubmitCourseworkActivity.class);startActivity(i); break;
 //            case R.id.joinOnlineInterview : i = new Intent(getActivity(), StartAssessment2.class);startActivity(i); break;
-//            case R.id.applyCertificate : i = new Intent(getActivity(), ApplyCertificate_Activity.class);startActivity(i); break;
+            case R.id.applyCertificate : i = new Intent(getActivity(), ApplyCertificateActivity.class);startActivity(i); break;
             default:break;
         }
     }
@@ -72,11 +72,7 @@ public class AssessmentHomeFragment extends Fragment implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
-        ((AssessmentMenu_Activity) getActivity()).setTitle("Assessment");
+        ((BaseActivity) getActivity()).setTitle("Assessment");
     }
-//    private void goToFragment2() {
-//        ApplyCertificateFragment frag = new ApplyCertificateFragment();
-//        getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, frag).addToBackStack(null).commit();
-//    }
 
 }

@@ -19,9 +19,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+<!--        Assessment & Admin-->
         <activity
             android:name=".AssessmentMenu_Activity"
+            android:theme="@style/AssessmentCustomTheme" />
+        <activity android:name=".ViewResultsActivity"
+            android:parentActivityName=".AssessmentMenu_Activity"
             android:theme="@style/AssessmentCustomTheme"/>
+        <activity android:name=".SubmitCourseworkActivity"
+            android:parentActivityName=".AssessmentMenu_Activity"
+            android:theme="@style/AssessmentCustomTheme"/>
+        <activity android:name=".ApplyCertificateActivity"
+            android:parentActivityName=".AssessmentMenu_Activity"
+            android:theme="@style/AssessmentCustomTheme"/>
+
         <activity android:name=".Practicee" />
         <activity android:name=".Practice" />
         <activity android:name=".MainActivityLearning" /> <!-- <intent-filter> -->
