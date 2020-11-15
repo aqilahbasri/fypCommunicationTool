@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ApplyCertificateFragment"
+    android:padding="16sp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Completed Assessment"
+        android:textColor="?attr/colorAccent"
+        android:textSize="24sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please fill in your details."
+        android:layout_marginTop="@dimen/default_gap"
+        android:textStyle="bold"/>
+
+    <TableLayout
+        android:layout_marginTop="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:padding="8sp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:layout_weight="1"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/addressField"
+                android:background="@drawable/rectangle_border"
+                android:inputType="text"
+                android:hint="Unit number, street name..."
+                android:layout_weight="2"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_gap">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="City"
+                android:layout_weight="1"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cityField"
+                android:background="@drawable/rectangle_border"
+                android:inputType="text"
+                android:hint="Enter city name..."
+                android:layout_weight="2"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_gap">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Postcode"
+                android:layout_weight="1"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/postcodeField"
+                android:background="@drawable/rectangle_border"
+                android:inputType="number"
+                android:hint="Enter postcode..."
+                android:layout_weight="2"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_gap">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="State"
+                android:layout_weight="1"
+                android:gravity="fill_vertical"/>
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="30sp"
+                android:id="@+id/stateSpinner"
+                android:layout_weight="2" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_gap">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone number"
+                android:layout_weight="1"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/phoneNumberField"
+                android:background="@drawable/rectangle_border"
+                android:inputType="number"
+                android:hint="E.g. 0123456789"
+                android:layout_weight="2"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8sp">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Payment receipt\n(PDF only)"
+                android:layout_weight="1"
+                android:gravity="center_vertical"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/selectReceipt"
+                android:background="?attr/colorAccent"
+                android:text="Select file"
+                android:textColor="@android:color/white"
+                android:layout_weight="1" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/uploadReceipt"
+                android:background="?attr/colorAccent"
+                android:text="Upload file"
+                android:textColor="@android:color/white"
+                android:layout_weight="1"
+                android:layout_marginLeft="16sp"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:layout_marginTop="@dimen/default_gap"
+        android:padding="16sp"
+        android:id="@+id/notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"/>
+
+    <RadioButton
+        android:layout_marginTop="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I agree that all information given is correct." />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/applyButton"
+        android:layout_marginTop="@dimen/default_gap"
+        android:layout_gravity="center"
+        android:background="#880E37"
+        android:text="Apply"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>
