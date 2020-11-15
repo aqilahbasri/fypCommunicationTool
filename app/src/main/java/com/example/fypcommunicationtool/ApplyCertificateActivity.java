@@ -1,10 +1,6 @@
 package com.example.fypcommunicationtool;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 
 public class ApplyCertificateActivity extends BaseActivity {
 

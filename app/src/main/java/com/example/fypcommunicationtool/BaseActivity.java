@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -46,21 +47,27 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         if (savedInstanceState == null) {
             //bawah ni nanti tukar Fatin punya (communication)
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AssessmentHomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
+//            navigationView.setCheckedItem(R.id.nav_assessment);
+//            this will probably screw up because we use activity instead of fragments, so above code aku comment
         }
         getSupportFragmentManager().addOnBackStackChangedListener(this);
     }
 
+    //Changed to activity because everyone's bottom bar lain2, not a good design but will think about it later lol.
+    /*
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment selectedFragment = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_home: //nanti tukar Fatin punya
+                selectedFragment = new ChatsFragment();
+                break;
+            case R.id.nav_learning:
+                selectedFragment = new CategoryFragment();
+                break;
+            case R.id.nav_assessment:
                 selectedFragment = new AssessmentHomeFragment();
                 break;
-//            case R.id.nav_assessment:
-//                selectedFragment = new AssessmentMenu_Fragment();
-//                break;
 //            case R.id.nav_administration:
 //                selectedFragment = new AdministrationMenu_Fragment();
 //                break;
@@ -69,6 +76,48 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(null).commit();
         drawer.closeDrawer(GravityCompat.END);
         return true;
+    }
+    */
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//        Fragment selectedFragment = null;
+        switch (menuItem.getItemId()) {
+            case R.id.nav_home: //nanti tukar Fatin punya
+                goToMainActivity();
+//                selectedFragment = new ChatsFragment();
+                break;
+            case R.id.nav_learning:
+                goToMainLearningModule();
+//                selectedFragment = new CategoryFragment();
+                break;
+            case R.id.nav_assessment:
+                goToMainAssessmentModule();
+//                selectedFragment = new AssessmentHomeFragment();
+                break;
+//            case R.id.nav_administration:
+//                selectedFragment = new AdministrationMenu_Fragment();
+//                break;
+        }
+
+//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(null).commit();
+        drawer.closeDrawer(GravityCompat.END);
+        return true;
+    }
+
+    private void goToMainActivity() {
+        Intent mainCommunicationModule = new Intent(com.example.fypcommunicationtool.BaseActivity.this, MainActivity.class);
+        startActivity(mainCommunicationModule);
+    }
+
+    private void goToMainLearningModule() {
+        Intent mainLearningModule = new Intent(com.example.fypcommunicationtool.BaseActivity.this, MainActivityLearning.class);
+        startActivity(mainLearningModule);
+    }
+
+    private void goToMainAssessmentModule() {
+        Intent mainAssessmentModule = new Intent(com.example.fypcommunicationtool.BaseActivity.this, AssessmentMenu_Activity.class);
+        startActivity(mainAssessmentModule);
     }
 
     //For actions when PHONE back button is pressed
