@@ -4,12 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <!-- Make sure the device has a camera. If you use android.hardware.camera without .any,
- it will not work if you have a device without a back camera, such as most Chromebooks. -->
-    <uses-feature android:name="android.hardware.camera.any" />
-
-    <!-- Specifying that the app will need camera permission -->
+    <!--
+ Make sure the device has a camera. If you use android.hardware.camera without .any,
+ it will not work if you have a device without a back camera, such as most Chromebooks.
+    -->
+    <uses-feature android:name="android.hardware.camera.any" /> <!-- Specifying that the app will need camera permission -->
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -20,46 +19,45 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.example.fypcommunicationtool.Practicee"/>
-        <activity android:name="com.example.fypcommunicationtool.Practice" />
-        <activity android:name="com.example.fypcommunicationtool.MainActivityLearning"/>
-<!--        <intent-filter>-->
-<!--            <action android:name="android.intent.action.MAIN" />-->
-
-<!--            <category android:name="android.intent.category.LAUNCHER" />-->
-<!--        </intent-filter>-->
-<!--        </activity>-->
-        <activity android:name="com.example.fypcommunicationtool.doneLearn" />
-        <activity android:name="com.example.fypcommunicationtool.Score" />
-        <activity android:name="com.example.fypcommunicationtool.Questions" />
-        <activity android:name="com.example.fypcommunicationtool.PlayLearn" />
-        <activity android:name="com.example.fypcommunicationtool.Learn" />
-        <activity android:name="com.example.fypcommunicationtool.Category"/>
-        <activity android:name="com.example.fypcommunicationtool.recognition"/>
-
         <activity
-            android:name="com.example.fypcommunicationtool.ChatsPrivateActivity"
-            android:parentActivityName="com.example.fypcommunicationtool.MainActivity" />
+            android:name=".AssessmentMenu_Activity"
+            android:theme="@style/AssessmentCustomTheme"/>
+        <activity android:name=".Practicee" />
+        <activity android:name=".Practice" />
+        <activity android:name=".MainActivityLearning" /> <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+        <activity android:name=".doneLearn" />
+        <activity android:name=".Score" />
+        <activity android:name=".Questions" />
+        <activity android:name=".PlayLearn" />
+        <activity android:name=".Learn" />
+        <activity android:name=".Category" />
+        <activity android:name=".recognition" />
+        <activity
+            android:name=".ChatsPrivateActivity"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
-            android:name="com.example.fypcommunicationtool.FindFriendsActivity"
-            android:parentActivityName="com.example.fypcommunicationtool.MainActivity" />
+            android:name=".FindFriendsActivity"
+            android:parentActivityName=".MainActivity" />
         <activity
-            android:name="com.example.fypcommunicationtool.SettingActivity"
-            android:parentActivityName="com.example.fypcommunicationtool.MainActivity" />
-        <activity android:name="com.example.fypcommunicationtool.ChatsGroupActivity" />
-        <activity android:name="com.example.fypcommunicationtool.RegisterActivity" />
-        <activity android:name="com.example.fypcommunicationtool.LoginActivity" />
-        <activity android:name="com.example.fypcommunicationtool.MainActivity">
+            android:name=".SettingActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ChatsGroupActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

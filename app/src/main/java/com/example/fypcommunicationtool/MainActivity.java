@@ -105,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(mainLearningModule);
     }
 
+    private void goToMainAssessmentModule() {
+        Intent mainAssessmentModule = new Intent(com.example.fypcommunicationtool.MainActivity.this, AssessmentMenu_Activity.class);
+        startActivity(mainAssessmentModule);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -130,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             goToMainLearningModule();
         }
         if(item.getItemId()==R.id.menu_assessment_module){
-
+            goToMainAssessmentModule();
         }
         if(item.getItemId()==R.id.menu_setting){
             SendUserToSettingActivity();

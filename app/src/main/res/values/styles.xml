@@ -16,5 +16,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="AssessmentCustomTheme" parent="AppTheme">
+        <item name="colorPrimary">#BA32AC</item>
+        <item name="colorPrimaryDark">#3700B3</item>
+        <item name="colorAccent">#32acba</item>
+    </style>
+
     <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog"></style>
 </resources>
