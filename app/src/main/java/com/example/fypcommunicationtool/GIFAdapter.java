@@ -42,9 +42,8 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
     private String userID;
     Activity t;
 
-    public GIFAdapter (Activity t , List<com.example.fypcommunicationtool.GIF> gifList)
+    public GIFAdapter (List<com.example.fypcommunicationtool.GIF> gifList)
     {
-        this.t = t;
         this.gifList = gifList;
     }
 
