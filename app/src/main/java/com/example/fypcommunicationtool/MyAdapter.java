@@ -41,8 +41,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         Picasso.get().load(categories.get(position).getCategoryimage()).into(holder.categoryimage);
         final String title = categories.get(position).getCategoryname();
 
-
-
         //click here to go to category play learn
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 
@@ -75,6 +73,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             super(itemView);
             categoryname = (TextView) itemView.findViewById(R.id.categoryname);
             categoryimage = (ImageView) itemView.findViewById(R.id.categoryimage);
+//            int position = getAdapterPosition();
         }
 
 

@@ -1,5 +1,6 @@
 package com.example.fypcommunicationtool;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.MenuItem;
 
@@ -11,12 +12,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class initBottomBar {
 
-    private Context context;
-    initBottomBar(Context context) {
-        this.context = context;
+    private Activity activity;
+
+    initBottomBar(Activity activity) {
+        this.activity = activity;
     }
 
-    void setNavigation(AssessmentMenu_Activity activity) {
+    void setNavigation() {
         BottomNavigationView bottom_bar;
         bottom_bar = activity.findViewById(R.id.bottom_bar);
 
@@ -36,7 +38,7 @@ public class initBottomBar {
 //                        break;
                 }
 
-                ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(null).commit();
+                ((AppCompatActivity)activity).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(null).commit();
                 return true;
             }
         });

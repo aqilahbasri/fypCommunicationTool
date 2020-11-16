@@ -5,8 +5,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +30,7 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
     private ImageButton nextbtn;
     private ImageButton backbtn;
     private TextView description;
-    private ImageView imagelearn;
+    private WebView imagelearn;
     private int slNum;
     private Toolbar toolbar;
 
@@ -92,18 +95,26 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
     private void onClickyBack() {
         if(slNum==0){
             description.setText(sllist.get(slNum).getSldescription());
-            Picasso.get().load(sllist.get(slNum).getImgurl()).into(imagelearn);
+            imagelearn.loadUrl(sllist.get(slNum).getImgurl());
+            imagelearn.getSettings().setLoadWithOverviewMode(true);
+            imagelearn.getSettings().setUseWideViewPort(true);
+
+
 
         }else {
             description.setText(sllist.get(slNum-1).getSldescription());
-            Picasso.get().load(sllist.get(slNum-1).getImgurl()).into(imagelearn);
+            imagelearn.loadUrl(sllist.get(slNum-1).getImgurl());
+            imagelearn.getSettings().setLoadWithOverviewMode(true);
+            imagelearn.getSettings().setUseWideViewPort(true);
             slNum--;
         }
     }
 
     private void setSL() {
         description.setText(sllist.get(0).getSldescription());
-        Picasso.get().load(sllist.get(0).getImgurl()).into(imagelearn);
+        imagelearn.loadUrl(sllist.get(0).getImgurl());
+        imagelearn.getSettings().setLoadWithOverviewMode(true);
+        imagelearn.getSettings().setUseWideViewPort(true);
         slNum = 0;
     }
 
@@ -112,11 +123,10 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
         if(slNum<sllist.size()-1){
             slNum++;
             description.setText(sllist.get(slNum).getSldescription());
-            Picasso.get().load(sllist.get(slNum).getImgurl()).into(imagelearn);
+            imagelearn.loadUrl(sllist.get(slNum).getImgurl());
+            imagelearn.getSettings().setLoadWithOverviewMode(true);
+            imagelearn.getSettings().setUseWideViewPort(true);
         }else {
-//            Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/mute-deaf-communication-tool.appspot.com/o/LearningModule%2FAlphabet%2Flearn%2Fe.png?alt=media&token=34d690ef-f2a4-49af-87eb-57c18dd16e2d").into(imagelearn);
-//            Intent intent = getIntent();
-//            description.setText("E");
             Intent intent = new Intent(this, doneLearn.class );
             startActivity(intent);
         }

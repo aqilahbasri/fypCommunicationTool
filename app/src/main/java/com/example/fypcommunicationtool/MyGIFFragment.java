@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,17 +19,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class MyGIFFragment extends Fragment {
 
     private View GIFView;
-    private RecyclerView myGIFList, myGIFRecommendationList;
+    private RecyclerView myGIFList;
     private SearchView searchView;
-    private TextView noResult;
 
     private DatabaseReference GIFRef;
     private FirebaseAuth mAuth;
@@ -46,8 +41,6 @@ public class MyGIFFragment extends Fragment {
 
         GIFView = inflater.inflate(R.layout.fragment_my_gif, container, false);
         myGIFList = (RecyclerView) GIFView.findViewById(R.id.gif_list);
-        myGIFRecommendationList = (RecyclerView) GIFView.findViewById(R.id.recommendation_list);
-        noResult = (TextView) GIFView.findViewById(R.id.no_result);
         searchView = (SearchView) GIFView.findViewById(R.id.search_bar);
 
         mAuth = FirebaseAuth.getInstance();
@@ -106,36 +99,25 @@ public class MyGIFFragment extends Fragment {
 
     private void search(String s) {
         ArrayList<GIF> myList = new ArrayList<>();
-        ArrayList<GIF> categoryList = new ArrayList<>();
-        ArrayList<GIF> wordList = new ArrayList<>();
-        List<GIFRecommendation> gifRecommendationList = new ArrayList<>();
-
-        myGIFList.setVisibility(View.VISIBLE);
-        noResult.setVisibility(View.INVISIBLE);
-        myGIFRecommendationList.setVisibility(View.INVISIBLE);
+//        boolean resultExist = false;
 
         for(GIF gif : list){
             if(gif.getEngCaption().toLowerCase().contains(s.toLowerCase()) || gif.getMalayCaption().toLowerCase().contains(s.toLowerCase())){
                 myList.add(gif);
+//                resultExist = true;
             }
 
         }
 
         if(myList.isEmpty()){
-            myGIFList.setVisibility(View.INVISIBLE);
-            noResult.setVisibility(View.VISIBLE);
-            myGIFRecommendationList.setVisibility(View.VISIBLE);
-
             String[] sw = s.split(" "); //search word
             ArrayList<String> sc = new ArrayList<>(); //search category
-
-
 
             //recommendation by word
             for(String searchWord : sw){
                 for(GIF gif : list){
                     if(gif.getEngCaption().toLowerCase().contains(searchWord.toLowerCase()) || gif.getMalayCaption().toLowerCase().contains(searchWord.toLowerCase())){
-                        wordList.add(gif);
+                        myList.add(gif);
                         if(sc.contains(gif.getCategory())){
 
                         }
@@ -149,24 +131,16 @@ public class MyGIFFragment extends Fragment {
             //recommendation by category
             for(String searchCategory : sc){
                 for(GIF gif : list){
-                    if(gif.getCategory().contains(searchCategory)){
-                        categoryList.add(gif);
+                    if(gif.getCategory().contains(searchCategory.toLowerCase())){
+                        myList.add(gif);
                     }
                 }
             }
 
-            gifRecommendationList.add(new GIFRecommendation("Related Categories", categoryList));
-            gifRecommendationList.add(new GIFRecommendation("Other related result", wordList));
-
-            GIFRecommendationAdapter gifRecommendationAdapter = new GIFRecommendationAdapter(getActivity(), gifRecommendationList);
-            myGIFRecommendationList.setAdapter(gifRecommendationAdapter);
 
         }
 
-        else{
-            GIFAdapter gifAdapter = new GIFAdapter(myList);
-            myGIFList.setAdapter(gifAdapter);
-        }
-
+        GIFAdapter gifAdapter = new GIFAdapter(myList);
+        myGIFList.setAdapter(gifAdapter);
     }
 }
