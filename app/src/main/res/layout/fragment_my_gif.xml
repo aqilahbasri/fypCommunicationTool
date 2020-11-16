@@ -10,11 +10,12 @@
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/inputs"
         android:padding="10dp"
         app:queryHint="Search"/>
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.recyclerview.widget.RecyclerView
+        android:visibility="visible"
         android:id="@+id/gif_list"
         android:layout_below="@+id/search_bar"
         android:layout_width="match_parent"
@@ -23,5 +24,68 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="false"/>
+
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/no_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_bar"
+        android:text="No result found. \nBelow are some suggestion that you could use."
+        android:padding="10sp"
+        android:textAlignment="center"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:visibility="invisible"
+        android:id="@+id/recommendation_list"
+        android:layout_below="@+id/no_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="false"/>
+
+<!--    <TextView-->
+<!--        android:visibility="invisible"-->
+<!--        android:id="@+id/category_header"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/no_result"-->
+<!--        android:text="Similar category"-->
+<!--        android:textStyle="bold"-->
+<!--        android:padding="10sp"-->
+<!--        android:textAlignment="center"/>-->
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:visibility="invisible"-->
+<!--        android:id="@+id/gif_recommendation_category_list"-->
+<!--        android:layout_below="@+id/category_header"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="5dp"-->
+<!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--        android:orientation="horizontal"/>-->
+
+<!--    <TextView-->
+<!--        android:visibility="invisible"-->
+<!--        android:id="@+id/word_header"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textStyle="bold"-->
+<!--        android:layout_below="@+id/gif_recommendation_category_list"-->
+<!--        android:text="Other recommendation"-->
+<!--        android:padding="10sp"-->
+<!--        android:textAlignment="center"/>-->
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:visibility="invisible"-->
+<!--        android:id="@+id/gif_recommendation_word_list"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/word_header"-->
+<!--        android:orientation="horizontal"-->
+<!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
+
 
 </RelativeLayout>

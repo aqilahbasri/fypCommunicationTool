@@ -1,5 +1,7 @@
 package com.example.fypcommunicationtool;
 
+import java.util.List;
+
 public class GIF {
     private String engCaption;
     private String malayCaption;

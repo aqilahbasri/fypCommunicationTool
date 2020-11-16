@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,14 +27,12 @@ import java.util.ArrayList;
 public class MyGIFFragment extends Fragment {
 
     private View GIFView;
-    private RecyclerView myGIFList;
+    private RecyclerView myGIFList, myGIFRecommendationList;
     private SearchView searchView;
+    private TextView noResult;
 
-    private DatabaseReference GIFRef, favlistRef;
+    private DatabaseReference GIFRef;
     private FirebaseAuth mAuth;
-    private String currentUserID="";
-
-
 
     ArrayList<GIF> list;
 
@@ -47,16 +45,15 @@ public class MyGIFFragment extends Fragment {
 
         GIFView = inflater.inflate(R.layout.fragment_my_gif, container, false);
         myGIFList = (RecyclerView) GIFView.findViewById(R.id.gif_list);
+        myGIFRecommendationList = (RecyclerView) GIFView.findViewById(R.id.recommendation_list);
         searchView = (SearchView) GIFView.findViewById(R.id.search_bar);
+        noResult = (TextView) GIFView.findViewById(R.id.no_result);
 
 //        getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
 
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        currentUserID = currentUser.getUid();
 
         GIFRef = FirebaseDatabase.getInstance().getReference().child("SignLanguageGIF");
-        favlistRef = FirebaseDatabase.getInstance().getReference("FavouriteGIF").child(currentUserID);
 
         return GIFView;
     }
@@ -68,7 +65,6 @@ public class MyGIFFragment extends Fragment {
 
         if(GIFRef != null){
             GIFRef.orderByChild("malayCaption").addValueEventListener(new ValueEventListener() {
-
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()){
@@ -78,7 +74,7 @@ public class MyGIFFragment extends Fragment {
                             list.add(ds.getValue(GIF.class));
                         }
 
-                        GIFAdapter gifAdapter = new GIFAdapter(getActivity(),list);
+                        GIFAdapter gifAdapter = new GIFAdapter(list);
                         myGIFList.setLayoutManager(new GridLayoutManager(getActivity(),3));
                         myGIFList.setAdapter(gifAdapter);
                     }
@@ -111,7 +107,14 @@ public class MyGIFFragment extends Fragment {
 
     private void search(String s) {
         ArrayList<GIF> myList = new ArrayList<>();
+        ArrayList<GIF> wordList = new ArrayList<>();
+        ArrayList<GIF> categoryList = new ArrayList<>();
+        ArrayList<GIFRecommendation> myRecommendationList = new ArrayList<>();
 //        boolean resultExist = false;
+
+        myGIFList.setVisibility(View.VISIBLE);
+        myGIFRecommendationList.setVisibility(View.INVISIBLE);
+        noResult.setVisibility(View.INVISIBLE);
 
         for(GIF gif : list){
             if(gif.getEngCaption().toLowerCase().contains(s.toLowerCase()) || gif.getMalayCaption().toLowerCase().contains(s.toLowerCase())){
@@ -122,6 +125,10 @@ public class MyGIFFragment extends Fragment {
         }
 
         if(myList.isEmpty()){
+            myGIFList.setVisibility(View.INVISIBLE);
+            myGIFRecommendationList.setVisibility(View.VISIBLE);
+            noResult.setVisibility(View.VISIBLE);
+
             String[] sw = s.split(" "); //search word
             ArrayList<String> sc = new ArrayList<>(); //search category
 
@@ -129,7 +136,7 @@ public class MyGIFFragment extends Fragment {
             for(String searchWord : sw){
                 for(GIF gif : list){
                     if(gif.getEngCaption().toLowerCase().contains(searchWord.toLowerCase()) || gif.getMalayCaption().toLowerCase().contains(searchWord.toLowerCase())){
-                        myList.add(gif);
+                        wordList.add(gif);
                         if(sc.contains(gif.getCategory())){
 
                         }
@@ -143,17 +150,25 @@ public class MyGIFFragment extends Fragment {
             //recommendation by category
             for(String searchCategory : sc){
                 for(GIF gif : list){
-                    if(gif.getCategory().contains(searchCategory.toLowerCase())){
-                        myList.add(gif);
+                    if(gif.getCategory().contains(searchCategory)){
+                        categoryList.add(gif);
                     }
                 }
             }
 
+            myRecommendationList.add(new GIFRecommendation("Related categories", categoryList));
+            myRecommendationList.add(new GIFRecommendation("Other results", wordList));
+
+            GIFRecommendationAdapter gifRecommendationAdapter = new GIFRecommendationAdapter(getActivity(), myRecommendationList);
+            myGIFRecommendationList.setAdapter(gifRecommendationAdapter);
 
         }
 
-        GIFAdapter gifAdapter = new GIFAdapter(getActivity(), myList);
-        myGIFList.setAdapter(gifAdapter);
+        else{
+            GIFAdapter gifAdapter = new GIFAdapter(myList);
+            myGIFList.setAdapter(gifAdapter);
+        }
+
     }
 
     public void setUserVisibleHint(boolean isVisibleToUser) {

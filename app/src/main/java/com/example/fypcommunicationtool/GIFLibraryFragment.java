@@ -28,7 +28,6 @@ public class GIFLibraryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myFragment = inflater.inflate(R.layout.fragment_gif_library, container, false);
-
         viewPager = myFragment.findViewById(R.id.gif_library_pager);
         tabLayout = myFragment.findViewById(R.id.gif_library_tabs);
 
