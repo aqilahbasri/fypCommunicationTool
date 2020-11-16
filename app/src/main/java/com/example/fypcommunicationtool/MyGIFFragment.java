@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,8 +28,11 @@ public class MyGIFFragment extends Fragment {
     private RecyclerView myGIFList;
     private SearchView searchView;
 
-    private DatabaseReference GIFRef;
+    private DatabaseReference GIFRef, favlistRef;
     private FirebaseAuth mAuth;
+    private String currentUserID="";
+
+
 
     ArrayList<GIF> list;
 
@@ -44,8 +48,11 @@ public class MyGIFFragment extends Fragment {
         searchView = (SearchView) GIFView.findViewById(R.id.search_bar);
 
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        currentUserID = currentUser.getUid();
 
         GIFRef = FirebaseDatabase.getInstance().getReference().child("SignLanguageGIF");
+        favlistRef = FirebaseDatabase.getInstance().getReference("FavouriteGIF").child(currentUserID);
 
         return GIFView;
     }
@@ -57,6 +64,7 @@ public class MyGIFFragment extends Fragment {
 
         if(GIFRef != null){
             GIFRef.orderByChild("malayCaption").addValueEventListener(new ValueEventListener() {
+
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()){
@@ -66,7 +74,7 @@ public class MyGIFFragment extends Fragment {
                             list.add(ds.getValue(GIF.class));
                         }
 
-                        GIFAdapter gifAdapter = new GIFAdapter(list);
+                        GIFAdapter gifAdapter = new GIFAdapter(getActivity(),list);
                         myGIFList.setLayoutManager(new GridLayoutManager(getActivity(),3));
                         myGIFList.setAdapter(gifAdapter);
                     }
@@ -140,7 +148,7 @@ public class MyGIFFragment extends Fragment {
 
         }
 
-        GIFAdapter gifAdapter = new GIFAdapter(myList);
+        GIFAdapter gifAdapter = new GIFAdapter(getActivity(), myList);
         myGIFList.setAdapter(gifAdapter);
     }
 }

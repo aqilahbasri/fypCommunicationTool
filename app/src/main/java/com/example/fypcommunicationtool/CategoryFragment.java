@@ -32,7 +32,6 @@ public class CategoryFragment extends Fragment implements View.OnClickListener {
     LinearLayoutManager linearLayoutManager;
     RecyclerView.LayoutManager mLayoutManager;
 
-    private CategoryViewModel mViewModel;
 
     public CategoryFragment() {
         // Required empty public constructor

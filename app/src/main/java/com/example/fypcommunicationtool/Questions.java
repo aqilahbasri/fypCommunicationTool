@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.widget.Toolbar;
@@ -20,13 +21,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.ArrayList;
 
 public class Questions extends AppCompatActivity implements View.OnClickListener{
 
-    private ImageView question;
+    private WebView question;
     private Button option1, option2, option3, option4;
     //private List<QuestionList> questionList;
     ArrayList<QuestionList> questionList;
@@ -93,8 +94,10 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
     }
 
     private void setQuestion(){
-        //question.setImageAlpha(Integer.parseInt(questionList.get(0).getQuestion()));
-        Picasso.get().load(questionList.get(0).getQuestion()).into(question);
+
+        question.loadUrl(questionList.get(0).getQuestion());
+        question.getSettings().setLoadWithOverviewMode(true);
+        question.getSettings().setUseWideViewPort(true);
         option1.setText(questionList.get(0).getOption1());
         option2.setText(questionList.get(0).getOption2());
         option3.setText(questionList.get(0).getOption3());
@@ -200,7 +203,9 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
                             switch (viewNum)
                             {
                                 case 0:
-                                    Picasso.get().load(questionList.get(questionNum).getQuestion()).into(question);
+                                    question.loadUrl(questionList.get(questionNum).getQuestion());
+                                    question.getSettings().setLoadWithOverviewMode(true);
+                                    question.getSettings().setUseWideViewPort(true);
                                     break;
                                 case 1:
                                     ((Button)view).setText(questionList.get(questionNum).getOption1());
