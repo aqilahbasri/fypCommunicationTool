@@ -99,7 +99,7 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
                     public void onClick(View view) {
                         int position = getAdapterPosition();
                         GIF gif = gifList.get(position);
-//                        unfavbtn.setImageResource(R.drawable.ic_favorite);
+                        unfavbtn.setImageResource(R.drawable.ic_favorite);
                         GIFRef.orderByChild("malayCaption").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
