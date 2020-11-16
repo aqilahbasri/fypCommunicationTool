@@ -74,7 +74,7 @@ public class MyGIFFragment extends Fragment {
                             list.add(ds.getValue(GIF.class));
                         }
 
-                        GIFAdapter gifAdapter = new GIFAdapter(list);
+                        GIFAdapter gifAdapter = new GIFAdapter(getActivity(),list);
                         myGIFList.setLayoutManager(new GridLayoutManager(getActivity(),3));
                         myGIFList.setAdapter(gifAdapter);
                     }
@@ -165,7 +165,7 @@ public class MyGIFFragment extends Fragment {
         }
 
         else{
-            GIFAdapter gifAdapter = new GIFAdapter(myList);
+            GIFAdapter gifAdapter = new GIFAdapter(getActivity(),myList);
             myGIFList.setAdapter(gifAdapter);
         }
 
