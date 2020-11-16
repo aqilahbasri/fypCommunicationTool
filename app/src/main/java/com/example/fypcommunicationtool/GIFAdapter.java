@@ -74,24 +74,6 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
             cardView = (CardView) itemView.findViewById(R.id.cardview_id);
             unfavbtn = (ImageButton) itemView.findViewById(R.id.fav_gif);
 
-            //set fav button red filled if exist in favlist
-            favlistRef.child(userID).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.hasChild(gifList.get(getAdapterPosition()).getEngCaption())){
-                        unfavbtn.setImageResource(R.drawable.ic_favorite);
-                        favlistRef.removeEventListener(this);
-
-
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
 
                 //add to fav
                 unfavbtn.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +92,8 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
 
                                 GIF addfavgif = new GIF(engcap, malaycap, pic, cat);
                                 favlistRef.child(userID).child(engcap).setValue(addfavgif);
+                                favlistRef.removeEventListener(this);
+
 
                             }
 
@@ -146,6 +130,23 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
         gifViewHolder.gifPicture.getSettings().setUseWideViewPort(true);
         gifViewHolder.engCaption.setText(gifList.get(i).getEngCaption());
         gifViewHolder.malayCaption.setText(gifList.get(i).getMalayCaption());
+
+        //set fav button red filled if exist in favlist
+        favlistRef.child(userID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.hasChild((gifList.get(i).getEngCaption()))){
+                        gifViewHolder.unfavbtn.setImageResource(R.drawable.ic_favorite);
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
         //click to enlarge gif n send
         gifViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
