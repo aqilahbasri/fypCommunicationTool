@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".AssessmentMenu_Activity"
+    tools:context=".AssessmentMenuActivity"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout

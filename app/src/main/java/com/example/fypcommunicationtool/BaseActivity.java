@@ -116,7 +116,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void goToMainAssessmentModule() {
-        Intent mainAssessmentModule = new Intent(com.example.fypcommunicationtool.BaseActivity.this, AssessmentMenu_Activity.class);
+        Intent mainAssessmentModule = new Intent(com.example.fypcommunicationtool.BaseActivity.this, AssessmentMenuActivity.class);
         startActivity(mainAssessmentModule);
     }
 

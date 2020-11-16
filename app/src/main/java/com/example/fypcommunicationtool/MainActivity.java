@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToMainAssessmentModule() {
-        Intent mainAssessmentModule = new Intent(com.example.fypcommunicationtool.MainActivity.this, AssessmentMenu_Activity.class);
+        Intent mainAssessmentModule = new Intent(com.example.fypcommunicationtool.MainActivity.this, AssessmentMenuActivity.class);
         startActivity(mainAssessmentModule);
     }
 

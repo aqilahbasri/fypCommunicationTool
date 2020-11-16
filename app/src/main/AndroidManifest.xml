@@ -22,16 +22,16 @@
 
 <!--        Assessment & Admin-->
         <activity
-            android:name=".AssessmentMenu_Activity"
+            android:name=".AssessmentMenuActivity"
             android:theme="@style/AssessmentCustomTheme" />
         <activity android:name=".ViewResultsActivity"
-            android:parentActivityName=".AssessmentMenu_Activity"
+            android:parentActivityName=".AssessmentMenuActivity"
             android:theme="@style/AssessmentCustomTheme"/>
         <activity android:name=".SubmitCourseworkActivity"
-            android:parentActivityName=".AssessmentMenu_Activity"
+            android:parentActivityName=".AssessmentMenuActivity"
             android:theme="@style/AssessmentCustomTheme"/>
         <activity android:name=".ApplyCertificateActivity"
-            android:parentActivityName=".AssessmentMenu_Activity"
+            android:parentActivityName=".AssessmentMenuActivity"
             android:theme="@style/AssessmentCustomTheme"/>
 
         <activity android:name=".Practicee" />

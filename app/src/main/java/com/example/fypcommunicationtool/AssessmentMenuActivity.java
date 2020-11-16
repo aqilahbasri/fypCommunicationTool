@@ -2,7 +2,7 @@ package com.example.fypcommunicationtool;
 
 import android.os.Bundle;
 
-public class AssessmentMenu_Activity extends BaseActivity  {
+public class AssessmentMenuActivity extends BaseActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
