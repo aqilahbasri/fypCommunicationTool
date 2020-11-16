@@ -49,7 +49,6 @@ public class MyGIFFragment extends Fragment {
         searchView = (SearchView) GIFView.findViewById(R.id.search_bar);
         noResult = (TextView) GIFView.findViewById(R.id.no_result);
 
-//        getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
 
         mAuth = FirebaseAuth.getInstance();
 
