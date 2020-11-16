@@ -31,6 +31,7 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
         this.gifList = gifList;
     }
 
+
     public class GIFViewHolder extends RecyclerView.ViewHolder
     {
         public TextView engCaption, malayCaption;
