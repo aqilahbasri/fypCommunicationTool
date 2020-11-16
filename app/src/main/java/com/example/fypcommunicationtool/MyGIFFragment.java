@@ -1,5 +1,6 @@
 package com.example.fypcommunicationtool;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,6 +48,8 @@ public class MyGIFFragment extends Fragment {
         GIFView = inflater.inflate(R.layout.fragment_my_gif, container, false);
         myGIFList = (RecyclerView) GIFView.findViewById(R.id.gif_list);
         searchView = (SearchView) GIFView.findViewById(R.id.search_bar);
+
+//        getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -150,5 +154,21 @@ public class MyGIFFragment extends Fragment {
 
         GIFAdapter gifAdapter = new GIFAdapter(getActivity(), myList);
         myGIFList.setAdapter(gifAdapter);
+    }
+
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+
+        super.setUserVisibleHint(isVisibleToUser);
+
+        // Refresh tab data:
+
+        if (getFragmentManager() != null) {
+
+            getFragmentManager()
+                    .beginTransaction()
+                    .detach(this)
+                    .attach(this)
+                    .commit();
+        }
     }
 }

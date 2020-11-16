@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,7 +66,6 @@ public class FavGIFAdapter extends RecyclerView.Adapter<FavGIFAdapter.FavGIFView
             unfavbtn = (ImageButton) itemView.findViewById(R.id.fav_gif);
             unfavbtn.setImageResource(R.drawable.ic_favorite);
 
-
             //remove from fav
             unfavbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,6 +95,7 @@ public class FavGIFAdapter extends RecyclerView.Adapter<FavGIFAdapter.FavGIFView
 
                 }
             });
+
 
         }
 

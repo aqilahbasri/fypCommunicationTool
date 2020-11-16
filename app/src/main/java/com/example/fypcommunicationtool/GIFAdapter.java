@@ -78,7 +78,8 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(dataSnapshot.hasChild(gifList.get(getAdapterPosition()).getEngCaption())){
                         unfavbtn.setImageResource(R.drawable.ic_favorite);
-                        favlistRef.removeEventListener(this);
+//                        favlistRef.removeEventListener(this);
+                        favlistRef.child(userID).addListenerForSingleValueEvent(this);
 
                     }
 
@@ -108,12 +109,10 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
                                 GIF addfavgif = new GIF(engcap, malaycap, pic, cat);
                                 favlistRef.child(userID).child(engcap).setValue(addfavgif);
 
-
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
-
 
                             }
                         });
