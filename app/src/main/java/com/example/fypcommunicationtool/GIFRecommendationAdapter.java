@@ -65,7 +65,7 @@ public class GIFRecommendationAdapter extends RecyclerView.Adapter<GIFRecommenda
 
     private void setCatItemRecycler(RecyclerView recyclerView, List<GIF> gifList){
 
-        GIFAdapter gifAdapter = new GIFAdapter(gifList);
+        GIFAdapter gifAdapter = new GIFAdapter(context, gifList);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
         recyclerView.setAdapter(gifAdapter);
 

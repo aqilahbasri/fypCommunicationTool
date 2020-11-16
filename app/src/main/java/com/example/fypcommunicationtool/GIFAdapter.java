@@ -2,6 +2,7 @@ package com.example.fypcommunicationtool;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -40,9 +41,9 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
     private FirebaseAuth mAuth;
     private DatabaseReference GIFRef, favlistRef;
     private String userID;
-    Activity t;
+    Context t;
 
-    public GIFAdapter (Activity t, List<com.example.fypcommunicationtool.GIF> gifList)
+    public GIFAdapter (Context t, List<com.example.fypcommunicationtool.GIF> gifList)
     {
         this.t = t;
         this.gifList = gifList;
@@ -79,8 +80,8 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(dataSnapshot.hasChild(gifList.get(getAdapterPosition()).getEngCaption())){
                         unfavbtn.setImageResource(R.drawable.ic_favorite);
-//                        favlistRef.removeEventListener(this);
-                        favlistRef.child(userID).addListenerForSingleValueEvent(this);
+                        favlistRef.removeEventListener(this);
+
 
                     }
 
@@ -98,7 +99,7 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
                     public void onClick(View view) {
                         int position = getAdapterPosition();
                         GIF gif = gifList.get(position);
-                        unfavbtn.setImageResource(R.drawable.ic_favorite);
+//                        unfavbtn.setImageResource(R.drawable.ic_favorite);
                         GIFRef.orderByChild("malayCaption").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

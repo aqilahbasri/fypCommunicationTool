@@ -158,13 +158,13 @@ public class MyGIFFragment extends Fragment {
             myRecommendationList.add(new GIFRecommendation("Related categories", categoryList));
             myRecommendationList.add(new GIFRecommendation("Other results", wordList));
 
-            GIFRecommendationAdapter gifRecommendationAdapter = new GIFRecommendationAdapter(getActivity(), myRecommendationList);
+            GIFRecommendationAdapter gifRecommendationAdapter = new GIFRecommendationAdapter(getContext(), myRecommendationList);
             myGIFRecommendationList.setAdapter(gifRecommendationAdapter);
 
         }
 
         else{
-            GIFAdapter gifAdapter = new GIFAdapter(getActivity(),myList);
+            GIFAdapter gifAdapter = new GIFAdapter(getContext(),myList);
             myGIFList.setAdapter(gifAdapter);
         }
 
