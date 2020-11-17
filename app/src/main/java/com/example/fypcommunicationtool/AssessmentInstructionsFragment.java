@@ -3,19 +3,19 @@ package com.example.fypcommunicationtool;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link StartAssessmentFragment#newInstance} factory method to
+ * Use the {@link AssessmentInstructionsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StartAssessmentFragment extends Fragment implements View.OnClickListener {
+public class AssessmentInstructionsFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class StartAssessmentFragment extends Fragment implements View.OnClickLis
     private String mParam1;
     private String mParam2;
 
-    public StartAssessmentFragment() {
+    public AssessmentInstructionsFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class StartAssessmentFragment extends Fragment implements View.OnClickLis
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment StartAssessmentFragment.
+     * @return A new instance of fragment AssessmentInstructionsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static StartAssessmentFragment newInstance(String param1, String param2) {
-        StartAssessmentFragment fragment = new StartAssessmentFragment();
+    public static AssessmentInstructionsFragment newInstance(String param1, String param2) {
+        AssessmentInstructionsFragment fragment = new AssessmentInstructionsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,41 +61,26 @@ public class StartAssessmentFragment extends Fragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_start_assessment, container, false);
+        View view = inflater.inflate(R.layout.fragment_assessment_instructions, container, false);
 
-        CardView level1 = view.findViewById(R.id.level1);
-        CardView level2 = view.findViewById(R.id.level2);
-        CardView level3 = view.findViewById(R.id.level3);
-
-        level1.setOnClickListener(this);
-        level2.setOnClickListener(this);
-        level3.setOnClickListener(this);
+        Button start;
+        start = view.findViewById(R.id.start_button);
+        start.setOnClickListener(this);
 
         return view;
     }
 
-    //@Override
+    @Override
     public void onClick(View v) {
-        Fragment selectedFragment = null;
-        switch (v.getId()) {
-            case R.id.level1:
-                selectedFragment = new AssessmentInstructionsFragment();
-                break;
-//            case R.id.level2:
-//                selectedFragment = new AssessmentMenu_Fragment();
-//                break;
-//            case R.id.level3:
-//                selectedFragment = new AdministrationMenu_Fragment();
-//                break;
-        }
 
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(null).commit();
+        Intent i = new Intent(getActivity(), AssessmentLevel1Activity.class);
+        startActivity(i);
     }
 
     //Set action bar title
     @Override
     public void onResume() {
         super.onResume();
-        ((BaseActivity) getActivity()).setTitle("Select Level");
+        ((BaseActivity) getActivity()).setTitle("Assessment Instructions");
     }
 }

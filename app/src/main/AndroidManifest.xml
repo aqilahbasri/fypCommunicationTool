@@ -24,7 +24,8 @@
         <activity
             android:name=".AssessmentMenuActivity"
             android:theme="@style/AssessmentCustomTheme" />
-        <activity android:name=".StartAssessmentActivity"
+        <activity
+            android:name=".StartAssessmentActivity"
             android:parentActivityName=".AssessmentMenuActivity"
             android:theme="@style/AssessmentCustomTheme" />
         <activity
@@ -39,6 +40,9 @@
             android:name=".ApplyCertificateActivity"
             android:parentActivityName=".AssessmentMenuActivity"
             android:theme="@style/AssessmentCustomTheme" />
+        <activity android:name=".AssessmentLevel1Activity"
+            android:theme="@style/AssessmentCustomTheme"/>
+
         <activity android:name=".Practicee" />
         <activity android:name=".Practice" />
         <activity android:name=".MainActivityLearning" /> <!-- <intent-filter> -->
