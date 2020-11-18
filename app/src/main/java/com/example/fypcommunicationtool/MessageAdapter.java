@@ -39,7 +39,7 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.fypcommunic
 
     public class MessageViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView senderMessageText, receiverMessageText;
+        public TextView senderMessageText, receiverMessageText, receiverImageTime, senderImageTime;
         public CircleImageView receiverProfileImage;
         public ImageView messageSenderPicture, messageReceiverPicture;
 
@@ -53,6 +53,8 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.fypcommunic
             receiverProfileImage = (CircleImageView) itemView.findViewById(R.id.message_profile_image);
             messageReceiverPicture = itemView.findViewById(R.id.message_receiver_image_view);
             messageSenderPicture = itemView.findViewById(R.id.message_sender_image_view);
+            receiverImageTime = (TextView) itemView.findViewById(R.id.receiver_imagetime_text);
+            senderImageTime = (TextView) itemView.findViewById(R.id.sender_imagetime_text);
         }
     }
 
@@ -102,6 +104,8 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.fypcommunic
         messageViewHolder.senderMessageText.setVisibility(View.GONE);
         messageViewHolder.messageSenderPicture.setVisibility(View.GONE);
         messageViewHolder.messageReceiverPicture.setVisibility(View.GONE);
+        messageViewHolder.receiverImageTime.setVisibility(View.GONE);
+        messageViewHolder.senderImageTime.setVisibility(View.GONE);
 
         if (fromMessageType.equals("text"))
         {
@@ -124,13 +128,19 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.fypcommunic
 
         else if (fromMessageType.equals("image")){
             if(fromUserID.equals(messageSenderId)){
+                messageViewHolder.receiverImageTime.setVisibility(View.VISIBLE);
+                messageViewHolder.receiverImageTime.setText(messages.getTime() + " - " + messages.getDate());
                 messageViewHolder.messageSenderPicture.setVisibility(View.VISIBLE);
                 Glide.with(context).load(messages.getMessage()).into(messageViewHolder.messageSenderPicture);
+
             }
             else{
                 messageViewHolder.receiverProfileImage.setVisibility(View.VISIBLE);
+                messageViewHolder.senderImageTime.setVisibility(View.VISIBLE);
+                messageViewHolder.senderImageTime.setText(messages.getTime() + " - " + messages.getDate());
                 messageViewHolder.messageReceiverPicture.setVisibility(View.VISIBLE);
                 Glide.with(context).load(messages.getMessage()).into(messageViewHolder.messageReceiverPicture);
+
             }
         }
     }
