@@ -43,10 +43,6 @@ public class ChatsPrivateFragment extends Fragment
         // Inflate the layout for this fragment
         PrivateChatsView = inflater.inflate(R.layout.fragment_chats_private, container, false);
 
-//        mAuth = FirebaseAuth.getInstance();
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        currentUserID = currentUser.getUid();
-
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             //Go to login
             Intent intent = new Intent(getActivity(), LoginActivity.class);

@@ -1,5 +1,6 @@
 package com.example.fypcommunicationtool;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,9 +29,11 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.fypcommunic
     private List<com.example.fypcommunicationtool.Messages> userMessagesList;
     private FirebaseAuth mAuth;
     private DatabaseReference usersRef;
+    private Context context;
 
-    public MessageAdapter (List<com.example.fypcommunicationtool.Messages> userMessagesList)
+    public MessageAdapter (Context c, List<com.example.fypcommunicationtool.Messages> userMessagesList)
     {
+        this.context =c;
         this.userMessagesList = userMessagesList;
     }
 
@@ -121,12 +125,12 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.fypcommunic
         else if (fromMessageType.equals("image")){
             if(fromUserID.equals(messageSenderId)){
                 messageViewHolder.messageSenderPicture.setVisibility(View.VISIBLE);
-                Picasso.get().load(messages.getMessage()).into(messageViewHolder.messageSenderPicture);
+                Glide.with(context).load(messages.getMessage()).into(messageViewHolder.messageSenderPicture);
             }
             else{
                 messageViewHolder.receiverProfileImage.setVisibility(View.VISIBLE);
                 messageViewHolder.messageReceiverPicture.setVisibility(View.VISIBLE);
-                Picasso.get().load(messages.getMessage()).into(messageViewHolder.messageReceiverPicture);
+                Glide.with(context).load(messages.getMessage()).into(messageViewHolder.messageReceiverPicture);
             }
         }
     }
