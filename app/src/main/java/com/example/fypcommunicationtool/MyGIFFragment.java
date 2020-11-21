@@ -1,14 +1,20 @@
 package com.example.fypcommunicationtool;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -23,13 +29,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MyGIFFragment extends Fragment {
 
+    private static final int REQUEST_CODE_SPEECH_INPUT = 1000;
     private View GIFView;
     private RecyclerView myGIFList, myGIFRecommendationList;
     private SearchView searchView;
     private TextView noResult;
+    private ImageButton voiceButton;
 
     private DatabaseReference GIFRef;
     private FirebaseAuth mAuth;
@@ -48,7 +57,7 @@ public class MyGIFFragment extends Fragment {
         myGIFRecommendationList = (RecyclerView) GIFView.findViewById(R.id.recommendation_list);
         searchView = (SearchView) GIFView.findViewById(R.id.search_bar);
         noResult = (TextView) GIFView.findViewById(R.id.no_result);
-
+        voiceButton = (ImageButton) GIFView.findViewById(R.id.voice_btn);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -88,6 +97,13 @@ public class MyGIFFragment extends Fragment {
             });
         }
 
+        voiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                speak();
+            }
+        });
+
         if(searchView != null){
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
@@ -101,6 +117,36 @@ public class MyGIFFragment extends Fragment {
                     return true;
                 }
             });
+        }
+    }
+
+    private void speak() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Hi speak something");
+
+        try {
+            startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
+
+        }catch (Exception e){
+            Toast.makeText(getActivity(),""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SPEECH_INPUT && resultCode == Activity.RESULT_OK) {
+            // Populate the wordsList with the String values the recognition engine thought it heard
+            ArrayList<String> matches = data.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS);
+
+            if (matches != null) {
+                if (matches.size() > 0) {
+                    searchView.setQuery(matches.get(0), false);
+                }
+            }
         }
     }
 

@@ -11,8 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/inputs"
+        android:layoutDirection="rtl"
         android:padding="10dp"
         app:queryHint="Search"/>
+
+    <ImageButton
+        android:id="@+id/voice_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/microphone"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="50dp"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:visibility="visible"
