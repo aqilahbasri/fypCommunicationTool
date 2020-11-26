@@ -18,7 +18,7 @@ import static android.view.View.INVISIBLE;
 public class PlayLearn extends AppCompatActivity implements View.OnClickListener{
 
     private Button learnbtn, chlgbtn, practicebtn, practiceebtn ;
-    String data;
+    String data, img;
     DatabaseReference reference;
     private Toolbar toolbar;
 
@@ -30,6 +30,7 @@ public class PlayLearn extends AppCompatActivity implements View.OnClickListener
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         data = extras.getString("catTitle");
+        img = extras.getString("catimg");
 
         toolbar = (Toolbar) findViewById(R.id.main_learning_toolbar);
         setSupportActionBar(toolbar);
@@ -108,6 +109,7 @@ public class PlayLearn extends AppCompatActivity implements View.OnClickListener
     public void openLearn() {
         Intent intent = new Intent(this, Learn.class );
         intent.putExtra("catTitle", data);
+        intent.putExtra("catimg", img);
         startActivity(intent);
     }
 

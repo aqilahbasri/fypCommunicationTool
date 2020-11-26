@@ -13,6 +13,8 @@ import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +35,8 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
     private WebView imagelearn;
     private int slNum;
     private Toolbar toolbar;
+    String data, img;
+    View view;
 
     DatabaseReference reference;
     ArrayList<SLlist> sllist;
@@ -45,7 +49,8 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        String data = extras.getString("catTitle");
+        data = extras.getString("catTitle");
+        img = extras.getString("catimg");
 
         toolbar = (Toolbar) findViewById(R.id.main_learning_toolbar);
         setSupportActionBar(toolbar);
@@ -111,11 +116,18 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void setSL() {
-        description.setText(sllist.get(0).getSldescription());
-        imagelearn.loadUrl(sllist.get(0).getImgurl());
-        imagelearn.getSettings().setLoadWithOverviewMode(true);
-        imagelearn.getSettings().setUseWideViewPort(true);
-        slNum = 0;
+        if (sllist.size()== 0){
+            Toast.makeText(getApplicationContext(), "Category "+ data+ " do not have any sign language!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivityLearning.class);
+            startActivity(intent);
+        }else {
+            LearnBGM(view);
+            description.setText(sllist.get(0).getSldescription());
+            imagelearn.loadUrl(sllist.get(0).getImgurl());
+            imagelearn.getSettings().setLoadWithOverviewMode(true);
+            imagelearn.getSettings().setUseWideViewPort(true);
+            slNum = 0;
+        }
     }
 
 
@@ -128,6 +140,8 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
             imagelearn.getSettings().setUseWideViewPort(true);
         }else {
             Intent intent = new Intent(this, doneLearn.class );
+            intent.putExtra("catTitle", data);
+            intent.putExtra("catimg", img);
             startActivity(intent);
         }
     }
@@ -137,8 +151,12 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
 
     }
 
+    public void LearnBGM(View view){
+        Intent intent = new Intent(Learn.this, LearnBGM.class);
+        startService(intent);
+    }
 
-       }
+}
 
 
 

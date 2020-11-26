@@ -40,6 +40,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.categoryname.setText(categories.get(position).getCategoryname());
         Picasso.get().load(categories.get(position).getCategoryimage()).into(holder.categoryimage);
         final String title = categories.get(position).getCategoryname();
+        final String img = categories.get(position).getCategoryimage();
 
         //click here to go to category play learn
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +50,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 Toast.makeText(context, "You click " + categories.get(position).getCategoryname(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context,PlayLearn.class);
                 intent.putExtra("catTitle", title);
+                intent.putExtra("catimg", img);
                 context.startActivity(intent);
 
             }

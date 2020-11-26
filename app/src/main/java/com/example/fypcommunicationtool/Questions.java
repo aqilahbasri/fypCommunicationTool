@@ -14,6 +14,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +37,8 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
     int score;
     private Toolbar toolbar;
     DatabaseReference reference;
+    String data;
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +47,15 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        String data = extras.getString("catTitle");
+        data = extras.getString("catTitle");
 
         toolbar = (Toolbar) findViewById(R.id.main_learning_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(data);
 
         final String questionref = data;
+
+
 
 
         question = findViewById(R.id.image_question);
@@ -94,17 +100,22 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
     }
 
     private void setQuestion(){
+        if(questionList.size()==0){
+            Toast.makeText(getApplicationContext(), "Category "+ data + " do not have any sign language challenge!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivityLearning.class);
+            startActivity(intent);
+        }else {
+            ChallengeBGM(view);
+            question.loadUrl(questionList.get(0).getQuestion());
+            question.getSettings().setLoadWithOverviewMode(true);
+            question.getSettings().setUseWideViewPort(true);
+            option1.setText(questionList.get(0).getOption1());
+            option2.setText(questionList.get(0).getOption2());
+            option3.setText(questionList.get(0).getOption3());
+            option4.setText(questionList.get(0).getOption4());
 
-        question.loadUrl(questionList.get(0).getQuestion());
-        question.getSettings().setLoadWithOverviewMode(true);
-        question.getSettings().setUseWideViewPort(true);
-        option1.setText(questionList.get(0).getOption1());
-        option2.setText(questionList.get(0).getOption2());
-        option3.setText(questionList.get(0).getOption3());
-        option4.setText(questionList.get(0).getOption4());
-
-        questionNum = 0;
-
+            questionNum = 0;
+        }
     }
 
     @Override
@@ -250,5 +261,11 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
         super.onBackPressed();
 
     }
+
+    public void ChallengeBGM(View view){
+        Intent intent = new Intent(Questions.this, ChallengeBGM.class);
+        startService(intent);
+    }
+
 
 }

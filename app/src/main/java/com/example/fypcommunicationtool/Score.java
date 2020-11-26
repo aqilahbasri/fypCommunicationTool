@@ -45,7 +45,7 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
     Dialog encDialog;
     TextView rankTitle, xptext;
     ImageView chessRank, closebtn;
-
+    View view;
 
 
     @Override
@@ -58,6 +58,8 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
 
         databaseReference = FirebaseDatabase.getInstance().getReference("LEADERBOARD");
         userdetailRef = FirebaseDatabase.getInstance().getReference("Users");
+
+        ChallengeBGM(view);
 
         backhome = (Button) findViewById(R.id.backhome);
         backhome.setOnClickListener(new View.OnClickListener() {
@@ -309,5 +311,10 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
         encDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         encDialog.show();
 
+    }
+
+    public void ChallengeBGM(View view){
+        Intent intent = new Intent(Score.this, ChallengeBGM.class);
+        stopService(intent);
     }
 }
