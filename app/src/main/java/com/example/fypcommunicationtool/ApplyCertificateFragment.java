@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +27,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -35,12 +37,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 
 public class ApplyCertificateFragment extends Fragment {
 
     Button selectButton, uploadButton;
-    ListView listView;
     TextView notification;
+    RadioButton checkInfoButton;
 
     private Uri filepath; //Uri = URL for local storage
     //    ProgressBar progressBar;
@@ -63,8 +66,10 @@ public class ApplyCertificateFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_apply_certificate, container, false);
+
         contactInfo(v);
         initButton(v);
+
         return v;
     }
 
@@ -77,34 +82,56 @@ public class ApplyCertificateFragment extends Fragment {
         Spinner state = view.findViewById(R.id.stateSpinner);
         Button applyButton = view.findViewById(R.id.applyButton);
 
-        toDatabase(address, city, postcode, phoneNumber, state, applyButton);
+        checkInfoButton = view.findViewById(R.id.check_cert_info_button);
+
+        toDatabase(address, city, postcode, phoneNumber, state, applyButton, checkInfoButton);
     }
 
-    private void toDatabase(final EditText address, final EditText city, final EditText postcode, final EditText phoneNumber, Spinner state, Button applyButton) {
+    private void toDatabase(final EditText address, final EditText city, final EditText postcode,
+                            final EditText phoneNumber, Spinner state, Button applyButton, RadioButton checkInfoButton) {
 
         final spinnerClass spinner = new spinnerClass(getContext(), state);
         spinner.spinnerActivity();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference().child("CertApplication_StudentInfo");
+        final DatabaseReference myRef = database.getReference().child("CertApplication_StudentInfo").child("NewApplication");
 
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String addressField = address.getText().toString();
-                String cityField = city.getText().toString();
-                String postcodeField = postcode.getText().toString();
-                String phoneNumberField = phoneNumber.getText().toString();
-                String stateField = spinner.getItem();
 
-                applyCertContactInfo info = new applyCertContactInfo(addressField, cityField, postcodeField, phoneNumberField, stateField);
-                info.setAddress(addressField);
-                info.setCity(cityField);
-                info.setPhoneNumber(phoneNumberField);
-                info.setPostcode(postcodeField);
-                info.setState(stateField);
-                myRef.push().setValue(info);
-            }
+                if (checkInfoButton.isChecked()) {
+                    String addressField = address.getText().toString();
+                    String cityField = city.getText().toString();
+                    String postcodeField = postcode.getText().toString();
+                    String phoneNumberField = phoneNumber.getText().toString();
+                    String stateField = spinner.getItem();
+
+                    applyCertContactInfo info = new applyCertContactInfo(addressField, cityField, postcodeField, phoneNumberField, stateField);
+                    info.setAddress(addressField);
+                    info.setCity(cityField);
+                    info.setPhoneNumber(phoneNumberField);
+                    info.setPostcode(postcodeField);
+                    info.setState(stateField);
+
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    String userId = currentUser.getUid();
+                    myRef.child(userId).setValue(info).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isComplete()) {
+//                                getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+//                                        .edit().putBoolean("isFormFilled", true);
+                                Toast.makeText(getActivity(), "Application sent successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } //endif
+
+                else
+                    Toast.makeText(getActivity(), "Please agree to the terms", Toast.LENGTH_SHORT).show();
+
+            }   //end onClick
         });
     }
 

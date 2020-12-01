@@ -169,6 +169,7 @@
         android:layout_marginTop="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/check_cert_info_button"
         android:text="I agree that all information given is correct." />
 
     <Button
