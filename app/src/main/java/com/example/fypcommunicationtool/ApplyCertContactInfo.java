@@ -2,20 +2,36 @@ package com.example.fypcommunicationtool;
 
 import android.widget.Spinner;
 
-public class applyCertContactInfo {
+public class ApplyCertContactInfo {
 
+    private String name;
     private String address, city, postcode, phoneNumber, state;
+    private Long appliedTimestamp;
 
-    applyCertContactInfo() {    //Required empty constructor
+    ApplyCertContactInfo() {    //Required empty constructor
 
     }
 
-    public applyCertContactInfo(String address, String city, String postcode, String phoneNumber,String state) {
+    public ApplyCertContactInfo(String name) {
+        this.name = name;
+    }
+
+    public ApplyCertContactInfo(String address, String city, String postcode,
+                                String phoneNumber, String state) {
+//        this.name = name;
         this.address = address;
         this.city = city;
         this.postcode = postcode;
         this.phoneNumber = phoneNumber;
         this.state = state;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {
@@ -56,5 +72,13 @@ public class applyCertContactInfo {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public Long getAppliedTimestamp() {
+        return appliedTimestamp;
+    }
+
+    public void setAppliedTimestamp(Long appliedTimestamp) {
+        this.appliedTimestamp = appliedTimestamp;
     }
 }

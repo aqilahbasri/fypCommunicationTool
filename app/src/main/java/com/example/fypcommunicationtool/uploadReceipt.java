@@ -57,8 +57,8 @@ public class uploadReceipt extends ApplyCertificateActivity {
     }
 
     void initButton() {
-        selectButton = view.findViewById(R.id.selectReceipt);
-        uploadButton = view.findViewById(R.id.uploadReceipt);
+//        selectButton = view.findViewById(R.id.selectReceipt);
+//        uploadButton = view.findViewById(R.id.uploadReceipt);
 
         storage = FirebaseStorage.getInstance();
         database = FirebaseDatabase.getInstance();
