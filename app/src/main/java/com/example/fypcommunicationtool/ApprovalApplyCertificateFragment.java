@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +24,8 @@ public class ApprovalApplyCertificateFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    TextView confirmText;
 
     public ApprovalApplyCertificateFragment() {
         // Required empty public constructor
@@ -60,7 +63,8 @@ public class ApprovalApplyCertificateFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_approval_apply_certificate, container, false);
-
+        confirmText = view.findViewById(R.id.confirm_text);
+        confirmText.setText("Your application has been processed!");
         return view;
     }
 

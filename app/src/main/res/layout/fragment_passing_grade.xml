@@ -5,16 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewResultsFragment"
+    tools:context=".PassingGradeFragment"
     android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/student_name"
+        android:id="@+id/page_title"
         android:layout_marginBottom="16dp"
-        android:textSize="14sp"/>
+        android:textSize="20sp"
+        android:text="Passing Grade Details"
+        android:textColor="?attr/colorAccent"/>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -56,12 +58,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/section_name1"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:text="Assessment"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/mark_1"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="50"/>
         </TableRow>
 
         <TableRow
@@ -74,12 +78,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/section_name2"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:text="Coursework"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/mark_2"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="50"
+                />
         </TableRow>
 
         <TableRow
@@ -92,12 +99,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/section_name3"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:text="Interview"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/mark_3"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="50"/>
         </TableRow>
 
         <TableRow
@@ -113,7 +122,8 @@
                 android:layout_weight="1"
                 android:textAllCaps="true"
                 android:textSize="16sp"
-                android:textColor="?attr/colorAccent"/>
+                android:textColor="?attr/colorAccent"
+                android:text="*Must pass all sections*"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -122,32 +132,5 @@
                 android:textSize="16sp"/>
         </TableRow>
     </TableLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <Button
-            android:layout_marginHorizontal="16sp"
-            android:layout_marginTop="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/roundbtn"
-            android:padding="@dimen/default_gap"
-            android:text="Download"
-            android:id="@+id/download_result_btn"
-            android:textColor="@android:color/white"/>
-        <Button
-            android:layout_marginHorizontal="16sp"
-            android:layout_marginTop="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/roundbtn"
-            android:padding="@dimen/default_gap"
-            android:text="Passing grade"
-            android:id="@+id/passing_grade_btn"
-            android:textColor="@android:color/white"/>
-    </LinearLayout>
 
 </LinearLayout>
