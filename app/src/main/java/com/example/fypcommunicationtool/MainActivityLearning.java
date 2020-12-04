@@ -53,7 +53,7 @@ public class MainActivityLearning extends AppCompatActivity {
                     loadFragment(new RankFragment());
                     return true;
                 case R.id.setting:
-                    toolbar.setTitle("SETTING");
+                    toolbar.setTitle("PROFILE");
                     loadFragment(new SettingFragment());
                     return true;
             }
