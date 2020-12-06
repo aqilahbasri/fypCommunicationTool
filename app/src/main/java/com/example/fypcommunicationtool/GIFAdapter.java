@@ -43,15 +43,12 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
     private String userID;
     Context t;
 
-    public GIFAdapter (Context t, List<com.example.fypcommunicationtool.GIF> gifList)
-    {
+    public GIFAdapter (Context t, List<com.example.fypcommunicationtool.GIF> gifList){
         this.t = t;
         this.gifList = gifList;
     }
 
-
-    public class GIFViewHolder extends RecyclerView.ViewHolder
-    {
+    public class GIFViewHolder extends RecyclerView.ViewHolder {
         public TextView engCaption, malayCaption;
         public WebView gifPicture;
         public CardView cardView;
@@ -110,8 +107,6 @@ public class GIFAdapter extends RecyclerView.Adapter<com.example.fypcommunicatio
         }
 
     }
-
-
 
     @NonNull
     @Override

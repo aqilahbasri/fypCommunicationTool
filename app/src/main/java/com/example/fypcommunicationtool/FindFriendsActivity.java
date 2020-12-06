@@ -70,7 +70,7 @@ public class FindFriendsActivity extends AppCompatActivity
                             public void onClick(View view)
                             {
                                 String visit_user_id = getRef(position).getKey();
-                                Intent profileIntent = new Intent(com.example.fypcommunicationtool.FindFriendsActivity.this, com.example.fypcommunicationtool.ProfileActivity.class);
+                                Intent profileIntent = new Intent(FindFriendsActivity.this, com.example.fypcommunicationtool.ProfileActivity.class);
                                 profileIntent.putExtra("visit_user_id", visit_user_id);
                                 startActivity(profileIntent);
                             }

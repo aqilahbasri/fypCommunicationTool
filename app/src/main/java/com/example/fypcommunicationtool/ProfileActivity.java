@@ -68,11 +68,11 @@ public class ProfileActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                if ((dataSnapshot.exists())  &&  (dataSnapshot.hasChild("image")))
+                if ((dataSnapshot.exists())  &&  (dataSnapshot.hasChild("profileImage")))
                 {
-                    String userImage = dataSnapshot.child("image").getValue().toString();
-                    String userName = dataSnapshot.child("name").getValue().toString();
-                    String userstatus = dataSnapshot.child("status").getValue().toString();
+                    String userImage = dataSnapshot.child("profileImage").getValue().toString();
+                    String userName = dataSnapshot.child("fullName").getValue().toString();
+                    String userstatus = dataSnapshot.child("userID").getValue().toString();
 
                     Picasso.get().load(userImage).placeholder(R.drawable.profile_image).into(userProfileImage);
                     userProfileName.setText(userName);
@@ -83,8 +83,8 @@ public class ProfileActivity extends AppCompatActivity
                 }
                 else
                 {
-                    String userName = dataSnapshot.child("name").getValue().toString();
-                    String userstatus = dataSnapshot.child("status").getValue().toString();
+                    String userName = dataSnapshot.child("fullName").getValue().toString();
+                    String userstatus = dataSnapshot.child("userID").getValue().toString();
 
                     userProfileName.setText(userName);
                     userProfileStatus.setText(userstatus);

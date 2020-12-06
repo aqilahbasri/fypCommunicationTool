@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context=".AddGIFActivity">
+
+
+    <LinearLayout
+        android:id="@+id/cameraAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="33dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:foreground="?selectableItemBackground"
+            android:padding="10dp"
+            android:src="@drawable/ic_baseline_arrow_back"
+            android:tint="@android:color/white" />
+<!--        <de.hdodenhof.circleimageview.CircleImageView-->
+<!--            android:id="@+id/image_profile"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:src="@drawable/profile_image"/>-->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <ImageButton
+            android:id="@+id/btn_crop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_crop_24"
+            android:foreground="?selectableItemBackground"
+            android:tint="@android:color/white"
+            android:padding="10dp"
+            android:background="@android:color/transparent"/>
+<!--        <ImageButton-->
+<!--            android:id="@+id/btn_sticker"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_insert_emoticon_black_24dp"-->
+<!--            android:foreground="?selectableItemBackground"-->
+<!--            android:tint="@android:color/white"-->
+<!--            android:padding="10dp"-->
+<!--            android:background="@android:color/transparent"/>-->
+<!--        <ImageButton-->
+<!--            android:id="@+id/btn_text"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_baseline_text_fields_24"-->
+<!--            android:foreground="?selectableItemBackground"-->
+<!--            android:tint="@android:color/white"-->
+<!--            android:padding="10dp"-->
+<!--            android:background="@android:color/transparent"/>-->
+<!--        <ImageButton-->
+<!--            android:id="@+id/btn_edit"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_round_edit_24"-->
+<!--            android:foreground="?selectableItemBackground"-->
+<!--            android:tint="@android:color/white"-->
+<!--            android:padding="10dp"-->
+<!--            android:background="@android:color/transparent"/>-->
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/cameraAppBar"
+        android:layout_above="@+id/addCaption"
+        android:scaleType="fitCenter"/>
+
+    <RelativeLayout
+        android:id="@+id/addCaption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/addEnglishCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/darker_gray"
+            android:hint="English Caption"/>
+
+        <EditText
+            android:id="@+id/addMalayCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addEnglishCaption"
+            android:padding="10dp"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/darker_gray"
+            android:hint="Malay Caption"/>
+
+<!--        <EditText-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:padding="5dp"-->
+<!--            android:layout_marginStart=""-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:textColorHint="@android:color/darker_gray"-->
+<!--            android:hint="Add a caption..."/>-->
+
+
+
+    </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/send_message"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
+        android:tint="@color/colorPrimaryDark"
+        android:elevation="5dp"
+        app:elevation="5dp"/>
+
+</RelativeLayout>

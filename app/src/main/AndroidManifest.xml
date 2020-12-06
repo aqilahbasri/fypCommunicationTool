@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".AddGIFActivity"
+            android:parentActivityName=".ChatsPrivateActivity"></activity>
         <!-- Assessment & Admin -->
         <activity
             android:name=".AssessmentMenuActivity"
@@ -40,9 +41,9 @@
             android:name=".ApplyCertificateActivity"
             android:parentActivityName=".AssessmentMenuActivity"
             android:theme="@style/AssessmentCustomTheme" />
-        <activity android:name=".AssessmentLevel1Activity"
-            android:theme="@style/AssessmentCustomTheme"/>
-
+        <activity
+            android:name=".AssessmentLevel1Activity"
+            android:theme="@style/AssessmentCustomTheme" />
         <activity android:name=".Practicee" />
         <activity android:name=".Practice" />
         <activity android:name=".MainActivityLearning" /> <!-- <intent-filter> -->
@@ -67,6 +68,9 @@
             android:name=".FindFriendsActivity"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".ProfileActivity"
+            android:parentActivityName=".FindFriendsActivity" />
+        <activity
             android:name=".SettingActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".ChatsGroupActivity" />
@@ -79,8 +83,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service android:name=".ChallengeBGM" />
         <service android:name=".LearnBGM" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

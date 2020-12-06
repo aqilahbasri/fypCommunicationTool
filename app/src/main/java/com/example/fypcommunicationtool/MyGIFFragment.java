@@ -179,14 +179,15 @@ public class MyGIFFragment extends Fragment {
 
             //recommendation by word
             for(String searchWord : sw){
-                for(GIF gif : list){
-                    if(gif.getEngCaption().toLowerCase().contains(searchWord.toLowerCase()) || gif.getMalayCaption().toLowerCase().contains(searchWord.toLowerCase())){
-                        wordList.add(gif);
-                        if(sc.contains(gif.getCategory())){
+                if(searchWord!="I" || searchWord!="i") {
+                    for (GIF gif : list) {
+                        if (gif.getEngCaption().toLowerCase().contains(searchWord.toLowerCase()) || gif.getMalayCaption().toLowerCase().contains(searchWord.toLowerCase())) {
+                            wordList.add(gif);
+                            if (sc.contains(gif.getCategory())) {
 
-                        }
-                        else{
-                            sc.add(gif.getCategory());
+                            } else {
+                                sc.add(gif.getCategory());
+                            }
                         }
                     }
                 }
