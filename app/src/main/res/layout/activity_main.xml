@@ -27,10 +27,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="#f2f2f2"
-        app:itemIconTint="?attr/colorPrimary"
-        app:itemTextColor="?attr/colorPrimary"
+        app:itemBackground="?selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_gravity="bottom"
+        app:itemIconTint="@drawable/nav_item_color_state"
+        app:itemTextColor="@drawable/nav_item_color_state"
         app:menu="@menu/bottom_menu">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 

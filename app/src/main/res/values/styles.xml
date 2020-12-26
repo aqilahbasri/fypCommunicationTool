@@ -23,4 +23,8 @@
     </style>
 
     <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog"></style>
+
+    <style name="timePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#32acba</item>
+    </style>
 </resources>

@@ -19,6 +19,7 @@ package com.example.fypcommunicationtool
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Matrix
@@ -306,6 +307,13 @@ class recognition : AppCompatActivity() {
                     false
             )
         }
+
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, Category::class.java)
+        startActivity(intent)
 
     }
 

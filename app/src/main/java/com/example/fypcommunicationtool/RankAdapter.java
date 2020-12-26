@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,22 +21,21 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.MyViewHolder> 
 
     Context context;
     public static ArrayList<UploadScore> list;
+    String name;
 
 
 
-    public RankAdapter(Context c, ArrayList<UploadScore> p) {
+    public RankAdapter(Context c, ArrayList<UploadScore> p, String username) {
         context =c;
         list = p;
+        name = username;
 
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View v;
-//        v = LayoutInflater.from(context).inflate(R.layout.layout_rank_display,parent,false);
-//        MyViewHolder viewHolder = new MyViewHolder(v);
-//        return viewHolder;
+
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_rank_display,parent,false));
     }
 
@@ -44,6 +44,15 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         int lala = list.size()-position;
+
+        if(list.get(position).getUsername().equals(name)){
+            int color = Color.parseColor("#BA32AC");
+            holder.linlayout.setBackgroundColor(color);
+            holder.username.setTextColor(Color.WHITE);
+            holder.xp.setTextColor(Color.WHITE);
+            holder.number.setTextColor(Color.WHITE);
+        }
+
         holder.username.setText(list.get(position).getUsername());
         holder.xp.setText(String.valueOf(list.get(position).getXp())+"xp");
         Picasso.get().load(list.get(position).getProfileimage()).into(holder.profileimage);
@@ -91,6 +100,7 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.MyViewHolder> 
 
         TextView username, xp, number;
         ImageView profileimage, rankimage;
+        LinearLayout linlayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -99,6 +109,7 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.MyViewHolder> 
             profileimage = (ImageView) itemView.findViewById(R.id.users_profile_image);
             rankimage = (ImageView) itemView.findViewById(R.id.users_rank_image);
             number = (TextView) itemView.findViewById(R.id.number);
+            linlayout = (LinearLayout) itemView.findViewById(R.id.linearlayoutrank);
 
         }
 

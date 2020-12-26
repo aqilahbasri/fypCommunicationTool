@@ -31,8 +31,11 @@ public class RankFragment extends Fragment {
 
     private RankViewModel mViewModel;
    // private View RankView;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, userdetailRef;
     private RecyclerView ranklistrecycler;
+    private FirebaseAuth mAuth;
+    private String userID, username;
+
     ArrayList<UploadScore> list;
     RecyclerView.LayoutManager mLayoutManager;
     LinearLayoutManager layoutManager;
@@ -59,6 +62,23 @@ public class RankFragment extends Fragment {
 
         list = new ArrayList<>();
 
+        mAuth = FirebaseAuth.getInstance();
+        userID = mAuth.getCurrentUser().getUid();
+        userdetailRef = FirebaseDatabase.getInstance().getReference("Users");
+
+        //retrieve username n profilepic
+        userdetailRef.child(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                username = dataSnapshot.child("userID").getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         databaseReference = FirebaseDatabase.getInstance().getReference().child("LEADERBOARD");
         databaseReference.orderByChild("xp").addValueEventListener(new ValueEventListener() {
             @Override
@@ -68,7 +88,7 @@ public class RankFragment extends Fragment {
                     UploadScore p = dataSnapshot1.getValue(UploadScore.class);
                     list.add(p);
                 }
-                adapter = new RankAdapter(getContext(), list);
+                adapter = new RankAdapter(getContext(), list, username);
                 ranklistrecycler.setAdapter(adapter);
             }
 

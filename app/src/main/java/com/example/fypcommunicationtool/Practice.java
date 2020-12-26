@@ -118,12 +118,14 @@ public class Practice extends AppCompatActivity {
                                 // ...
                             }
                         });
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
 
-
-       // }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, Category.class);
+        startActivity(intent);
+    }
 }
+

@@ -50,9 +50,9 @@ public class Practicee extends AppCompatActivity {
         assert extras != null;
         String data = extras.getString("catTitle");
 
-        toolbar = getSupportActionBar();
-        assert toolbar != null;
-        toolbar.setTitle(data);
+//        toolbar = getSupportActionBar();
+//        assert toolbar != null;
+//        toolbar.setTitle(data);
 
         choose = findViewById(R.id.choose);
         result = findViewById(R.id.result);

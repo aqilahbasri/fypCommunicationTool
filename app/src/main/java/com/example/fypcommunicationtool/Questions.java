@@ -5,9 +5,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -109,9 +111,13 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
             question.loadUrl(questionList.get(0).getQuestion());
             question.getSettings().setLoadWithOverviewMode(true);
             question.getSettings().setUseWideViewPort(true);
+            question.setBackgroundColor(0);
             option1.setText(questionList.get(0).getOption1());
+
             option2.setText(questionList.get(0).getOption2());
+
             option3.setText(questionList.get(0).getOption3());
+
             option4.setText(questionList.get(0).getOption4());
 
             questionNum = 0;
@@ -149,26 +155,26 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
     private void checkAnswer(int selectedOption, View view){
         if(selectedOption == questionList.get(questionNum).getCorrectAnswer()){
             //Right Answer
-            ((Button)view).setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+            ((Button)view).setBackgroundResource(R.drawable.answerright);
             score++;
 
         }else{
             //Wrong Answer
-            ((Button)view).setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+            ((Button)view).setBackgroundResource(R.drawable.answerwrong);
 
             switch (questionList.get(questionNum).getCorrectAnswer())
             {
                 case 1:
-                    option1.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                    option1.setBackgroundResource(R.drawable.answerright);
                     break;
                 case 2:
-                    option2.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                    option2.setBackgroundResource(R.drawable.answerright);
                     break;
                 case 3:
-                    option3.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                    option3.setBackgroundResource(R.drawable.answerright);
                     break;
                 case 4:
-                    option4.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                    option4.setBackgroundResource(R.drawable.answerright);
                     break;
 
             }
@@ -189,10 +195,13 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
 
         }else{
             //display score
-            int finalscore = score*10;
-            //int finalscore = score;
+//            int finalscore = score*10;
+            double numberQ = questionList.size();
+            double percentscore = score*100 /numberQ;
+            String finalscore = score + "/" + questionNum;
             Intent intent = new Intent(Questions.this, Score.class);
-            intent.putExtra("finalscore", String.valueOf(finalscore));
+            intent.putExtra("finalscore", finalscore);
+            intent.putExtra("score", Double.toString(percentscore));
             startActivity(intent);
             //Questions.this.finish();
         }
@@ -217,9 +226,11 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
                                     question.loadUrl(questionList.get(questionNum).getQuestion());
                                     question.getSettings().setLoadWithOverviewMode(true);
                                     question.getSettings().setUseWideViewPort(true);
+                                    question.setBackgroundColor(0);
                                     break;
                                 case 1:
                                     ((Button)view).setText(questionList.get(questionNum).getOption1());
+                                    ((Button)view).setBackgroundResource(R.drawable.answerbtn);
                                     break;
                                 case 2:
                                     ((Button)view).setText(questionList.get(questionNum).getOption2());
@@ -235,8 +246,7 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
 
 
                             if(viewNum != 0)
-                                ((Button)view).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#BA32AC")));
-
+                            ((Button)view).setBackgroundResource(R.drawable.answerbtn);
 
                             playAnim(view,1,viewNum);
 
@@ -258,7 +268,33 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
     }
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+//        super.onBackPressed();
+        final Dialog exitchallDialog = new Dialog(this);
+        exitchallDialog.setContentView(R.layout.exitchallenge);
+        Button yes = (Button) exitchallDialog.findViewById(R.id.exitchall);
+        Button no = (Button) exitchallDialog.findViewById(R.id.contchall);
+
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivityLearning.class);
+                startActivity(intent);
+
+                Intent intent1 = new Intent(getApplicationContext(), ChallengeBGM.class);
+                stopService(intent1);
+
+            }
+        });
+
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exitchallDialog.dismiss();
+            }
+        });
+
+        exitchallDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        exitchallDialog.show();
 
     }
 

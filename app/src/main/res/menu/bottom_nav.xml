@@ -4,23 +4,23 @@
     <item
         android:id="@+id/learn"
         android:icon="@drawable/ic_book_08"
-        android:title=""
+        android:title="Learn"
         />
 
     <item
         android:id="@+id/dictionary"
         android:icon="@drawable/ic_search"
-        android:title="" />
+        android:title="Dictionary" />
 
     <item
         android:id="@+id/rank"
         android:icon="@drawable/ic_trophy_03"
-        android:title="" />
+        android:title="Leaderboard" />
 
     <item
         android:id="@+id/setting"
         android:icon="@drawable/ic_user_02"
-        android:title="" />
+        android:title="Profile" />
 
 
 </menu>

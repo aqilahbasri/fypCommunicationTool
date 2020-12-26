@@ -1,20 +1,32 @@
 package com.example.fypcommunicationtool;
 
+import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.example.fypcommunicationtool.BroadcastReceiver.AlarmReceiver;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,10 +52,11 @@ public class SettingFragment extends Fragment {
     RecyclerView.Adapter adapter;
     LinearLayoutManager linearLayoutManager;
     RecyclerView.LayoutManager mLayoutManager;
-    TextView userxp, rankname;
+    TextView userxp, rankname, timepicker;
     FirebaseAuth mAuth;
     String userID, xp;
     ImageView rankic;
+    SwitchCompat switchCompat;
 
 
 
@@ -98,6 +112,8 @@ public class SettingFragment extends Fragment {
         userxp = (TextView) view.findViewById(R.id.userxp);
         rankname = (TextView) view.findViewById(R.id.rankname);
         rankic = (ImageView) view.findViewById(R.id.rankic);
+        switchCompat = (SwitchCompat) view.findViewById(R.id.switchCompat);
+        timepicker = (TextView) view.findViewById(R.id.timepicker);
 
         mLayoutManager = new GridLayoutManager(getActivity(), 5);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
@@ -157,6 +173,7 @@ public class SettingFragment extends Fragment {
             }
         });
 
+        //show learnt category
         dbreference = FirebaseDatabase.getInstance().getReference().child("LearntCategory");
         dbreference.child(userID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -178,12 +195,88 @@ public class SettingFragment extends Fragment {
         });
 
 
+        //switch on notification
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @SuppressLint("ShowToast")
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    notificationReminder();
+                    Toast.makeText(getContext(), "on", Toast.LENGTH_SHORT).show();
 
+                    //pick time
+                    timepicker.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            openTimePicker();
+                        }
+                    });
+
+                }else{
+                    Toast.makeText(getContext(), "Notification reminder turned off", Toast.LENGTH_SHORT).show();
+                    timepicker.setClickable(false);
+                }
+            }
+
+            private void notificationReminder() {
+                openTimePicker();
+            }
+
+
+        });
+
+        //pick time
+//        timepicker.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openTimePicker();
+//            }
+//        });
 
 
 
 
         return view;
+    }
+
+    private void openTimePicker() {
+        Calendar calendar = Calendar.getInstance();
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = calendar.get(Calendar.MINUTE);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), R.style.timePickerTheme, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                String amPm = null;
+                int hr = 0;
+                if (hourOfDay == 12) {
+                    hr = hourOfDay;
+                    amPm = "PM";
+                } if(hourOfDay >= 13){
+                    hr = hourOfDay -12;
+                    amPm = "PM";
+                }if(hourOfDay<12){
+                    hr = hourOfDay;
+                    amPm = "AM";
+                }
+                if(DateFormat.is24HourFormat(getContext())){
+                    timepicker.setText(String.format("%02d:%02d", hourOfDay, minutes));
+                }else{
+                    timepicker.setText(String.format("%02d:%02d", hr, minutes)+ amPm);
+                }
+
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minutes);
+                calendar.set(Calendar.SECOND,0);
+
+                Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+
+            }
+        },  currentHour, currentMinute, DateFormat.is24HourFormat(getContext()));
+        timePickerDialog.show();
+
     }
 
 }

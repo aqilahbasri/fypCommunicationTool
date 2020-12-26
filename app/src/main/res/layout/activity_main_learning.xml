@@ -31,7 +31,7 @@
         app:menu="@menu/bottom_nav"
         app:itemIconTint="@drawable/nav_item_color_state"
         app:itemTextColor="@drawable/nav_item_color_state"
-        app:itemIconSize="40dp"/>
+        app:itemIconSize="35dp"/>
 
 
 </RelativeLayout>

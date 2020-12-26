@@ -72,11 +72,14 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
         score = findViewById(R.id.score);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        String data = extras.getString("finalscore");
-        score.setText(data + "%");
+        String data = extras.getString("finalscore"); //correct/numberQ
+        String dataa = extras.getString("score"); //percent
+        score.setText(data);
 
-        long mark = Integer.parseInt(data);
-        xp = Integer.parseInt(data) * 20;
+        double mark = Double.parseDouble(dataa);
+        int markint = (int) Math.round(mark); //percentage mark to determine encourage word
+
+        xp = (int) Math.round(mark) * 200; //to add xp
 
 
         //retrieve username n profilepic
@@ -126,10 +129,10 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (mark<=39) {
+                if (markint<=39) {
                     encLow(xp, uploadXP);
 
-                }else if(mark>=40 && mark<=79){
+                }else if(markint>=40 && markint<=79){
                     encMedium(xp, uploadXP);
 
                 }else{
@@ -152,6 +155,7 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
 
     }
 
+    //mark>=80
     public void encHigh(long xp, long uploadXP) {
         encDialog = new Dialog(this);
         encDialog.setContentView(R.layout.enc_word_high);
@@ -317,4 +321,12 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
         Intent intent = new Intent(Score.this, ChallengeBGM.class);
         stopService(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, Category.class);
+        startActivity(intent);
+    }
+
 }

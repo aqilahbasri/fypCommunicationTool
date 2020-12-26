@@ -2,13 +2,16 @@ package com.example.fypcommunicationtool;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -126,9 +129,21 @@ public class FavGIFAdapter extends RecyclerView.Adapter<FavGIFAdapter.FavGIFView
                 final Dialog gifDialog = new Dialog(t);
                 gifDialog.setContentView(R.layout.enlarge_gif);
                 WebView wb = (WebView) gifDialog.findViewById(R.id.bigGif);
+                ImageView sharebtn = (ImageView) gifDialog.findViewById(R.id.sharebtn);
+
                 wb.loadUrl(gif);
                 wb.getSettings().setLoadWithOverviewMode(true);
                 wb.getSettings().setUseWideViewPort(true);
+
+                sharebtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(t, ContactsToSendGIf.class);
+                        intent.putExtra("gifurl", gif);
+                        t.startActivity(intent);
+                    }
+                });
+
 
                 gifDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 gifDialog.show();

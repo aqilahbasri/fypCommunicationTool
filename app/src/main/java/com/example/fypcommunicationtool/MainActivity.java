@@ -51,21 +51,43 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.chat_menu:
+                        loadFragment(new ChatsFragment());
+                        return true;
+                    case R.id.library_menu:
+                        loadFragment(new GIFLibraryFragment());
+                        return true;
+                    case R.id.contact_menu:
+                        loadFragment(new ContactsFragment());
+                        return true;
 
-                Fragment selectedFragment = null;
-
-                switch(menuItem.getItemId()){
-                    case R.id.chat_menu : selectedFragment = new ChatsFragment(); break;
-                    case R.id.library_menu : selectedFragment = new GIFLibraryFragment(); break;
-                    case R.id.contact_menu : selectedFragment = new ContactsFragment(); break;
                 }
-
+                return false;
+//                Fragment selectedFragment = null;
+//
+//                switch(menuItem.getItemId()){
+//                    case R.id.chat_menu : selectedFragment = new ChatsFragment(); break;
+//                    case R.id.library_menu : selectedFragment = new GIFLibraryFragment(); break;
+//                    case R.id.contact_menu : selectedFragment = new ContactsFragment(); break;
+//                }
+//
+//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.main_frame, selectedFragment);
+//                transaction.commit();
+//
+//
+//                return false;
+            }
+            private void loadFragment(Fragment fragment) {
+                // load fragment
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.main_frame, selectedFragment);
+                transaction.replace(R.id.main_frame, fragment);
+//        transaction.addToBackStack(null);
+                transaction.disallowAddToBackStack();
                 transaction.commit();
 
 
-                return false;
             }
         });
 
