@@ -471,7 +471,7 @@ public class ChatsPrivateActivity extends AppCompatActivity
         String imageFileName = "IMG_" + timeStamp + ".jpg";
         try {
             File file = File.createTempFile("IMG_" + timeStamp, ".jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
-            imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
+            imageUri = FileProvider.getUriForFile(this, "com.example.fypcommunicationtool.provider", file);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             intent.putExtra("listPhotoName", imageFileName);
             startActivityForResult(intent, 440);
