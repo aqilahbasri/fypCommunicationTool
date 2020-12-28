@@ -46,11 +46,11 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.MyViewHolder> 
         int lala = list.size()-position;
 
         if(list.get(position).getUsername().equals(name)){
-            int color = Color.parseColor("#BA32AC");
+            int color = Color.parseColor("#e49add");
             holder.linlayout.setBackgroundColor(color);
-            holder.username.setTextColor(Color.WHITE);
-            holder.xp.setTextColor(Color.WHITE);
-            holder.number.setTextColor(Color.WHITE);
+//            holder.username.setTextColor(Color.WHITE);
+//            holder.xp.setTextColor(Color.WHITE);
+//            holder.number.setTextColor(Color.WHITE);
         }
 
         holder.username.setText(list.get(position).getUsername());

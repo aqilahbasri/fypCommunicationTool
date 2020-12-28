@@ -99,16 +99,17 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
 
     private void onClickyBack() {
         if(slNum==0){
+            backbtn.setVisibility(View.INVISIBLE);
             description.setText(sllist.get(slNum).getSldescription());
             imagelearn.loadUrl(sllist.get(slNum).getImgurl());
+            imagelearn.setBackgroundColor(0);
             imagelearn.getSettings().setLoadWithOverviewMode(true);
             imagelearn.getSettings().setUseWideViewPort(true);
-
-
 
         }else {
             description.setText(sllist.get(slNum-1).getSldescription());
             imagelearn.loadUrl(sllist.get(slNum-1).getImgurl());
+            imagelearn.setBackgroundColor(0);
             imagelearn.getSettings().setLoadWithOverviewMode(true);
             imagelearn.getSettings().setUseWideViewPort(true);
             slNum--;
@@ -124,8 +125,10 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
             LearnBGM(view);
             description.setText(sllist.get(0).getSldescription());
             imagelearn.loadUrl(sllist.get(0).getImgurl());
+            imagelearn.setBackgroundColor(0);
             imagelearn.getSettings().setLoadWithOverviewMode(true);
             imagelearn.getSettings().setUseWideViewPort(true);
+            backbtn.setVisibility(View.INVISIBLE);
             slNum = 0;
         }
     }
@@ -136,9 +139,16 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
             slNum++;
             description.setText(sllist.get(slNum).getSldescription());
             imagelearn.loadUrl(sllist.get(slNum).getImgurl());
+            imagelearn.setBackgroundColor(0);
             imagelearn.getSettings().setLoadWithOverviewMode(true);
             imagelearn.getSettings().setUseWideViewPort(true);
-        }else {
+            backbtn.setVisibility(View.VISIBLE);
+            if(slNum==0){
+                backbtn.setVisibility(View.INVISIBLE);
+            }
+
+        }
+        else {
             Intent intent = new Intent(this, doneLearn.class );
             intent.putExtra("catTitle", data);
             intent.putExtra("catimg", img);
@@ -156,6 +166,16 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
         startService(intent);
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), MainActivityLearning.class);
+        startActivity(intent);
+
+        Intent intent1 = new Intent(getApplicationContext(), LearnBGM.class);
+        stopService(intent1);
+    }
 }
 
 

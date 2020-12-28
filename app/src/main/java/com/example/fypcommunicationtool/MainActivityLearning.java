@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.internal.NavigationMenuItemView;
 
 public class MainActivityLearning extends AppCompatActivity {
 
@@ -27,6 +28,8 @@ public class MainActivityLearning extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.main_learning_toolbar);
         setSupportActionBar(toolbar);
+
+
         getSupportActionBar().setTitle("LEARNING");
         loadFragment(new CategoryFragment());
 
@@ -44,10 +47,10 @@ public class MainActivityLearning extends AppCompatActivity {
                     toolbar.setTitle("LEARNING");
                     loadFragment(new CategoryFragment());
                     return true;
-                case R.id.dictionary:
-                    toolbar.setTitle("DICTIONARY");
-                    loadFragment(new DictionaryFragment());
-                    return true;
+//                case R.id.dictionary:
+//                    toolbar.setTitle("DICTIONARY");
+//                    loadFragment(new DictionaryFragment());
+//                    return true;
                 case R.id.rank:
                     toolbar.setTitle("LEADERBOARD");
                     loadFragment(new RankFragment());

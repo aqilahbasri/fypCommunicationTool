@@ -136,8 +136,8 @@ public class ChatsPrivateActivity extends AppCompatActivity
                         if(which == 1){
 //                            Toast.makeText(getApplicationContext(),"Camera..",Toast.LENGTH_LONG).show();
                             checker = "gif";
-//                            openCamera();
-                            checkCameraPermission();
+                            openCamera();
+//                            checkCameraPermission();
                         }
                         if(which == 2){
                             checker = "docx";
@@ -461,7 +461,7 @@ public class ChatsPrivateActivity extends AppCompatActivity
         }
         else {
             Toast.makeText(getApplicationContext(),"Open Camera..",Toast.LENGTH_LONG).show();
-//            openCamera();
+            openCamera();
         }
     }
 
@@ -478,5 +478,13 @@ public class ChatsPrivateActivity extends AppCompatActivity
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+
     }
 }

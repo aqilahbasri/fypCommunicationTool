@@ -7,10 +7,10 @@
         android:title="Learn"
         />
 
-    <item
-        android:id="@+id/dictionary"
-        android:icon="@drawable/ic_search"
-        android:title="Dictionary" />
+<!--    <item-->
+<!--        android:id="@+id/dictionary"-->
+<!--        android:icon="@drawable/ic_search"-->
+<!--        android:title="Dictionary" />-->
 
     <item
         android:id="@+id/rank"
