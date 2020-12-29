@@ -54,7 +54,7 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
 
         toolbar = (Toolbar) findViewById(R.id.main_learning_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(data);
+        getSupportActionBar().setTitle(data.toUpperCase());
 
         String slref = data;
 

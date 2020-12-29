@@ -79,7 +79,7 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
         double mark = Double.parseDouble(dataa);
         int markint = (int) Math.round(mark); //percentage mark to determine encourage word
 
-        xp = (int) Math.round(mark) * 200; //to add xp
+        xp = (int) Math.round(mark) * 4; //to add xp
 
 
         //retrieve username n profilepic

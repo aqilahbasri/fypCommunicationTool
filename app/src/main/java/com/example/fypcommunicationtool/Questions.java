@@ -53,7 +53,7 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
 
         toolbar = (Toolbar) findViewById(R.id.main_learning_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(data);
+        getSupportActionBar().setTitle(data.toUpperCase());
 
         final String questionref = data;
 
@@ -198,7 +198,7 @@ public class Questions extends AppCompatActivity implements View.OnClickListener
 //            int finalscore = score*10;
             double numberQ = questionList.size();
             double percentscore = score*100 /numberQ;
-            String finalscore = score + "/" + questionNum;
+            String finalscore = score + "/" + questionList.size();
             Intent intent = new Intent(Questions.this, Score.class);
             intent.putExtra("finalscore", finalscore);
             intent.putExtra("score", Double.toString(percentscore));
