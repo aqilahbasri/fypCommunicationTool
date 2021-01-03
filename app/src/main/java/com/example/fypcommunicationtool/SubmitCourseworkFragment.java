@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,8 +30,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -72,7 +69,7 @@ public class SubmitCourseworkFragment extends Fragment {
         selectFile = v.findViewById(R.id.selectButton);
         notification = v.findViewById(R.id.notification);
 
-        courseworkDetail cd = new courseworkDetail(getActivity(), v);
+        CourseworkDetails cd = new CourseworkDetails(getActivity(), v);
         cd.viewList();
 
         selectFile.setOnClickListener(new View.OnClickListener() {

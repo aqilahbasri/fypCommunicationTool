@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/adapterViewLayout">
+
+    <TextView
+        android:gravity="start"
+        android:textAlignment="textStart"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/textView1"/>
+
+    <TextView
+        android:gravity="start"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/textView2"/>
+
+    <TextView
+        android:gravity="start"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/textView3"/>
+
+    <TextView
+        android:gravity="start"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/textView4"/>
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:id="@+id/review_button"
+        android:layout_marginStart="@dimen/default_gap"
+        android:layout_marginVertical="@dimen/default_gap"
+        android:text="View"
+        android:textColor="@android:color/white"
+        android:background="@drawable/roundbtn"/>
+
+</LinearLayout>
