@@ -8,5 +8,8 @@
     <string name="medium_enc_word">You did it well! Keep up with the good work. Soon you will be at the top!</string>
     <string name="low_enc_word">Do not be discourage with your mark. Keep learning and practicing then you will see your result improve. I believe in you!</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 
 </resources>
