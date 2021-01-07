@@ -35,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    private static final String TAG = "MainActivity";
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private TextView actionBarTitle;
@@ -87,6 +88,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        new InitNavDrawerHeader(navigationView, TAG);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

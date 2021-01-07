@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class initBottomBar {
+public class InitBottomBar {
 
     private Activity activity;
 
-    initBottomBar(Activity activity) {
+    InitBottomBar(Activity activity) {
         this.activity = activity;
     }
 

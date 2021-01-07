@@ -21,6 +21,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, FragmentManager.OnBackStackChangedListener {
 
+    private static final String TAG = "BaseActivity";
     private TextView actionBarTitle;
     Boolean doubleBackToExitPressedOnce = false;
     DrawerLayout drawer;
@@ -35,12 +36,15 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         actionBarTitle = findViewById(R.id.toolbar_title);
 
-        initBottomBar ibb = new initBottomBar(this);    //Class for bottom nav_graph
+        InitBottomBar ibb = new InitBottomBar(this);    //Class for bottom nav_graph
         ibb.setNavigation();
 
         drawer = findViewById(R.id.nav_drawer_layout);
         ImageButton rightMenu = findViewById(R.id.ic_right_menu);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        new InitNavDrawerHeader(navigationView, TAG);
+
         rightMenu.setOnClickListener(this);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -52,32 +56,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }
         getSupportFragmentManager().addOnBackStackChangedListener(this);
     }
-
-    //Changed to activity because everyone's bottom bar lain2, not a good design but will think about it later lol.
-    /*
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        Fragment selectedFragment = null;
-        switch (menuItem.getItemId()) {
-            case R.id.nav_home: //nanti tukar Fatin punya
-                selectedFragment = new ChatsFragment();
-                break;
-            case R.id.nav_learning:
-                selectedFragment = new CategoryFragment();
-                break;
-            case R.id.nav_assessment:
-                selectedFragment = new AssessmentHomeFragment();
-                break;
-//            case R.id.nav_administration:
-//                selectedFragment = new AdministrationMenu_Fragment();
-//                break;
-        }
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(null).commit();
-        drawer.closeDrawer(GravityCompat.END);
-        return true;
-    }
-    */
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -97,7 +75,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
-//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(null).commit();
         drawer.closeDrawer(GravityCompat.END);
         return true;
     }

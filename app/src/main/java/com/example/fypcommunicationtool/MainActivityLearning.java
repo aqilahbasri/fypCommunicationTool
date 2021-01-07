@@ -1,7 +1,6 @@
 package com.example.fypcommunicationtool;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,11 +18,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.internal.NavigationMenuItemView;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivityLearning extends AppCompatActivity {
 
+    private static final String TAG = "MainActivityLearning";
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private TextView actionBarTitle;
@@ -38,7 +37,6 @@ public class MainActivityLearning extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.main_learning_toolbar);
         setSupportActionBar(toolbar);
-
 
 //        yvonne punya toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -66,6 +64,9 @@ public class MainActivityLearning extends AppCompatActivity {
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        new InitNavDrawerHeader(navigationView, TAG);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -84,9 +85,6 @@ public class MainActivityLearning extends AppCompatActivity {
                 return true;
             }
         });
-
-
-
     }
 
     private void goToMainLearningModule() {
@@ -101,7 +99,6 @@ public class MainActivityLearning extends AppCompatActivity {
 
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
 
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
@@ -118,7 +115,6 @@ public class MainActivityLearning extends AppCompatActivity {
                     toolbar.setTitle("PROFILE");
                     loadFragment(new SettingFragment());
                     return true;
-
             }
             return false;
         }
@@ -137,7 +133,6 @@ public class MainActivityLearning extends AppCompatActivity {
         transaction.disallowAddToBackStack();
         transaction.commit();
 
-
     }
 
     @Override
@@ -150,7 +145,5 @@ public class MainActivityLearning extends AppCompatActivity {
         }
 
     }
-
-
 
 }

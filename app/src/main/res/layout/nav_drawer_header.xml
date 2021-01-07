@@ -4,18 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="176dp"
     android:padding="16dp"
-    android:background="@android:color/holo_blue_light"
+    android:background="@drawable/drawer_header_default"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:gravity="bottom">
 
-    <ImageView
-        android:src="@mipmap/ic_launcher_round"
+<!--    User profile picture-->
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="75dp"
-        android:layout_height="75dp" />
+        android:layout_height="75dp"
+        android:id="@+id/user_image"
+        android:src="@drawable/profile_image"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test User"
-        android:textStyle="bold"/>
+        android:layout_marginTop="@dimen/default_gap"
+        android:id="@+id/user_fullName"
+        android:textStyle="bold"
+        android:text="username"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_email"
+        android:text="username@gmail.com"/>
 
 </LinearLayout>
