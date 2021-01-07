@@ -50,7 +50,7 @@ public class Learn extends AppCompatActivity implements View.OnClickListener{
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         data = extras.getString("catTitle");
-//        img = extras.getString("catimg");
+        img = extras.getString("catimg");
 
         toolbar = (Toolbar) findViewById(R.id.main_learning_toolbar);
         setSupportActionBar(toolbar);

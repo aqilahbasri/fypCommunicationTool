@@ -58,12 +58,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     Button challcat = (Button) playlearnDialog.findViewById(R.id.challenge);
                     Button practcat = (Button) playlearnDialog.findViewById(R.id.practice);
                     final String catname = categories.get(position).getCategoryname();
+                    final String catimg = categories.get(position).getCategoryimage();
 
                     learncat.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(context, Learn.class);
                             intent.putExtra("catTitle", catname);
+                            intent.putExtra("catimg", catimg);
                             context.startActivity(intent);
 
                         }
@@ -106,12 +108,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     Button challcat = (Button) playlearnDialog.findViewById(R.id.challenge);
                     Button practcat = (Button) playlearnDialog.findViewById(R.id.practice);
                     final String catname = categories.get(position).getCategoryname();
+                    final String catimg = categories.get(position).getCategoryimage();
 
                     learncat.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(context, Learn.class);
                             intent.putExtra("catTitle", catname);
+                            intent.putExtra("catimg", catimg);
                             context.startActivity(intent);
 
                         }
@@ -150,12 +154,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     Button learncat = (Button) playlearnwoPracDialog.findViewById(R.id.learn);
                     Button challcat = (Button) playlearnwoPracDialog.findViewById(R.id.challenge);
                     final String catname = categories.get(position).getCategoryname();
+                    final String catimg = categories.get(position).getCategoryimage();
 
                     learncat.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(context, Learn.class);
                             intent.putExtra("catTitle", catname);
+                            intent.putExtra("catimg", catimg);
                             context.startActivity(intent);
 
                         }
