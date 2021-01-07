@@ -10,7 +10,7 @@
     tools:context=".MainActivityLearning"
     tools:openDrawer="end">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -29,6 +29,8 @@
 
     <FrameLayout
         android:id="@+id/container"
+        android:layout_below="@id/lala"
+        android:layout_above="@id/navigationView"
         android:layout_width="match_parent"
         android:layout_height="678dp" />
 
@@ -36,14 +38,15 @@
         android:id="@+id/navigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:background="#f2f2f2"
         app:itemBackground="?selectableItemBackgroundBorderless"
-        app:menu="@menu/bottom_nav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_gravity="bottom"
         app:itemIconTint="@drawable/nav_item_color_state"
         app:itemTextColor="@drawable/nav_item_color_state"
-        app:itemIconSize="30dp"/>
-    </LinearLayout>
+        app:menu="@menu/bottom_nav" />
+    </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
