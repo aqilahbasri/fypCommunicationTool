@@ -95,9 +95,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 goToMainAssessmentModule();
 //                selectedFragment = new AssessmentHomeFragment();
                 break;
-//            case R.id.nav_administration:
-//                selectedFragment = new AdministrationMenu_Fragment();
-//                break;
         }
 
 //        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(null).commit();
