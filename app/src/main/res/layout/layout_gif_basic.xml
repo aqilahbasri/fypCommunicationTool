@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
-    android:id="@+id/cardview_id"
+    android:id="@+id/cardview_id_basic"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:clickable="false"
     android:foreground="?android:attr/selectableItemBackground"
@@ -9,30 +9,20 @@
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
     cardview:cardCornerRadius="4dp">
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    android:layout_margin="5dp"-->
-<!--    app:cardElevation="5dp">-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    android:layout_margin="5dp"-->
+    <!--    app:cardElevation="5dp">-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/fav_gif"
-            android:visibility="visible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:src="@drawable/ic_unfavorite"
-            android:background="@android:color/transparent"
-            />
-
 
         <WebView
-            android:id="@+id/gifPicture"
+            android:id="@+id/gifPictureBasic"
             android:layout_width="match_parent"
             android:layout_height="136dp"
             android:background="#2d2d2d"
@@ -41,7 +31,7 @@
 
 
         <TextView
-            android:id="@+id/engCaption"
+            android:id="@+id/engCaptionBasic"
             android:textColor="#2d2d2d"
             android:textSize="13sp"
             android:gravity="center"
@@ -49,15 +39,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="English Caption"/>
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="sample"-->
-<!--            android:textSize="25sp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:padding="10dp"/>-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="sample"-->
+        <!--            android:textSize="25sp"-->
+        <!--            android:textStyle="bold"-->
+        <!--            android:padding="10dp"/>-->
 
         <TextView
-            android:id="@+id/malayCaption"
+            android:id="@+id/malayCaptionBasic"
             android:textColor="#2d2d2d"
             android:textSize="13sp"
             android:gravity="center"
@@ -65,11 +55,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Malay Caption"/>
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="sample"-->
-<!--            android:padding="10dp"/>-->
-        
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="sample"-->
+        <!--            android:padding="10dp"/>-->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

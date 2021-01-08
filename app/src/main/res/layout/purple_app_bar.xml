@@ -25,4 +25,20 @@
 
 <!--    </RelativeLayout>-->
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/icon_Container" >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_right_menu"
+            android:background="@drawable/ic_menu_hamburger_24"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"/>
+
+    </RelativeLayout>
+
 </androidx.appcompat.widget.Toolbar>

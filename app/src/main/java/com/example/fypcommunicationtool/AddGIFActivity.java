@@ -3,11 +3,13 @@ package com.example.fypcommunicationtool;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,7 +40,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddGIFActivity extends AppCompatActivity {
 
-    private String messageReceiverID, messageReceiverName, messageReceiverImage, messageSenderID;
+    private String messageReceiverID, messageReceiverName, messageReceiverImage, messageSenderID, imageUrl;
 
     private FirebaseAuth mAuth;
     private DatabaseReference RootRef;
@@ -47,7 +49,7 @@ public class AddGIFActivity extends AppCompatActivity {
 
     private ImageButton backButton, cropButton, stickerButton, textButton, editButton, imageButton;
     private CircleImageView imageProfile;
-    private ImageView capturedImage;
+    private WebView capturedImage;
     private EditText malayCaption, engCaption;
     private FloatingActionButton sendButton;
 
@@ -60,7 +62,14 @@ public class AddGIFActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_gif);
 
+        messageReceiverID = getIntent().getExtras().get("visit_user_id").toString();
+        messageReceiverName = getIntent().getExtras().get("visit_user_name").toString();
+        messageReceiverImage = getIntent().getExtras().get("visit_image").toString();
+        imageUrl = getIntent().getExtras().get("imageUrl").toString();
+
         mAuth = FirebaseAuth.getInstance();
+//        mAuth = FirebaseAuth.getInstance();
+        messageSenderID = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
         FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
         PendingGIFImagesRef = FirebaseStorage.getInstance().getReference().child("Pending GIF");
@@ -70,7 +79,10 @@ public class AddGIFActivity extends AppCompatActivity {
         imageUri = ChatsPrivateActivity.imageUri;
         imageId = ChatsPrivateActivity.imageID;
 
-        capturedImage.setImageURI(imageUri);
+        capturedImage.loadUrl(imageUrl);
+        capturedImage.getSettings().setLoadWithOverviewMode(true);
+        capturedImage.getSettings().setUseWideViewPort(true);
+//        capturedImage.setImageURI(imageUri);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,10 +122,11 @@ public class AddGIFActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("WrongViewCast")
     private void IntializeControllers() {
         backButton = (ImageButton) findViewById(R.id.btn_back);
         cropButton = (ImageButton) findViewById(R.id.btn_crop);
-        capturedImage = (ImageView) findViewById(R.id.image_view);
+        capturedImage = (WebView) findViewById(R.id.image_view);
         malayCaption = (EditText) findViewById(R.id.addMalayCaption);
         engCaption = (EditText) findViewById(R.id.addEnglishCaption);
         sendButton = (FloatingActionButton) findViewById(R.id.btn_send);
@@ -131,13 +144,17 @@ public class AddGIFActivity extends AppCompatActivity {
         String inputEngCaption = engCaption.getText().toString();
         String inputMalayCaption = malayCaption.getText().toString();
 
-        HashMap<String, String> gifDetails = new HashMap<>();
+
+        Intent intent = getIntent();
+        String messagePushID = intent.getStringExtra("messagePushID");
+        HashMap<String, String> gifDetails = (HashMap<String, String>) intent.getSerializableExtra("gifDetails");
+
         gifDetails.put("engCaption", inputEngCaption);
         gifDetails.put("malayCaption", inputMalayCaption);
         gifDetails.put("time", saveCurrentTime);
         gifDetails.put("date", saveCurrentDate);
 
-        RootRef.child("PendingGIF").child(messageSenderID).child(imageId).setValue(gifDetails)
+        RootRef.child("PendingGIF").child(messageSenderID).child(messagePushID).setValue(gifDetails)
                 .addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task)
@@ -160,6 +177,9 @@ public class AddGIFActivity extends AppCompatActivity {
 
     private void SendUserToPrivateChatActivity() {
         Intent intent = new Intent(com.example.fypcommunicationtool.AddGIFActivity.this, ChatsPrivateActivity.class);
+        intent.putExtra("visit_user_id", messageReceiverID);
+        intent.putExtra("visit_user_name", messageReceiverName);
+        intent.putExtra("visit_image", messageReceiverImage);
         startActivity(intent);
     }
 }

@@ -45,13 +45,13 @@
         <activity
             android:name=".AssessmentLevel1Activity"
             android:theme="@style/AssessmentCustomTheme" />
-
-
         <activity android:name=".Practicee" />
         <activity android:name=".Practice" />
-        <activity android:name=".MainActivityLearning"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+        <activity android:name=".MainActivityLearning" /> <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <activity android:name=".doneLearn" />
         <activity android:name=".Score" />
         <activity android:name=".Questions" />
@@ -59,8 +59,6 @@
         <activity android:name=".Learn" />
         <activity android:name=".Category" />
         <activity android:name=".recognition" />
-
-
         <activity
             android:name=".ChatsPrivateActivity"
             android:parentActivityName=".MainActivity" />
@@ -101,6 +99,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data
+            android:name="CLOUDINARY_URL"
+            android:value="cloudinary://@fypcommunicationtool"/>
     </application>
 
 </manifest>

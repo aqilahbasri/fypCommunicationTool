@@ -1,17 +1,20 @@
 package com.example.fypcommunicationtool;
 
 import android.Manifest;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -31,6 +34,9 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
+import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
+import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,6 +57,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,7 +67,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import com.cloudinary.Transformation;
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ChatsPrivateActivity extends AppCompatActivity
 {
@@ -84,12 +97,15 @@ public class ChatsPrivateActivity extends AppCompatActivity
     private Uri fileUri;
     private ProgressDialog loadingBar;
     public static Uri imageUri= null;
-    public static String imageID;
+    public static String imageID, gifUrl;
+    private DownloadManager downloadManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats_private);
+
+        MediaManager.init(this);
 
         mAuth = FirebaseAuth.getInstance();
         messageSenderID = mAuth.getCurrentUser().getUid();
@@ -136,8 +152,9 @@ public class ChatsPrivateActivity extends AppCompatActivity
                         if(which == 1){
 //                            Toast.makeText(getApplicationContext(),"Camera..",Toast.LENGTH_LONG).show();
                             checker = "gif";
-                            openCamera();
-//                            checkCameraPermission();
+                            checkCameraPermission();
+//                            openCamera();
+
                         }
                         if(which == 2){
                             checker = "docx";
@@ -317,14 +334,73 @@ public class ChatsPrivateActivity extends AppCompatActivity
 
         //Record GIF
         if (requestCode == 440 && resultCode == RESULT_OK){
+            Uri selectedVideo = data.getData();
+
+            DatabaseReference userMessageKeyRef = RootRef.child("PendingGIF").child(messageSenderID).push();
+            final String messagePushID = userMessageKeyRef.getKey();
+
+            //start upload photo using cloudinary
+//            MediaManager.get()
+//                    .upload(selectedVideo)
+//                    .option("resource type", "auto")
+//                    .unsigned("yotukgxu")
+//                    .callback(new UploadCallback() {
+//                        @Override
+//                        public void onStart(String requestId) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onProgress(String requestId, long bytes, long totalBytes) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onSuccess(String requestId, Map resultData) {
+//                            String publicId = resultData.get("public_id").toString();
+//
+                            //start convert photo to gif using cloudinary
+//                            gifUrl = MediaManager.get().url().resourceType("video")
+//                                    .transformation(new Transformation().videoSampling("25")
+//                                            .delay("200").height(200).effect("loop:10").crop("scale"))
+//                                    .resourceType("video").generate(messagePushID+".gif");
+                            //end convert photo to gif using cloudinary
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(String requestId, ErrorInfo error) {
+//                            Toast.makeText(ChatsPrivateActivity.this, "Upload Error", Toast.LENGTH_SHORT).show();
+//                            Log.v("ERROR!!", error.getDescription());
+//                        }
+//
+//                        @Override
+//                        public void onReschedule(String requestId, ErrorInfo error) {
+//
+//                        }
+//                    }).dispatch();
+
+            //end upload photo using cloudinary
+
+            //obtain Uri of GIF
+//            imageUri = Uri.parse(gifUrl);
+
+
+            Intent addGIFIntent = new Intent(ChatsPrivateActivity.this, AddGIFActivity.class);
+            HashMap<String, String> gifDetails = new HashMap<>();
+
             if (imageUri!=null){
 
-                DatabaseReference userMessageKeyRef = RootRef.child("PendingGIF").child(messageSenderID).push();
 
-                final String messagePushID = userMessageKeyRef.getKey();
+//               String[] cmd = {"-i"
+//                            , selectedImagePath
+//                            , "Image.gif"};
+//               conversion(cmd);
+
                 imageID = messagePushID;
 
-                StorageReference filePath = PendingGIFImagesRef.child(messagePushID + ".jpg");
+                StorageReference filePath = PendingGIFImagesRef.child(messagePushID + ".gif");
+
                 filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -334,12 +410,32 @@ public class ChatsPrivateActivity extends AppCompatActivity
                             public void onSuccess(Uri uri) {
                                 String downloadUrl = uri.toString();
 
-                                RootRef.child("PendingGIF").child(messageSenderID).child(messagePushID).setValue(downloadUrl)
+//                                GrabzItClient grabzIt = new GrabzItClient("NGY0ZDhjNGUzYTA0NDIxMjlmMGYzZGUzYWZjYzBkZGI=", "Pz8/dT8BTD8/Pz8/Pz8/XVU/PxE/Dz85VQggPxkfPx8=");
+//                                try {
+//                                    grabzIt.URLToAnimation(downloadUrl);
+//                                    String filepath = "images/result.jpg";
+//                                    grabzIt.SaveTo(filepath);
+//                                } catch (Exception e) {
+//                                    e.printStackTrace();
+//                                }
+                                RootRef.child("PendingGIF").child(messageSenderID).child(messagePushID).child("gifValue").setValue(downloadUrl)
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful()){
+                                                    gifDetails.put("imageUrl", downloadUrl);
+                                                    gifDetails.put("sender",messageSenderID);
+                                                    gifDetails.put("receiver", messageReceiverID);
 
+                                                    RootRef.child("PendingGIF").child(messageSenderID).child(messagePushID).setValue(gifDetails);
+                                                    addGIFIntent.putExtra("imageUrl", downloadUrl);
+                                                    addGIFIntent.putExtra("messagePushID", messagePushID);
+                                                    addGIFIntent.putExtra("gifDetails", gifDetails);
+                                                    addGIFIntent.putExtra("visit_user_id", messageReceiverID);
+                                                    addGIFIntent.putExtra("visit_user_name", messageReceiverName);
+                                                    addGIFIntent.putExtra("visit_image", messageReceiverImage);
+
+                                                    startActivity(addGIFIntent);
                                                 }
                                                 else{
 
@@ -351,15 +447,57 @@ public class ChatsPrivateActivity extends AppCompatActivity
                     }
                 });
             }
-            HashMap<String, String> gifDetails = new HashMap<>();
-            gifDetails.put("sender",messageSenderID);
-            gifDetails.put("receiver", messageReceiverID);
-
-            RootRef.child("PendingGIF").child(messageSenderID).child("messagePushID").setValue(gifDetails);
-                startActivity(new Intent(ChatsPrivateActivity.this, AddGIFActivity.class));
-                getIntent().putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            }
         }
+    }
+
+    private String getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if (cursor != null) {
+            // HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
+            // THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } else
+            return null;
+    }
+
+    public void conversion(String[] cmd) {
+        FFmpeg ffmpeg = FFmpeg.getInstance(this);
+
+        try {
+
+
+            // to execute "ffmpeg -version" command you just need to pass "-version"
+            ffmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
+
+                @Override
+                public void onStart() {
+                }
+
+                @Override
+                public void onProgress(String message) {
+                }
+
+                @Override
+                public void onFailure(String message) {
+                }
+
+                @Override
+                public void onSuccess(String message) {
+                }
+
+                @Override
+                public void onFinish() {
+                }
+            });
+        } catch (FFmpegCommandAlreadyRunningException e) {
+            // Handle if FFmpeg is already running
+            e.printStackTrace();
+        }
+    }
 
     private void DisplayLastSeen() {
         RootRef.child("Users").child(messageReceiverID)
@@ -466,11 +604,11 @@ public class ChatsPrivateActivity extends AppCompatActivity
     }
 
     private void openCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         String timeStamp = new SimpleDateFormat("yyyyMMDD_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = "IMG_" + timeStamp + ".jpg";
+        String imageFileName = "IMG_" + timeStamp + ".mp4";
         try {
-            File file = File.createTempFile("IMG_" + timeStamp, ".jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
+            File file = File.createTempFile("IMG_" + timeStamp, ".mp4", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
             imageUri = FileProvider.getUriForFile(this, "com.example.fypcommunicationtool.provider", file);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             intent.putExtra("listPhotoName", imageFileName);
