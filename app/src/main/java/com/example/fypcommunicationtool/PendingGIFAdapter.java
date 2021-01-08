@@ -8,6 +8,7 @@ package com.example.fypcommunicationtool;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
+        import android.webkit.WebSettings;
         import android.webkit.WebView;
         import android.widget.Button;
         import android.widget.ImageButton;
@@ -31,13 +32,13 @@ package com.example.fypcommunicationtool;
 
 public class PendingGIFAdapter extends RecyclerView.Adapter<PendingGIFAdapter.PendingGIFViewHolder> {
 
-    private List<GIF> gifList;
+    private List<PendingGIF> gifList;
     private FirebaseAuth mAuth;
     private DatabaseReference GIFRef, favlistRef;
     private String userID;
     Activity t;
 
-    public PendingGIFAdapter(Activity t,List<GIF> gifList)
+    public PendingGIFAdapter(Activity t,List<PendingGIF> gifList)
     {
         this.t = t;
         this.gifList = gifList;
@@ -80,9 +81,10 @@ public class PendingGIFAdapter extends RecyclerView.Adapter<PendingGIFAdapter.Pe
     @Override
     public void onBindViewHolder(PendingGIFViewHolder gifViewHolder, int position) {
 
-        gifViewHolder.gifPicture.loadUrl(gifList.get(position).getGifPicture());
+        gifViewHolder.gifPicture.loadUrl(gifList.get(position).getImageUrl());
         gifViewHolder.gifPicture.getSettings().setLoadWithOverviewMode(true);
         gifViewHolder.gifPicture.getSettings().setUseWideViewPort(true);
+        gifViewHolder.gifPicture.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         gifViewHolder.engCaption.setText(gifList.get(position).getEngCaption());
         gifViewHolder.malayCaption.setText(gifList.get(position).getMalayCaption());
 
@@ -91,7 +93,7 @@ public class PendingGIFAdapter extends RecyclerView.Adapter<PendingGIFAdapter.Pe
 
             @Override
             public void onClick(View v) {
-                String gif = gifList.get(position).getGifPicture();
+                String gif = gifList.get(position).getImageUrl();
                 final Dialog gifDialog = new Dialog(t);
                 gifDialog.setContentView(R.layout.enlarge_gif);
                 WebView wb = (WebView) gifDialog.findViewById(R.id.bigGif);

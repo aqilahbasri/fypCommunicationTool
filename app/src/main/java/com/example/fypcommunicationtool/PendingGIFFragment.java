@@ -35,7 +35,7 @@ public class PendingGIFFragment extends Fragment {
 
 
 
-    ArrayList<GIF> list;
+    ArrayList<PendingGIF> list;
 
     public PendingGIFFragment() {
         // Required empty public constructor
@@ -72,7 +72,7 @@ public class PendingGIFFragment extends Fragment {
                         list = new ArrayList<>();
 
                         for(DataSnapshot ds : dataSnapshot.getChildren()){
-                            list.add(ds.getValue(GIF.class));
+                            list.add(ds.getValue(PendingGIF.class));
                         }
 
                         PendingGIFAdapter favgifAdapter = new PendingGIFAdapter(getActivity(),list);

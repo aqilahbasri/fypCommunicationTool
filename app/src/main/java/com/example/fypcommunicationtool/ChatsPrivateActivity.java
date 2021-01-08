@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -99,6 +100,7 @@ public class ChatsPrivateActivity extends AppCompatActivity
     public static Uri imageUri= null;
     public static String imageID, gifUrl;
     private DownloadManager downloadManager;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,8 @@ public class ChatsPrivateActivity extends AppCompatActivity
         setContentView(R.layout.activity_chats_private);
 
         MediaManager.init(this);
+
+        progressBar = findViewById(R.id.progress_bar);
 
         mAuth = FirebaseAuth.getInstance();
         messageSenderID = mAuth.getCurrentUser().getUid();
@@ -333,57 +337,63 @@ public class ChatsPrivateActivity extends AppCompatActivity
         }
 
         //Record GIF
-        if (requestCode == 440 && resultCode == RESULT_OK){
+        if (requestCode == 440 && resultCode == RESULT_OK  && data != null && data.getData() != null){
             Uri selectedVideo = data.getData();
 
             DatabaseReference userMessageKeyRef = RootRef.child("PendingGIF").child(messageSenderID).push();
             final String messagePushID = userMessageKeyRef.getKey();
 
             //start upload photo using cloudinary
-//            MediaManager.get()
-//                    .upload(selectedVideo)
-//                    .option("resource type", "auto")
-//                    .unsigned("yotukgxu")
-//                    .callback(new UploadCallback() {
-//                        @Override
-//                        public void onStart(String requestId) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onProgress(String requestId, long bytes, long totalBytes) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onSuccess(String requestId, Map resultData) {
-//                            String publicId = resultData.get("public_id").toString();
-//
-                            //start convert photo to gif using cloudinary
-//                            gifUrl = MediaManager.get().url().resourceType("video")
-//                                    .transformation(new Transformation().videoSampling("25")
-//                                            .delay("200").height(200).effect("loop:10").crop("scale"))
+            MediaManager.get()
+                    .upload(selectedVideo)
+                    .option("resource type", "video")
+                    .unsigned("yotukgxu")
+                    .callback(new UploadCallback() {
+                        @Override
+                        public void onStart(String requestId) {
+                               Toast.makeText(ChatsPrivateActivity.this,"Upload Started...", Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.VISIBLE);
+
+                        }
+
+                        @Override
+                        public void onProgress(String requestId, long bytes, long totalBytes) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(String requestId, Map resultData) {
+                            String publicId = resultData.get("public_id").toString();
+                            progressBar.setVisibility(View.GONE);
+
+//                            start convert photo to gif using cloudinary
+                            gifUrl = MediaManager.get().url().resourceType("video")
+                                    .transformation(new Transformation().videoSampling("25")
+                                     .delay("200").height(200).effect("loop:10").crop("scale"))
 //                                    .resourceType("video").generate(messagePushID+".gif");
-                            //end convert photo to gif using cloudinary
-//
-//                        }
-//
-//                        @Override
-//                        public void onError(String requestId, ErrorInfo error) {
-//                            Toast.makeText(ChatsPrivateActivity.this, "Upload Error", Toast.LENGTH_SHORT).show();
-//                            Log.v("ERROR!!", error.getDescription());
-//                        }
-//
-//                        @Override
-//                        public void onReschedule(String requestId, ErrorInfo error) {
-//
-//                        }
-//                    }).dispatch();
+                                    .resourceType("video").generate(publicId+".gif");
+//                            end convert photo to gif using cloudinary
 
-            //end upload photo using cloudinary
+                        }
 
-            //obtain Uri of GIF
+                        @Override
+                        public void onError(String requestId, ErrorInfo error) {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(ChatsPrivateActivity.this, "Upload Error", Toast.LENGTH_SHORT).show();
+                            Log.v("ERROR!!", error.getDescription());
+                        }
+
+                        @Override
+                        public void onReschedule(String requestId, ErrorInfo error) {
+
+                        }
+                    }).dispatch();
+
+//            end upload photo using cloudinary
+
+//            obtain Uri of GIF
 //            imageUri = Uri.parse(gifUrl);
+
 
 
             Intent addGIFIntent = new Intent(ChatsPrivateActivity.this, AddGIFActivity.class);
