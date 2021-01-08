@@ -325,7 +325,7 @@ public class Score extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, Category.class);
+        Intent intent = new Intent(this, MainActivityLearning.class);
         startActivity(intent);
     }
 

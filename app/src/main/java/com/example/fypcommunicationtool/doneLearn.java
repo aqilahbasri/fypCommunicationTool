@@ -79,4 +79,11 @@ public class doneLearn extends AppCompatActivity implements View.OnClickListener
         Intent intent = new Intent(doneLearn.this, LearnBGM.class);
         stopService(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivityLearning.class);
+        startActivity(intent);
+    }
 }

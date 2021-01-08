@@ -38,7 +38,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="68dp"
         android:layout_marginBottom="53dp"
-        android:background="@drawable/answerbtn"
+        android:background="@drawable/btngreen"
         android:text="Back to Home"
         android:textAlignment="center"
         android:textColor="@android:color/white"
