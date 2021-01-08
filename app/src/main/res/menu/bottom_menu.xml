@@ -5,7 +5,7 @@
     <item
         android:id="@+id/chat_menu"
         android:title="Chats"
-        android:icon="@drawable/chat">
+        android:icon="@drawable/ic_chatline">
     </item>
 
     <item
