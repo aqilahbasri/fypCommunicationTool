@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         currentUser = mAuth.getCurrentUser();
         RootRef = FirebaseDatabase.getInstance().getReference();
 
+
 //        mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
 //        setSupportActionBar(mToolbar);
 //        getSupportActionBar().setTitle("Communication");
