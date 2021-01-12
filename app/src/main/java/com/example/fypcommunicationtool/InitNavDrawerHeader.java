@@ -31,11 +31,13 @@ public class InitNavDrawerHeader {
     public void initHeader() {
         // New code for navDrawer userImage+name starts here
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = user.getUid();
+
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         CircleImageView userImage = navigationView.getHeaderView(0).findViewById(R.id.user_image);
         TextView fullNameTxt = navigationView.getHeaderView(0).findViewById(R.id.user_fullName);
         TextView userEmailTxt = navigationView.getHeaderView(0).findViewById(R.id.user_email);
-        String userId = user.getUid();
+
 
         usersRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

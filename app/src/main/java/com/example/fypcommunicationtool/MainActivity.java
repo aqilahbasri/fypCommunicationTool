@@ -90,7 +90,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        new InitNavDrawerHeader(navigationView, TAG);
+        if (currentUser != null)
+            new InitNavDrawerHeader(navigationView, TAG);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
