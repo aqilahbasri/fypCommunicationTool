@@ -106,6 +106,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case R.id.nav_assessment:
                         goToMainAssessmentModule();
                         break;
+                    case R.id.sign_out:
+                        goToLoginActivity();
+                        break;
+                    case R.id.setting_profile:
+                        goToSettingActivity();
+                        break;
                 }
                 drawer.closeDrawer(GravityCompat.END);
                 return true;
@@ -178,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.END)) {
             drawer.closeDrawer(GravityCompat.END);
         } else {
-            Intent intent = new Intent(this, MainActivityLearning.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
 
@@ -248,16 +254,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onStart();
 
         if(currentUser == null){
-            SendUserToLoginActivity();
+            goToLoginActivity();
         }
     }
 
-    private void SendUserToLoginActivity() {
+    private void goToLoginActivity() {
         Intent loginIntent = new Intent(com.example.fypcommunicationtool.MainActivity.this, LoginActivity.class);
         startActivity(loginIntent);
     }
 
-    private void SendUserToSettingActivity() {
+    private void goToSettingActivity() {
         Intent settingIntent = new Intent(com.example.fypcommunicationtool.MainActivity.this, SettingActivity.class);
         startActivity(settingIntent);
     }

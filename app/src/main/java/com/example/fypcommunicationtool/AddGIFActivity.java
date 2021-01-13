@@ -153,6 +153,7 @@ public class AddGIFActivity extends AppCompatActivity {
         gifDetails.put("malayCaption", inputMalayCaption);
         gifDetails.put("time", saveCurrentTime);
         gifDetails.put("date", saveCurrentDate);
+        gifDetails.put("messagePushID", messagePushID);
 
         RootRef.child("PendingGIF").child(messageSenderID).child(messagePushID).setValue(gifDetails)
                 .addOnCompleteListener(new OnCompleteListener() {

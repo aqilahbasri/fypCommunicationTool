@@ -8,13 +8,12 @@ public class PendingGIF {
     private String receiver;
     private String sender;
     private String time;
-
-
+    private String messagePushID;
 
     public PendingGIF() {
     }
 
-    public PendingGIF(String engCaption, String malayCaption, String imageUrl, String date, String receiver, String sender, String time) {
+    public PendingGIF(String engCaption, String malayCaption, String imageUrl, String date, String receiver, String sender, String time, String messagePushID) {
         this.engCaption = engCaption;
         this.date = date;
         this.imageUrl = imageUrl;
@@ -22,7 +21,7 @@ public class PendingGIF {
         this.receiver = receiver;
         this.time = time;
         this.sender = sender;
-
+        this.messagePushID = messagePushID;
     }
 
     public String getEngCaption() {
@@ -82,5 +81,11 @@ public class PendingGIF {
     }
 
 
+    public String getMessagePushID() {
+        return messagePushID;
+    }
 
+    public void setMessagePushID(String messagePushID) {
+        this.messagePushID = messagePushID;
+    }
 }

@@ -80,6 +80,12 @@ public class MainActivityLearning extends AppCompatActivity {
                     case R.id.nav_assessment:
                         goToMainAssessmentModule();
                         break;
+                    case R.id.sign_out:
+                        goToLoginActivity();
+                        break;
+                    case R.id.setting_profile:
+                        goToSettingActivity();
+                        break;
                 }
                 drawer.closeDrawer(GravityCompat.END);
                 return true;
@@ -123,6 +129,16 @@ public class MainActivityLearning extends AppCompatActivity {
     private void goToMainActivity() {
         Intent mainCommunicationModule = new Intent(this, MainActivity.class);
         startActivity(mainCommunicationModule);
+    }
+
+    private void goToLoginActivity() {
+        Intent loginIntent = new Intent(this, LoginActivity.class);
+        startActivity(loginIntent);
+    }
+
+    private void goToSettingActivity() {
+        Intent settingIntent = new Intent(this, SettingActivity.class);
+        startActivity(settingIntent);
     }
 
     private void loadFragment(Fragment fragment) {

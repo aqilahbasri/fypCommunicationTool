@@ -73,6 +73,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 goToMainAssessmentModule();
 //                selectedFragment = new AssessmentHomeFragment();
                 break;
+            case R.id.sign_out:
+                goToLoginActivity();
+                break;
+            case R.id.setting_profile:
+                goToSettingActivity();
+                break;
         }
 
         drawer.closeDrawer(GravityCompat.END);
@@ -92,6 +98,16 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     private void goToMainAssessmentModule() {
         Intent mainAssessmentModule = new Intent(com.example.fypcommunicationtool.BaseActivity.this, AssessmentMenuActivity.class);
         startActivity(mainAssessmentModule);
+    }
+
+    private void goToLoginActivity() {
+        Intent loginIntent = new Intent(this, LoginActivity.class);
+        startActivity(loginIntent);
+    }
+
+    private void goToSettingActivity() {
+        Intent settingIntent = new Intent(this, SettingActivity.class);
+        startActivity(settingIntent);
     }
 
     //For actions when PHONE back button is pressed

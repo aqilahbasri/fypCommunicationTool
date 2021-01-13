@@ -60,8 +60,6 @@ public class ProfileActivity extends AppCompatActivity
         RetrieveUserInfo();
     }
 
-
-
     private void RetrieveUserInfo()
     {
         UserRef.child(receiverUserID).addValueEventListener(new ValueEventListener() {
@@ -101,9 +99,6 @@ public class ProfileActivity extends AppCompatActivity
             }
         });
     }
-
-
-
 
     private void ManageChatRequests()
     {
@@ -201,8 +196,6 @@ public class ProfileActivity extends AppCompatActivity
         }
     }
 
-
-
     private void RemoveSpecificContact()
     {
         ContactsRef.child(senderUserID).child(receiverUserID)
@@ -234,8 +227,6 @@ public class ProfileActivity extends AppCompatActivity
                     }
                 });
     }
-
-
 
     private void AcceptChatRequest()
     {
@@ -288,9 +279,6 @@ public class ProfileActivity extends AppCompatActivity
                 });
     }
 
-
-
-
     private void CancelChatRequest()
     {
         ChatRequestRef.child(senderUserID).child(receiverUserID)
@@ -322,9 +310,6 @@ public class ProfileActivity extends AppCompatActivity
                     }
                 });
     }
-
-
-
 
     private void SendChatRequest()
     {

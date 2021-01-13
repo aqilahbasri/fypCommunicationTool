@@ -25,4 +25,14 @@
 <!--            android:title="Administration" />-->
     </group>
 
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:title="Sign out"
+            android:id="@+id/sign_out" />
+        <item
+            android:title="Setting"
+            android:id="@+id/setting_profile" />
+    </group>
+
 </menu>
