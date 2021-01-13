@@ -53,7 +53,6 @@ public class AddGIFActivity extends AppCompatActivity {
     private EditText malayCaption, engCaption;
     private FloatingActionButton sendButton;
 
-    private Uri imageUri;
     private String saveCurrentTime, saveCurrentDate, imageId;
 
 
@@ -65,10 +64,9 @@ public class AddGIFActivity extends AppCompatActivity {
         messageReceiverID = getIntent().getExtras().get("visit_user_id").toString();
         messageReceiverName = getIntent().getExtras().get("visit_user_name").toString();
         messageReceiverImage = getIntent().getExtras().get("visit_image").toString();
-        imageUrl = getIntent().getExtras().get("imageUrl").toString();
+        imageUrl = getIntent().getExtras().get("imageUri").toString();
 
         mAuth = FirebaseAuth.getInstance();
-//        mAuth = FirebaseAuth.getInstance();
         messageSenderID = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
         FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
@@ -76,13 +74,9 @@ public class AddGIFActivity extends AppCompatActivity {
 
         IntializeControllers();
 
-        imageUri = ChatsPrivateActivity.imageUri;
-        imageId = ChatsPrivateActivity.imageID;
-
         capturedImage.loadUrl(imageUrl);
         capturedImage.getSettings().setLoadWithOverviewMode(true);
         capturedImage.getSettings().setUseWideViewPort(true);
-//        capturedImage.setImageURI(imageUri);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,13 +107,6 @@ public class AddGIFActivity extends AppCompatActivity {
             }
         });
 
-//        backButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-
     }
 
     @SuppressLint("WrongViewCast")
@@ -144,16 +131,43 @@ public class AddGIFActivity extends AppCompatActivity {
         String inputEngCaption = engCaption.getText().toString();
         String inputMalayCaption = malayCaption.getText().toString();
 
-
         Intent intent = getIntent();
         String messagePushID = intent.getStringExtra("messagePushID");
         HashMap<String, String> gifDetails = (HashMap<String, String>) intent.getSerializableExtra("gifDetails");
+        Uri uri = Uri.parse(intent.getStringExtra("imageUri"));
 
         gifDetails.put("engCaption", inputEngCaption);
         gifDetails.put("malayCaption", inputMalayCaption);
         gifDetails.put("time", saveCurrentTime);
         gifDetails.put("date", saveCurrentDate);
-        gifDetails.put("messagePushID", messagePushID);
+
+        StorageReference filePath = PendingGIFImagesRef.child(messagePushID + ".gif");
+
+        filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                final Task<Uri> firebaseUri = taskSnapshot.getStorage().getDownloadUrl();
+                firebaseUri.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String downloadUrl = uri.toString();
+
+                        RootRef.child("PendingGIF").child(messageSenderID).child(messagePushID).child("gifValue").setValue(downloadUrl)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(com.example.fypcommunicationtool.AddGIFActivity.this, "Image uploaded to Database", Toast.LENGTH_LONG).show();
+                                        }
+                                        else{
+
+                                        }
+                                    }
+                                });
+                    }
+                });
+            }
+        });
 
         RootRef.child("PendingGIF").child(messageSenderID).child(messagePushID).setValue(gifDetails)
                 .addOnCompleteListener(new OnCompleteListener() {
@@ -162,15 +176,12 @@ public class AddGIFActivity extends AppCompatActivity {
                     {
                         if (task.isSuccessful())
                         {
-//                            loadingBar.dismiss();
                             Toast.makeText(com.example.fypcommunicationtool.AddGIFActivity.this, "Image uploaded", Toast.LENGTH_LONG).show();
                         }
                         else
                         {
-//                            loadingBar.dismiss();
                             Toast.makeText(com.example.fypcommunicationtool.AddGIFActivity.this, "Error", Toast.LENGTH_LONG).show();
                         }
-//                        MessageInputText.setText("");
                     }
                 });
         SendUserToPrivateChatActivity();

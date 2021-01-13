@@ -109,8 +109,6 @@ public class ChatsPrivateActivity extends AppCompatActivity implements Runnable
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats_private);
 
-        MediaManager.init(this);
-
         progressBar = findViewById(R.id.progress_bar);
 
         mAuth = FirebaseAuth.getInstance();
@@ -156,11 +154,8 @@ public class ChatsPrivateActivity extends AppCompatActivity implements Runnable
 
                         }
                         if(which == 1){
-//                            Toast.makeText(getApplicationContext(),"Camera..",Toast.LENGTH_LONG).show();
                             checker = "gif";
                             checkCameraPermission();
-//                            openCamera();
-
                         }
                         if(which == 2){
                             checker = "docx";
@@ -340,174 +335,28 @@ public class ChatsPrivateActivity extends AppCompatActivity implements Runnable
 
         //Record GIF
         if (requestCode == 440 && resultCode == RESULT_OK  && data != null && data.getData() != null){
-            Uri selectedVideo = data.getData();
 
             DatabaseReference userMessageKeyRef = RootRef.child("PendingGIF").child(messageSenderID).push();
             final String messagePushID = userMessageKeyRef.getKey();
-
-            //start upload photo using cloudinary
-            MediaManager.get()
-                    .upload(selectedVideo)
-                    .option("resource type", "video")
-                    .unsigned("yotukgxu")
-                    .callback(new UploadCallback() {
-                        @Override
-                        public void onStart(String requestId) {
-                               Toast.makeText(ChatsPrivateActivity.this,"Upload Started...", Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.VISIBLE);
-
-                        }
-
-                        @Override
-                        public void onProgress(String requestId, long bytes, long totalBytes) {
-
-                        }
-
-                        @Override
-                        public void onSuccess(String requestId, Map resultData) {
-                            String publicId = resultData.get("public_id").toString();
-                            progressBar.setVisibility(View.GONE);
-
-//                            start convert photo to gif using cloudinary
-                            gifUrl = MediaManager.get().url().resourceType("video")
-                                    .transformation(new Transformation().videoSampling("25")
-                                     .delay("200").height(200).effect("loop:10").crop("scale"))
-//                                    .resourceType("video").generate(messagePushID+".gif");
-                                    .resourceType("video").generate(publicId+".gif");
-//                            end convert photo to gif using cloudinary
-
-                        }
-
-                        @Override
-                        public void onError(String requestId, ErrorInfo error) {
-                            progressBar.setVisibility(View.GONE);
-                            Toast.makeText(ChatsPrivateActivity.this, "Upload Error", Toast.LENGTH_SHORT).show();
-                            Log.v("ERROR!!", error.getDescription());
-                        }
-
-                        @Override
-                        public void onReschedule(String requestId, ErrorInfo error) {
-
-                        }
-                    }).dispatch();
-
-//            end upload photo using cloudinary
-
-//            obtain Uri of GIF
-//            imageUri = Uri.parse(gifUrl);
-
-
 
             Intent addGIFIntent = new Intent(ChatsPrivateActivity.this, AddGIFActivity.class);
             HashMap<String, String> gifDetails = new HashMap<>();
 
             if (imageUri!=null){
 
+                gifDetails.put("sender",messageSenderID);
+                gifDetails.put("receiver", messageReceiverID);
+                gifDetails.put("messagePushID", messagePushID);
 
-//               String[] cmd = {"-i"
-//                            , selectedImagePath
-//                            , "Image.gif"};
-//               conversion(cmd);
+                addGIFIntent.putExtra("imageUri", imageUri.toString());
+                addGIFIntent.putExtra("messagePushID", messagePushID);
+                addGIFIntent.putExtra("gifDetails", gifDetails);
+                addGIFIntent.putExtra("visit_user_id", messageReceiverID);
+                addGIFIntent.putExtra("visit_user_name", messageReceiverName);
+                addGIFIntent.putExtra("visit_image", messageReceiverImage);
 
-                imageID = messagePushID;
-
-                StorageReference filePath = PendingGIFImagesRef.child(messagePushID + ".gif");
-
-                filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        final Task<Uri> firebaseUri = taskSnapshot.getStorage().getDownloadUrl();
-                        firebaseUri.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                String downloadUrl = uri.toString();
-
-//                                GrabzItClient grabzIt = new GrabzItClient("NGY0ZDhjNGUzYTA0NDIxMjlmMGYzZGUzYWZjYzBkZGI=", "Pz8/dT8BTD8/Pz8/Pz8/XVU/PxE/Dz85VQggPxkfPx8=");
-//                                try {
-//                                    grabzIt.URLToAnimation(downloadUrl);
-//                                    String filepath = "images/result.jpg";
-//                                    grabzIt.SaveTo(filepath);
-//                                } catch (Exception e) {
-//                                    e.printStackTrace();
-//                                }
-                                RootRef.child("PendingGIF").child(messageSenderID).child(messagePushID).child("gifValue").setValue(downloadUrl)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
-                                                    gifDetails.put("imageUrl", downloadUrl);
-                                                    gifDetails.put("sender",messageSenderID);
-                                                    gifDetails.put("receiver", messageReceiverID);
-
-                                                    RootRef.child("PendingGIF").child(messageSenderID).child(messagePushID).setValue(gifDetails);
-                                                    addGIFIntent.putExtra("imageUrl", downloadUrl);
-                                                    addGIFIntent.putExtra("messagePushID", messagePushID);
-                                                    addGIFIntent.putExtra("gifDetails", gifDetails);
-                                                    addGIFIntent.putExtra("visit_user_id", messageReceiverID);
-                                                    addGIFIntent.putExtra("visit_user_name", messageReceiverName);
-                                                    addGIFIntent.putExtra("visit_image", messageReceiverImage);
-
-                                                    startActivity(addGIFIntent);
-                                                }
-                                                else{
-
-                                                }
-                                            }
-                                        });
-                            }
-                        });
-                    }
-                });
+                startActivity(addGIFIntent);
             }
-        }
-    }
-
-    private String getPath(Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if (cursor != null) {
-            // HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
-            // THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } else
-            return null;
-    }
-
-    public void conversion(String[] cmd) {
-        FFmpeg ffmpeg = FFmpeg.getInstance(this);
-
-        try {
-
-
-            // to execute "ffmpeg -version" command you just need to pass "-version"
-            ffmpeg.execute(cmd, new ExecuteBinaryResponseHandler() {
-
-                @Override
-                public void onStart() {
-                }
-
-                @Override
-                public void onProgress(String message) {
-                }
-
-                @Override
-                public void onFailure(String message) {
-                }
-
-                @Override
-                public void onSuccess(String message) {
-                }
-
-                @Override
-                public void onFinish() {
-                }
-            });
-        } catch (FFmpegCommandAlreadyRunningException e) {
-            // Handle if FFmpeg is already running
-            e.printStackTrace();
         }
     }
 
@@ -594,16 +443,13 @@ public class ChatsPrivateActivity extends AppCompatActivity implements Runnable
     }
 
     private void checkCameraPermission() {
-//        Toast.makeText(getApplicationContext(),"Inside here",Toast.LENGTH_LONG).show();
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(getApplicationContext(),"Camera 1..",Toast.LENGTH_LONG).show();
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA},
                     231);
 
         } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(getApplicationContext(),"Camera 2..",Toast.LENGTH_LONG).show();
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     232);
