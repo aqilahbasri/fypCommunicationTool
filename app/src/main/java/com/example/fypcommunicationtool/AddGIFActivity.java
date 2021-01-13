@@ -152,24 +152,49 @@ public class AddGIFActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         String downloadUrl = uri.toString();
 
-                        RootRef.child("PendingGIF").child(messageSenderID).child(messagePushID).child("gifValue").setValue(downloadUrl)
+                        RootRef.child("PendingGIF").child(messageSenderID).child(messagePushID).child("imageUrl").setValue(downloadUrl)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
-                                            Toast.makeText(com.example.fypcommunicationtool.AddGIFActivity.this, "Image uploaded to Database", Toast.LENGTH_LONG).show();
+//                                            RootRef.child("PendingGIFLibrary").child(messagePushID).child("imageUrl").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                @Override
+//                                                public void onComplete(@NonNull Task<Void> task) {
+//                                                    if(task.isSuccessful()) {
+                                                        Toast.makeText(com.example.fypcommunicationtool.AddGIFActivity.this, "Image uploaded to Database", Toast.LENGTH_LONG).show();
+//                                                    }
+//                                                }
+//                                            });
                                         }
                                         else{
 
                                         }
                                     }
                                 });
+                        RootRef.child("PendingGIFLibrary").child(messagePushID).child("imageUrl").setValue(downloadUrl);
+
                     }
                 });
             }
         });
 
         RootRef.child("PendingGIF").child(messageSenderID).child(messagePushID).setValue(gifDetails)
+                .addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task)
+                    {
+                        if (task.isSuccessful())
+                        {
+                            Toast.makeText(com.example.fypcommunicationtool.AddGIFActivity.this, "Image uploaded", Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(com.example.fypcommunicationtool.AddGIFActivity.this, "Error", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+        RootRef.child("PendingGIFLibrary").child(messagePushID).setValue(gifDetails)
                 .addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task)
