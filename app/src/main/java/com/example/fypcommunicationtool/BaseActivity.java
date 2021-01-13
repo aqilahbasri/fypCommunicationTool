@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, FragmentManager.OnBackStackChangedListener {
 
@@ -25,6 +27,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     private TextView actionBarTitle;
     Boolean doubleBackToExitPressedOnce = false;
     DrawerLayout drawer;
+    private FirebaseUser currentUser;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
         actionBarTitle = findViewById(R.id.toolbar_title);
 
@@ -74,6 +81,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 //                selectedFragment = new AssessmentHomeFragment();
                 break;
             case R.id.sign_out:
+                mAuth.signOut();
                 goToLoginActivity();
                 break;
             case R.id.setting_profile:

@@ -76,7 +76,7 @@ import com.cloudinary.android.callback.UploadCallback;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class ChatsPrivateActivity extends AppCompatActivity
+public class ChatsPrivateActivity extends AppCompatActivity implements Runnable
 {
     private String messageReceiverID, messageReceiverName, messageReceiverImage, messageSenderID;
     private TextView userName, userLastSeen;
@@ -101,6 +101,8 @@ public class ChatsPrivateActivity extends AppCompatActivity
     public static String imageID, gifUrl;
     private DownloadManager downloadManager;
     private ProgressBar progressBar;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -633,6 +635,11 @@ public class ChatsPrivateActivity extends AppCompatActivity
         super.onBackPressed();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
+
+    }
+
+    @Override
+    public void run() {
 
     }
 }

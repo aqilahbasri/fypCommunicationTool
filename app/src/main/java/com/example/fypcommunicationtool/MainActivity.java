@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         goToMainAssessmentModule();
                         break;
                     case R.id.sign_out:
+                        mAuth.signOut();
                         goToLoginActivity();
                         break;
                     case R.id.setting_profile:
@@ -260,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void goToLoginActivity() {
         Intent loginIntent = new Intent(com.example.fypcommunicationtool.MainActivity.this, LoginActivity.class);
+        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginIntent);
     }
 

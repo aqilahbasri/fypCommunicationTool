@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivityLearning extends AppCompatActivity {
 
@@ -26,6 +28,9 @@ public class MainActivityLearning extends AppCompatActivity {
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private TextView actionBarTitle;
+
+    private FirebaseUser currentUser;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class MainActivityLearning extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         actionBarTitle = findViewById(R.id.toolbar_title);
-        actionBarTitle.setText("LEARNING");
+        actionBarTitle.setText("Learning");
         ImageButton rightMenu = findViewById(R.id.ic_right_menu);
         rightMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +86,7 @@ public class MainActivityLearning extends AppCompatActivity {
                         goToMainAssessmentModule();
                         break;
                     case R.id.sign_out:
+                        mAuth.signOut();
                         goToLoginActivity();
                         break;
                     case R.id.setting_profile:
