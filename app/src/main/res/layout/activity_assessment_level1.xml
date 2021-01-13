@@ -1,93 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AssessmentLevel1Activity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".AssessmentLevel1Activity">
 
-    <GridLayout
+    <!--    Timer-->
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:textSize="16sp"
+        android:textStyle="italic|bold" />
+
+    <!--    Section name-->
+    <TextView
+        android:id="@+id/sectionName"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:alignmentMode="alignMargins"
-        android:columnOrderPreserved="false"
-        android:columnCount="1"
-        android:rowCount="1"
-        android:paddingTop="25dp"
-        android:paddingBottom="0dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timer"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="28sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/timer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:textStyle="italic|bold"
-            android:textSize="16sp"
-            />
-
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:textColor="?attr/colorAccent"
-            android:text="Section 1"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-        <TextView
-            android:layout_marginTop="20dp"
-            android:id="@+id/question"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-
-    </GridLayout>
-
-    <GridLayout
+    <!--    Question-->
+    <TextView
+        android:id="@+id/question"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:alignmentMode="alignMargins"
-        android:columnOrderPreserved="false"
-        android:columnCount="1"
-        android:rowCount="1"
-        android:paddingTop="25dp"
-        android:paddingBottom="25dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sectionName"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/question_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </GridLayout>
-
-    <GridLayout
+<!--    GIF-->
+    <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardview_id"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:alignmentMode="alignMargins"
-        android:columnOrderPreserved="false"
-        android:columnCount="1"
-        android:rowCount="1"
-        android:paddingTop="25dp"
-        android:paddingBottom="25dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp">
+        android:layout_height="270dp"
+        android:layout_below="@id/question"
+        android:layout_marginVertical="50dp"
+        android:clickable="false"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:foregroundGravity="center"
+        cardview:cardCornerRadius="4dp">
 
-        <EditText
-            android:id="@+id/answer"
+        <WebView
+            android:id="@+id/image_question"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textCapCharacters"
-            android:autofillHints="Your answer here..."
-            android:background="#C8C8C8"/>
+            android:layout_margin="20dp"
+            android:background="@drawable/gradientbackground"
+            android:paddingVertical="15dp" />
+    </androidx.cardview.widget.CardView>
 
-    </GridLayout>
+<!--    Answer-->
+    <EditText
+        android:id="@+id/answer"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:autofillHints="Your answer here..."
+        android:background="#C8C8C8"
+        android:inputType="text"
+        android:layout_below="@id/cardview_id"/>
 
-</LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/btnwhitebg"
+        android:src="@drawable/backbtn"
+        android:tint="@android:color/white"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/nextBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/nextbtn"
+        android:tint="@android:color/white"/>
+
+</RelativeLayout>

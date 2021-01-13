@@ -1,60 +1,32 @@
 package com.example.fypcommunicationtool;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link StartAssessmentFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class StartAssessmentFragment extends Fragment implements View.OnClickListener {
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class StartAssessmentFragment extends Fragment {
+
+    private static final String TAG = "ManageQuestionsFgmt";
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private TestSettingsLevelAdapter adapter;
 
     public StartAssessmentFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StartAssessmentFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static StartAssessmentFragment newInstance(String param1, String param2) {
-        StartAssessmentFragment fragment = new StartAssessmentFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -63,39 +35,58 @@ public class StartAssessmentFragment extends Fragment implements View.OnClickLis
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_start_assessment, container, false);
 
-        CardView level1 = view.findViewById(R.id.level1);
-        CardView level2 = view.findViewById(R.id.level2);
-        CardView level3 = view.findViewById(R.id.level3);
+        final RecyclerView mRecyclerView = view.findViewById(R.id.list_name);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
-        level1.setOnClickListener(this);
-        level2.setOnClickListener(this);
-        level3.setOnClickListener(this);
+        CollectionReference reference = db.collection("AssessmentLevel");
+        Query query = reference.orderBy("levelName");
 
+        FirestoreRecyclerOptions<TestSettingsLevelModel> options = new FirestoreRecyclerOptions.Builder<TestSettingsLevelModel>()
+                .setQuery(query, TestSettingsLevelModel.class).build();
+
+        adapter = new TestSettingsLevelAdapter(options);
+        adapter.setActivity(getActivity());
+        mRecyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+//        CardView level1 = view.findViewById(R.id.level1);
+//        CardView level2 = view.findViewById(R.id.level2);
+//        CardView level3 = view.findViewById(R.id.level3);
+//
+//        level1.setOnClickListener(this);
+//        level2.setOnClickListener(this);
+//        level3.setOnClickListener(this);
         return view;
     }
 
+    /*
     //@Override
     public void onClick(View v) {
         Fragment selectedFragment = null;
         switch (v.getId()) {
             case R.id.level1:
-                selectedFragment = new AssessmentInstructionsFragment();
+                selectedFragment = new Level1QuestionsFragment();
                 break;
-//            case R.id.level2:
-//                selectedFragment = new AssessmentMenu_Fragment();
-//                break;
-//            case R.id.level3:
-//                selectedFragment = new AdministrationMenu_Fragment();
-//                break;
         }
-
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(null).commit();
-    }
+    } */
 
     //Set action bar title
     @Override
     public void onResume() {
         super.onResume();
         ((BaseActivity) getActivity()).setTitle("Select Level");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 }
