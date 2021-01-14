@@ -5,17 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".AssessmentLevel1Activity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <!--    Timer-->
-    <TextView
+    <LinearLayout
         android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
         android:layout_alignParentEnd="true"
-        android:textSize="16sp"
-        android:textStyle="italic|bold" />
+        android:layout_marginTop="@dimen/default_gap"
+        android:layout_marginEnd="25dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_timer_24"
+            app:tint="@color/colorPrimaryDark" />
+
+        <TextView
+            android:id="@+id/timerTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_gap"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <!--    Section name-->
     <TextView
@@ -25,7 +50,8 @@
         android:layout_below="@id/timer"
         android:textColor="?attr/colorPrimary"
         android:textSize="28sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginHorizontal="25dp"/>
 
     <!--    Question-->
     <TextView
@@ -33,61 +59,112 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sectionName"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginHorizontal="25dp"/>
 
-<!--    GIF-->
+    <!--    GIF-->
     <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cardview_id"
-        android:layout_width="match_parent"
-        android:layout_height="270dp"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
         android:layout_below="@id/question"
-        android:layout_marginVertical="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="30dp"
+        android:background="@color/colorPrimary"
         android:clickable="false"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:foregroundGravity="center"
         cardview:cardCornerRadius="4dp">
 
         <WebView
             android:id="@+id/image_question"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_margin="20dp"
             android:background="@drawable/gradientbackground"
             android:paddingVertical="15dp" />
     </androidx.cardview.widget.CardView>
 
-<!--    Answer-->
+    <!--    Answer Text-->
+    <TextView
+        android:id="@+id/answerTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardview_id"
+        android:layout_marginHorizontal="25dp"
+        android:text="Answer:"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!--    Answer-->
     <EditText
         android:id="@+id/answer"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:autofillHints="Your answer here..."
+        android:layout_height="75dp"
+        android:layout_below="@id/answerTextView"
+        android:layout_marginHorizontal="25dp"
         android:background="#C8C8C8"
+        android:gravity="top"
+        android:hint="Your answer here..."
         android:inputType="text"
-        android:layout_below="@id/cardview_id"/>
+        android:padding="@dimen/default_gap" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/backBtn"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/btnwhitebg"
-        android:src="@drawable/backbtn"
-        android:tint="@android:color/white"/>
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginBottom="25dp"
+        android:orientation="horizontal"
+        android:gravity="bottom">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/nextBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginBottom="50dp"
-        android:src="@drawable/nextbtn"
-        android:tint="@android:color/white"/>
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/roundbtnpurple"
+            android:src="@drawable/backbtn"
+            android:tint="@android:color/white"
+            android:elevation="4dp"/>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/determinateBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:progress="25"
+                android:progressBackgroundTint="#ADEAF1"
+                android:progressTint="@color/colorPrimaryDark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:text="test"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/nextBtn"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/roundbtnpurple"
+            android:src="@drawable/nextbtn"
+            android:tint="@android:color/white"
+            android:elevation="4dp"/>
+
+    </RelativeLayout>
 </RelativeLayout>

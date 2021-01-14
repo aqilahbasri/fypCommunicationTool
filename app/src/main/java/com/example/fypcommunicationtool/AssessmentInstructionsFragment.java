@@ -51,7 +51,6 @@ public class AssessmentInstructionsFragment extends Fragment implements View.OnC
         if (checkBox.isChecked()) {
             Intent i = new Intent(getActivity(), AssessmentLevel1Activity.class);
             i.putExtra("docReference", reference);
-            Log.e(TAG, "ref: " + reference);
             startActivity(i);
         }
 
