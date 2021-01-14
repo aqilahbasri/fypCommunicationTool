@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,6 +72,7 @@ public class RequestListFragment extends Fragment
             protected void onBindViewHolder(@NonNull final RequestsViewHolder holder, int position, @NonNull Contacts model) {
                 holder.itemView.findViewById(R.id.request_accept_btn).setVisibility(View.VISIBLE);
                 holder.itemView.findViewById(R.id.request_cancel_btn).setVisibility(View.VISIBLE);
+                holder.chatContact.setVisibility(View.INVISIBLE);
 
                 final String list_user_id = getRef(position).getKey();
                 DatabaseReference getTypeRef = getRef(position).child("request_type").getRef();
@@ -262,6 +264,7 @@ public class RequestListFragment extends Fragment
         TextView userName, userFullName;
         CircleImageView profileImage;
         Button AcceptButton, CancelButton;
+        ImageView chatContact;
 
         public RequestsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -271,6 +274,7 @@ public class RequestListFragment extends Fragment
             profileImage = itemView.findViewById(R.id.users_profile_image);
             AcceptButton = itemView.findViewById(R.id.request_accept_btn);
             CancelButton = itemView.findViewById(R.id.request_cancel_btn);
+            chatContact = itemView.findViewById(R.id.contact_chat);
         }
     }
 }

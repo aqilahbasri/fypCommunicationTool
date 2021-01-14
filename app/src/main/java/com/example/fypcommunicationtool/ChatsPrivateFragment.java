@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -75,6 +76,8 @@ public class ChatsPrivateFragment extends Fragment
                 {
                     final String usersIDs = getRef(position).getKey();
                     final String[] retImage = {"default_image"};
+
+                    holder.chatContact.setVisibility(View.INVISIBLE);
 
                     UsersRef.child(usersIDs).addValueEventListener(new ValueEventListener() {
                         @Override
@@ -148,6 +151,7 @@ public class ChatsPrivateFragment extends Fragment
     public static class  ChatsViewHolder extends RecyclerView.ViewHolder {
         CircleImageView profileImage;
         TextView userFullName, userName;
+        ImageView onlineIcon, chatContact;
 
         public ChatsViewHolder(@NonNull View itemView)
         {
@@ -156,6 +160,8 @@ public class ChatsPrivateFragment extends Fragment
             profileImage = itemView.findViewById(R.id.users_profile_image);
             userFullName = itemView.findViewById(R.id.user_fullName);
             userName = itemView.findViewById(R.id.user_profile_name);
+            chatContact = (ImageView) itemView.findViewById(R.id.contact_chat);
+
         }
     }
 }

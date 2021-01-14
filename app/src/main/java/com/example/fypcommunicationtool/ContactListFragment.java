@@ -76,6 +76,8 @@ public class ContactListFragment extends Fragment
                 final String userIDs = getRef(position).getKey();
 
                 UsersRef.child(userIDs).addValueEventListener(new ValueEventListener() {
+                    private String userImage, profileName, profileFullName;
+
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot)
                     {
@@ -109,9 +111,9 @@ public class ContactListFragment extends Fragment
 
                             if (dataSnapshot.hasChild("profileImage"))
                             {
-                                String userImage = dataSnapshot.child("profileImage").getValue().toString();
-                                String profileName = dataSnapshot.child("userID").getValue().toString();
-                                String profileFullName = dataSnapshot.child("fullName").getValue().toString();
+                                userImage = dataSnapshot.child("profileImage").getValue().toString();
+                                profileName = dataSnapshot.child("userID").getValue().toString();
+                                profileFullName = dataSnapshot.child("fullName").getValue().toString();
 
                                 holder.userName.setText(profileName);
                                 holder.fullName.setText(profileFullName);
@@ -125,6 +127,17 @@ public class ContactListFragment extends Fragment
                                 holder.userName.setText(profileName);
                                 holder.fullName.setText(profileFullName);
                             }
+
+                            holder.chatContact.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent chatIntent = new Intent(getContext(), ChatsPrivateActivity.class);
+                                    chatIntent.putExtra("visit_user_id", userIDs);
+                                    chatIntent.putExtra("visit_user_name", profileName);
+                                    chatIntent.putExtra("visit_image", userImage);
+                                    startActivity(chatIntent);
+                                }
+                            });
                         }
                     }
 
@@ -133,6 +146,7 @@ public class ContactListFragment extends Fragment
 
                     }
                 });
+
             }
 
             @NonNull
@@ -181,7 +195,7 @@ public class ContactListFragment extends Fragment
     public static class ContactsViewHolder extends RecyclerView.ViewHolder   {
         TextView userName, fullName;
         CircleImageView profileImage;
-        ImageView onlineIcon;
+        ImageView onlineIcon, chatContact;
 
 
         public ContactsViewHolder(@NonNull View itemView)
@@ -192,6 +206,7 @@ public class ContactListFragment extends Fragment
             fullName = itemView.findViewById(R.id.user_fullName);
             profileImage = itemView.findViewById(R.id.users_profile_image);
             onlineIcon = (ImageView) itemView.findViewById(R.id.user_online_status);
+            chatContact = (ImageView) itemView.findViewById(R.id.contact_chat);
         }
     }
 }

@@ -4,15 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fypcommunicationtool.R;
@@ -52,6 +57,13 @@ public class AddGIFActivity extends AppCompatActivity {
     private WebView capturedImage;
     private EditText malayCaption, engCaption;
     private FloatingActionButton sendButton;
+    private Uri imageUri;
+
+    private WebView gifImage;
+    private Button confirmDialog;
+    private Dialog dialogBox;
+    private TextView warningDialog, warningDescriptionDialog;
+    private ImageView warningImage;
 
     private String saveCurrentTime, saveCurrentDate, imageId;
 
@@ -61,9 +73,12 @@ public class AddGIFActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_gif);
 
+        dialogBox = new Dialog(this);
+
         messageReceiverID = getIntent().getExtras().get("visit_user_id").toString();
         messageReceiverName = getIntent().getExtras().get("visit_user_name").toString();
         messageReceiverImage = getIntent().getExtras().get("visit_image").toString();
+        imageUri = getIntent().getData();
         imageUrl = getIntent().getExtras().get("imageUri").toString();
 
         mAuth = FirebaseAuth.getInstance();
@@ -140,6 +155,8 @@ public class AddGIFActivity extends AppCompatActivity {
         gifDetails.put("malayCaption", inputMalayCaption);
         gifDetails.put("time", saveCurrentTime);
         gifDetails.put("date", saveCurrentDate);
+        gifDetails.put("uri", imageUri.toString());
+
 
         StorageReference filePath = PendingGIFImagesRef.child(messagePushID + ".gif");
 
@@ -209,7 +226,25 @@ public class AddGIFActivity extends AppCompatActivity {
                         }
                     }
                 });
-        SendUserToPrivateChatActivity();
+
+        showWarningDialog();
+    }
+
+    private void showWarningDialog() {
+        dialogBox.setContentView(R.layout.custom_dialog_box);
+        warningDialog = dialogBox.findViewById(R.id.warningDialog);
+        confirmDialog = dialogBox.findViewById(R.id.confirmDialog);
+
+        confirmDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HashMap<String, String> messageDetails = (HashMap<String, String>) getIntent().getSerializableExtra("messageDetails");
+                SendUserToPrivateChatActivity();
+            }
+        });
+
+        dialogBox.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogBox.show();
     }
 
     private void SendUserToPrivateChatActivity() {

@@ -348,6 +348,8 @@ public class ChatsPrivateActivity extends AppCompatActivity implements Runnable
                 gifDetails.put("receiver", messageReceiverID);
                 gifDetails.put("messagePushID", messagePushID);
 
+                addGIFIntent.setData(imageUri);
+
                 addGIFIntent.putExtra("imageUri", imageUri.toString());
                 addGIFIntent.putExtra("messagePushID", messagePushID);
                 addGIFIntent.putExtra("gifDetails", gifDetails);
