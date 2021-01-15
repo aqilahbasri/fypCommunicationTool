@@ -21,9 +21,9 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".AssessmentLevelFinish"></activity>
         <activity android:name=".ContactsToSendGIf" />
-        <activity
-            android:name=".AddGIFActivity"
-            android:parentActivityName=".ChatsPrivateActivity" /> <!-- Assessment & Admin -->
+        <activity android:name=".AddGIFActivity" android:parentActivityName=".ChatsPrivateActivity" />
+
+        <!-- Assessment & Admin -->
         <activity
             android:name=".AssessmentMenuActivity"
             android:theme="@style/AssessmentCustomTheme" />

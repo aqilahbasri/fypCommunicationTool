@@ -85,7 +85,7 @@ public class AddGIFActivity extends AppCompatActivity {
         messageSenderID = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
         FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
-        PendingGIFImagesRef = FirebaseStorage.getInstance().getReference().child("Pending GIF");
+        PendingGIFImagesRef = FirebaseStorage.getInstance().getReference().child("GIF");
 
         IntializeControllers();
 
