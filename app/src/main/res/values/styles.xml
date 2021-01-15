@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-<!--    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <!--    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#BA32AC</item>
@@ -22,6 +22,15 @@
         <item name="colorAccent">#32acba</item>
     </style>
 
+    <style name="CustomMaterialDialog" parent="Theme.AppCompat.Light.Dialog">
+        <!-- Background Color-->
+        <!--        <item name="android:background">#ffffff</item>-->
+        <!--         Text Color for title and message-->
+        <item name="colorOnSurface">@android:color/black</item>
+        <!-- Text Color for buttons -->
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+    </style>
+
     <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog"></style>
 
     <style name="timePickerTheme" parent="Theme.AppCompat.Light.Dialog">
@@ -29,7 +38,7 @@
     </style>
 
 
-<!--    kielah main learning-->
+    <!--    kielah main learning-->
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

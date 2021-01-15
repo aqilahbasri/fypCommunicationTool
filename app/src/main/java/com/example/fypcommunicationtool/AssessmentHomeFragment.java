@@ -104,7 +104,10 @@ public class AssessmentHomeFragment extends Fragment implements View.OnClickList
                 i = new Intent(getActivity(), SubmitCourseworkActivity.class);
                 startActivity(i);
                 break;
-//            case R.id.joinOnlineInterview : i = new Intent(getActivity(), StartAssessment2.class);startActivity(i); break;
+            case R.id.joinOnlineInterview:
+                i = new Intent(getActivity(), JoinInterviewActivity.class);
+                startActivity(i);
+                break;
             case R.id.applyCertificate:
                 i = new Intent(getActivity(), ApplyCertificateActivity.class);
                 startActivity(i);

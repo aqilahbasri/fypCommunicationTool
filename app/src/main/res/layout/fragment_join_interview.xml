@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".JoinInterviewFragment">
+
+    <TextView
+        android:id="@+id/sectionTitle1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_gap"
+        android:layout_marginBottom="@dimen/default_gap"
+        android:text="Application"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/container"
+        android:layout_below="@id/sectionTitle1">
+        <!--        empty-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_border"
+            android:id="@+id/applicationEmptyLayout"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/applicationTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="There are no scheduled interviews."
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/roundbtn"
+                android:text="Apply for interview"
+                android:padding="@dimen/default_gap"
+                android:textColor="@android:color/white"
+                android:layout_below="@id/applicationTxt"
+                android:layout_marginTop="@dimen/default_gap"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/applyButton"/>
+        </RelativeLayout>
+
+        <!--have application-->
+        <RelativeLayout
+            android:id="@+id/applicationFillLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_border"
+            android:visibility="invisible">
+
+            <TableLayout
+                android:id="@+id/applicationFill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/table_bottom_border"
+                    android:padding="@dimen/default_gap"
+                    android:weightSum="100">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="40"
+                        android:text="Date Applied"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:id="@+id/dateApplied"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="60"
+                        android:text="Date"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/table_bottom_border"
+                    android:padding="@dimen/default_gap"
+                    android:weightSum="100">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="40"
+                        android:text="Time Applied"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:id="@+id/timeApplied"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="60"
+                        android:text="Time"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/default_gap"
+                    android:weightSum="100">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="40"
+                        android:text="Status"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:id="@+id/statusTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="60"
+                        android:text="Awaiting confirmation"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+                </TableRow>
+
+            </TableLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+<!--    For scheduled-->
+    <TextView
+        android:id="@+id/sectionTitle2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/container"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="@dimen/default_gap"
+        android:text="Scheduled"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp" />
+
+    <!--        empty schedule-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sectionTitle2"
+        android:layout_marginTop="@dimen/default_gap"
+        android:id="@+id/scheduledLayoutEmpty"
+        android:background="@drawable/rectangle_border"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="There are no scheduled interviews."
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+
+    <!--        have scheduled-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sectionTitle2"
+        android:layout_marginTop="@dimen/default_gap"
+        android:background="@drawable/rectangle_border"
+        android:visibility="invisible"
+        android:id="@+id/scheduledLayoutFill">
+
+        <TableLayout
+            android:id="@+id/scheduledTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/table_bottom_border"
+                android:padding="@dimen/default_gap"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:text="Date Scheduled"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <TextView
+                    android:id="@+id/dateTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:text="Date"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/table_bottom_border"
+                android:padding="@dimen/default_gap"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:text="Time Scheduled"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <TextView
+                    android:id="@+id/timeTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:text="Time"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_gap"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:text="Interviewer"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <TextView
+                    android:id="@+id/interviewerTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:text="Interviewer"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+            </TableRow>
+        </TableLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_dialog_red"
+            android:text="Join interview"
+            android:padding="@dimen/default_gap"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/scheduledTable"
+            android:layout_marginTop="@dimen/default_gap"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/joinButton"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
