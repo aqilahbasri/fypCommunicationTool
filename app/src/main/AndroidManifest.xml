@@ -18,9 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".JoinInterviewActivity"></activity>
-        <activity android:name=".AssessmentLevelFinish" />
+        android:usesCleartextTraffic="true"
+        android:fullBackupContent="true"> <!--added this line sebab compiler bising-->
+
         <activity android:name=".ContactsToSendGIf" />
         <activity android:name=".AddGIFActivity" android:parentActivityName=".ChatsPrivateActivity" />
 
@@ -47,6 +47,11 @@
         <activity
             android:name=".AssessmentLevel1Activity"
             android:theme="@style/AssessmentCustomTheme" />
+        <activity android:name=".JoinInterviewActivity"
+            android:parentActivityName=".AssessmentMenuActivity"
+            android:theme="@style/AssessmentCustomTheme"/>
+        <activity android:name=".AssessmentLevelFinish" />
+
         <activity android:name=".Practicee" />
         <activity android:name=".Practice" />
         <activity android:name=".MainActivityLearning" /> <!-- <intent-filter> -->
