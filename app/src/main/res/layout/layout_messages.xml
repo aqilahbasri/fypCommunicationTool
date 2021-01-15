@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -36,6 +37,16 @@
         android:layout_margin="5dp"
         android:scaleType="centerCrop"
         />
+
+    <WebView
+        android:id="@+id/message_sender_gif_view"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="5dp"
+        android:scaleType="centerCrop"
+        tools:ignore="WebViewLayout" />
+
     <TextView
         android:id="@+id/receiver_imagetime_text"
         android:layout_width="wrap_content"
@@ -75,6 +86,16 @@
         android:layout_marginTop="13dp"
         android:scaleType="centerCrop"
         />
+
+    <WebView
+        android:id="@+id/message_receiver_gif_view"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="13dp"
+        android:scaleType="centerCrop"
+        tools:ignore="WebViewLayout" />
 
 
     <TextView

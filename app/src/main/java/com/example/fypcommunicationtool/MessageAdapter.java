@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,7 +43,7 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.fypcommunic
         public TextView senderMessageText, receiverMessageText, receiverImageTime, senderImageTime;
         public CircleImageView receiverProfileImage;
         public ImageView messageSenderPicture, messageReceiverPicture;
-
+        public WebView messageSenderGif, messageReceiverGif;
 
         public MessageViewHolder(@NonNull View itemView)
         {
@@ -55,6 +56,8 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.fypcommunic
             messageSenderPicture = itemView.findViewById(R.id.message_sender_image_view);
             receiverImageTime = (TextView) itemView.findViewById(R.id.receiver_imagetime_text);
             senderImageTime = (TextView) itemView.findViewById(R.id.sender_imagetime_text);
+            messageSenderGif = itemView.findViewById(R.id.message_sender_gif_view);
+            messageReceiverGif = itemView.findViewById(R.id.message_receiver_gif_view);
         }
     }
 
@@ -106,6 +109,8 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.fypcommunic
         messageViewHolder.messageReceiverPicture.setVisibility(View.GONE);
         messageViewHolder.receiverImageTime.setVisibility(View.GONE);
         messageViewHolder.senderImageTime.setVisibility(View.GONE);
+        messageViewHolder.messageReceiverGif.setVisibility(View.GONE);
+        messageViewHolder.messageSenderGif.setVisibility(View.GONE);
 
         if (fromMessageType.equals("text"))
         {
@@ -140,6 +145,23 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.fypcommunic
                 messageViewHolder.senderImageTime.setText(messages.getTime() + " - " + messages.getDate());
                 messageViewHolder.messageReceiverPicture.setVisibility(View.VISIBLE);
                 Glide.with(context).load(messages.getMessage()).into(messageViewHolder.messageReceiverPicture);
+
+            }
+        }
+
+        else if(fromMessageType.equals("gif")){
+            if(fromUserID.equals(messageSenderId)){
+                messageViewHolder.receiverImageTime.setVisibility(View.VISIBLE);
+                messageViewHolder.receiverImageTime.setText(messages.getTime() + " - " + messages.getDate());
+                messageViewHolder.messageSenderGif.setVisibility(View.VISIBLE);
+                messageViewHolder.messageSenderGif.loadUrl(messages.getMessage());
+            }
+            else{
+                messageViewHolder.receiverProfileImage.setVisibility(View.VISIBLE);
+                messageViewHolder.senderImageTime.setVisibility(View.VISIBLE);
+                messageViewHolder.senderImageTime.setText(messages.getTime() + " - " + messages.getDate());
+                messageViewHolder.messageReceiverGif.setVisibility(View.VISIBLE);
+                messageViewHolder.messageReceiverGif.loadUrl(messages.getMessage());
 
             }
         }
