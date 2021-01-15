@@ -4,17 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
-import android.app.Dialog;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -26,8 +24,11 @@ import androidx.cardview.widget.CardView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -51,7 +52,6 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
     ArrayList<TestSectionModel> sectionList;
     int questionNum, sectionNum;
     int score;
-    Long duration;
 
     private Toolbar toolbar;
     ProgressBar progressBar;
@@ -65,6 +65,7 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
 
         Intent intent = getIntent();
         String reference = intent.getStringExtra("docReference");
+        Long duration = intent.getLongExtra("duration", 0);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -95,66 +96,22 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
         sectionNum = 0;
         score = 0;
 
-        Thread runFirst = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                DocumentReference ref = db.document(reference);
-                ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        DocumentSnapshot snapshot = task.getResult();
-                        Log.e(TAG, snapshot.getReference().getPath());
-                        Log.e(TAG, snapshot.getString("levelName"));
-                        Log.e(TAG, snapshot.getLong("duration").toString());
-                        duration = snapshot.getLong("duration");
-                        setDuration(snapshot.getLong("duration"));
-
-                    }
-                });
-            }
-        });
-
-        runFirst.start();
-        try {
-            runFirst.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.e(TAG, "time: "+getDuration());
-//                timerTxt.setText(duration.toString());
-                getAssessmentQuestionsModel(reference);
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        /*
-        new CountDownTimer(getDuration(), 1000) {
+        new CountDownTimer(duration, 1000) {
             public void onTick(long millisUntilFinished) {
 //                mTextViewCountDown.setText("Time left: " + millisUntilFinished / 1000);
                 String text = String.format(Locale.getDefault(), "Time left: %02d min: %02d sec",
                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) % 60,
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60);
                 timerTxt.setText(text);
-
-                getAssessmentQuestionsModel(reference);
             }
 
+            //TODO: code bila dah habis
             public void onFinish() {
                 timerTxt.setText("Your time is up!");
             }
         }.start();
-        */
 
+        getAssessmentQuestionsModel(reference);
     }
 
     private void getAssessmentQuestionsModel(String reference) {
@@ -208,18 +165,14 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
 
     @Override
     public void onClick(View v) {
-
         //TODO: Save terus answer dalam database, compare with editText.getText()
         String answer = answerTxt.getText().toString();
-        checkAnswer(answer, v);
+        checkAnswer(answer);
     }
 
-    private void checkAnswer(String answer, View view) {
+    private void checkAnswer(String answer) {
         if (answer.equalsIgnoreCase(questionList.get(questionNum).getCorrectAnswer())) {
-            //Right Answer
-//            ((Button) view).setBackgroundResource(R.drawable.answerright);
             score++;
-
         }
         changeQuestion();
     }
@@ -230,15 +183,25 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
             questionNum++;
             playAnim(0, 0);
         } else {
-            //display score
-            double numberQ = questionList.size();
-            double percentscore = score * 100 / numberQ;
-            String finalscore = score + "/" + questionList.size();
-            Intent intent = new Intent(AssessmentLevel1Activity.this, Score.class);
-            intent.putExtra("finalscore", finalscore);
-            intent.putExtra("score", Double.toString(percentscore));
-            startActivity(intent);
-            //Questions.this.finish();
+
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("Confirm submission");
+            dialog.setMessage("Are you sure you want to submit?");
+            dialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    submitAnswer();
+                }
+            });
+
+            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            dialog.show();
         }
     }
 
@@ -271,39 +234,46 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
                 });
     }
 
+    protected void submitAnswer() {
+        //TODO: set mark for each question
+        double numberQ = questionList.size();
+        double percentScore = score * 100 / numberQ;
+        String finalScore = score + "/" + questionList.size();
 
-    protected Long getDuration() {
-        return duration;
-    }
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String id = user.getUid();
 
-    protected void setDuration(Long duration) {
-        this.duration = duration;
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference().child("AssessmentMark").child(id);
+        reference.child("Score").setValue(percentScore);
+
+        Intent intent = new Intent(AssessmentLevel1Activity.this, AssessmentLevelFinish.class);
+        intent.putExtra("finalScore", finalScore);
+        intent.putExtra("score", Double.toString(percentScore));
+        startActivity(intent);
     }
 
     @Override
     public void onBackPressed() {
-        final Dialog exitchallDialog = new Dialog(this);
-        exitchallDialog.setContentView(R.layout.exitchallenge);
-        Button yes = (Button) exitchallDialog.findViewById(R.id.exitchall);
-        Button no = (Button) exitchallDialog.findViewById(R.id.contchall);
-
-        yes.setOnClickListener(new View.OnClickListener() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Are you sure you want to exit?");
+        dialog.setMessage("Once you close this window, you need to contact the admins if you wish to take this test.");
+        dialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(DialogInterface dialogInterface, int i) {
                 Intent intent = new Intent(getApplicationContext(), AssessmentMenuActivity.class);
                 startActivity(intent);
             }
         });
 
-        no.setOnClickListener(new View.OnClickListener() {
+        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                exitchallDialog.dismiss();
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
             }
         });
 
-        exitchallDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        exitchallDialog.show();
+        dialog.show();
     }
 
 }

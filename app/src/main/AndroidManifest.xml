@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ContactsToSendGIf"></activity>
+        <activity android:name=".AssessmentLevelFinish"></activity>
+        <activity android:name=".ContactsToSendGIf" />
         <activity
             android:name=".AddGIFActivity"
             android:parentActivityName=".ChatsPrivateActivity" /> <!-- Assessment & Admin -->
@@ -102,7 +103,7 @@
 
         <meta-data
             android:name="CLOUDINARY_URL"
-            android:value="cloudinary://@fypcommunicationtool"/>
+            android:value="cloudinary://@fypcommunicationtool" />
     </application>
 
 </manifest>
