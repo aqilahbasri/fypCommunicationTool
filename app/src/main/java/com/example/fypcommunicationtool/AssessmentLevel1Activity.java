@@ -44,7 +44,7 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
 
     private WebView questionGIF;
     private EditText answerTxt;
-    private TextView sectionTxt, questionTxt, timerTxt;
+    private TextView sectionTxt, questionTxt, timerTxt, questionCounter;
     ImageButton backBtn, nextBtn;
     private CardView card;
 
@@ -81,8 +81,9 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
         questionGIF.getSettings().setUseWideViewPort(true);
 
         nextBtn = findViewById(R.id.nextBtn);
-        backBtn = findViewById(R.id.backBtn);
+        backBtn = findViewById(R.id.backBtn);   //TODO: OnClick back button
         timerTxt = findViewById(R.id.timerTxt);
+        questionCounter = findViewById(R.id.questionLeftTxt);
         progressBar = findViewById(R.id.determinateBar);
 
         sectionList = new ArrayList<>();
@@ -98,7 +99,6 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
 
         new CountDownTimer(duration, 1000) {
             public void onTick(long millisUntilFinished) {
-//                mTextViewCountDown.setText("Time left: " + millisUntilFinished / 1000);
                 String text = String.format(Locale.getDefault(), "Time left: %02d min: %02d sec",
                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) % 60,
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60);
@@ -153,6 +153,16 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
     }
 
     private void setQuestion() {
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+                questionCounter.setText((questionNum+1) +" / "+(questionList.size()));
+                progressBar.setMax(questionList.size());
+                progressBar.setProgress(questionNum+1);
+//            }
+//        }).start();
+
         if (questionList.size() == 0) {
 //            Toast.makeText(getApplicationContext(), "Category " + data + " do not have any sign language challenge!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, AssessmentMenuActivity.class);
@@ -181,7 +191,7 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
 
         if (questionNum < questionList.size() - 1) {
             questionNum++;
-            playAnim(0, 0);
+            playAnim(0);
         } else {
 
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -205,7 +215,7 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
         }
     }
 
-    private void playAnim(final int value, final int viewNum) {
+    private void playAnim(final int value) {
 
         card.animate().alpha(value).scaleX(value).scaleY(value).setDuration(500)
                 .setStartDelay(100).setInterpolator(new DecelerateInterpolator())
@@ -221,7 +231,10 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
                         questionGIF.refreshDrawableState();
                         questionTxt.setText(questionList.get(questionNum).getQuestionDetail());
 
-                        playAnim(1, viewNum);
+                        questionCounter.setText((questionNum+1) +" / "+(questionList.size()));
+                        progressBar.setProgress(questionNum+1);
+
+                        playAnim(1);
                     }
 
                     @Override
@@ -249,7 +262,7 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
 
         Intent intent = new Intent(AssessmentLevel1Activity.this, AssessmentLevelFinish.class);
         intent.putExtra("finalScore", finalScore);
-        intent.putExtra("score", Double.toString(percentScore));
+        intent.putExtra("score", percentScore);
         startActivity(intent);
     }
 

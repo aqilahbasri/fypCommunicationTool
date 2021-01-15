@@ -68,7 +68,7 @@ public class AssessmentHomeFragment extends Fragment implements View.OnClickList
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.child(id).exists()) {
-                    applyCertificate.setCardBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    applyCertificate.setCardBackgroundColor(Color.parseColor("#32ACBA"));
                 } //TODO: dia tak boleh apply certificate
             }
 

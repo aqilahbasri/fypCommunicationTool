@@ -152,7 +152,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="4dp"
                 android:text="test"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/questionLeftTxt"/>
 
         </LinearLayout>
 
