@@ -1,59 +1,58 @@
 package com.example.fypcommunicationtool;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.example.fypcommunicationtool.listeners.UsersListener;
-import com.example.fypcommunicationtool.utilities.Constants;
-import com.example.fypcommunicationtool.utilities.PreferenceManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.fypcommunicationtool.assessment.OutgoingInterviewActivity;
+import com.example.fypcommunicationtool.assessment.Users;
+import com.example.fypcommunicationtool.assessment.UsersListener;
 
-import java.util.HashMap;
-import java.util.Map;
+public class StartInterviewActivity extends AppCompatActivity implements UsersListener {
 
-public class StartInterviewActivity extends AppCompatActivity {
+    private UsersListener usersListener;
+    private Users users;
 
-//    private PreferenceManager preferenceManager;
     private static final String TAG = "StartInterviewActivity";
+
+    public StartInterviewActivity() {
+    }
+
+    public StartInterviewActivity(UsersListener usersListener, Users users) {
+        this.usersListener = usersListener;
+        this.users = users;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_interview);
 
-//        preferenceManager = new PreferenceManager(getApplicationContext());
-//        Log.e(TAG, "fullName: "+preferenceManager.getString(Constants.KEY_FULL_NAME));
+        usersListener.initiateVideoMeeting(users);
+
     }
 
-//    private void sendFCMTokenToDatabase(String token) {
-//        FirebaseDatabase db = FirebaseDatabase.getInstance();
-//        DatabaseReference reference = db.getReference(Constants.KEY_COLLECTION_USERS)
-//                .child(preferenceManager.getString(Constants.KEY_USER_ID));
-//        Map map = new HashMap();
-//        map.put(Constants.KEY_FCM_TOKEN, token);
-//        reference.updateChildren(map).addOnCompleteListener(new OnCompleteListener() {
-//            @Override
-//            public void onComplete(@NonNull Task task) {
-//                if (task.isSuccessful()) {
-//                    Toast.makeText(getApplicationContext(), "Token updated successfully", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.e(TAG, "Error: "+e.getMessage());
-//            }
-//        });
-//    }
+    @Override
+    public void initiateVideoMeeting(Users users) {
+        if (users.getFcmToken() == null || users.getFcmToken().trim().isEmpty()) {
+            Toast.makeText(getApplicationContext(), users.getFullName()+"is not available for meeting", Toast.LENGTH_SHORT)
+                    .show();
+        }
+        else {
+            Intent intent = new Intent(getApplicationContext(), OutgoingInterviewActivity.class);
+            intent.putExtra("user", users);
+            intent.putExtra("type", "video");
+            startActivity(intent);
 
+            Toast.makeText(getApplicationContext(), "Video meeting with "+users.getFullName(), Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
 
+    @Override
+    public void initiateAudioMeeting(Users users) {
+
+    }
 }

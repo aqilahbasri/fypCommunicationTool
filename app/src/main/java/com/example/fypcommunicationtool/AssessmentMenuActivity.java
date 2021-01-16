@@ -48,16 +48,19 @@ public class AssessmentMenuActivity extends BaseActivity {
     }
 
     private void sendFCMTokenToDatabase(String token) {
+
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference reference = db.getReference(Constants.KEY_COLLECTION_USERS)
                 .child(preferenceManager.getString(Constants.KEY_USER_ID));
+
         Map map = new HashMap();
         map.put(Constants.KEY_FCM_TOKEN, token);
         reference.updateChildren(map).addOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Token updated successfully", Toast.LENGTH_SHORT).show();
+                    preferenceManager.putString(Constants.KEY_FCM_TOKEN, token);
+                    Log.e(TAG, "Token updated successfully");
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

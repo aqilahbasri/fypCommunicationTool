@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StartInterviewActivity"
+    tools:context=".assessment.IncomingInvitationActivity"
     android:background="@drawable/background_meeting_invitation">
 
     <TextView
@@ -17,14 +17,14 @@
         android:id="@+id/invitation_title"
         android:layout_marginTop="150dp"/>
 
-    <!--    <ImageView-->
-    <!--        android:layout_width="@dimen/fab_size_normal"-->
-    <!--        android:layout_height="@dimen/fab_size_normal"-->
-    <!--        android:id="@+id/imageMeetingType"-->
-    <!--        android:layout_centerVertical="true"-->
-    <!--        android:layout_centerHorizontal="true"-->
-    <!--        android:background="@android:color/white"-->
-    <!--        android:layout_below="@+id/invitation_title" />-->
+<!--    <ImageView-->
+<!--        android:layout_width="@dimen/fab_size_normal"-->
+<!--        android:layout_height="@dimen/fab_size_normal"-->
+<!--        android:id="@+id/imageMeetingType"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:background="@android:color/white"-->
+<!--        android:layout_below="@+id/invitation_title" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,28 +54,33 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/roundbtn"
-        android:text="Accept"
-        android:textColor="@android:color/white"
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:id="@+id/acceptButton"
+        android:background="@drawable/roundbtn"
+        android:src="@drawable/ic_accept_interview"
+        android:padding="10dp"
+        app:tint="@android:color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="100dp"/>
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="100dp"
+        android:elevation="8dp"/>
 
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_dialog_red"
-        android:text="Reject"
-        android:textColor="@android:color/white"
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:id="@+id/rejectButton"
+        android:background="@drawable/bg_reject_interview"
+        android:src="@drawable/ic_reject_interview"
+        android:padding="10dp"
+        app:tint="@android:color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="50dp"
-        android:layout_marginBottom="100dp"/>
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="100dp"
+        android:elevation="8dp"/>
+
 
 </RelativeLayout>

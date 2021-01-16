@@ -127,14 +127,16 @@ public class LoginActivity extends AppCompatActivity {
 
     private void addSharedPref(String id, String email) {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference ref = db.getReference().child("Users").child(id).child("fullName");
+        DatabaseReference ref = db.getReference().child("Users").child(id);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                preferenceManager.putString(Constants.KEY_FULL_NAME, snapshot.getValue().toString());
+                preferenceManager.putString(Constants.KEY_FULL_NAME, snapshot.child("fullName").getValue().toString());
                 preferenceManager.putString(Constants.KEY_EMAIL, email);
                 preferenceManager.putString(Constants.KEY_USER_ID, id);
+                preferenceManager.putString(Constants.KEY_PROFILE_IMAGE, snapshot.child("profileImage").getValue().toString());
+                Log.e("LoginActivity", snapshot.child("profileImage").getValue().toString());
             }
 
             @Override

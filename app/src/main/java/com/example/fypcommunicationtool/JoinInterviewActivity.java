@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.example.fypcommunicationtool.assessment.Users;
+import com.example.fypcommunicationtool.utilities.Constants;
+import com.example.fypcommunicationtool.utilities.PreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,12 +48,21 @@ public class JoinInterviewActivity extends BaseActivity {
             }
         });
 
+        PreferenceManager manager = new PreferenceManager(getApplicationContext());
+
+        Users users = new Users();
+        users.setFullName(manager.getString(Constants.KEY_FULL_NAME));
+        users.setEmail(manager.getString(Constants.KEY_EMAIL));
+        users.setFcmToken(manager.getString(Constants.KEY_FCM_TOKEN));
+        users.setUserID(manager.getString(Constants.KEY_USER_ID));
+        users.setProfileImage(manager.getString(Constants.KEY_PROFILE_IMAGE));
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new JoinInterviewFragment(isApplied, isScheduled)).commit();
+                        new JoinInterviewFragment(isApplied, isScheduled, users)).commit();
             }
         }, 1000);
 

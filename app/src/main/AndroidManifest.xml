@@ -19,7 +19,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".StartInterviewActivity"></activity>
+        <activity android:name=".assessment.VideoCallActivity"></activity>
+        <activity android:name=".assessment.CallingActivity" />
+        <activity
+            android:name=".assessment.OutgoingInterviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".assessment.IncomingInvitationActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".StartInterviewActivity" />
         <activity android:name=".ContactsToSendGIf" />
         <activity
             android:name=".AddGIFActivity"

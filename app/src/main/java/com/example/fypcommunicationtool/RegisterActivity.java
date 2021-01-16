@@ -177,6 +177,7 @@ public class RegisterActivity extends AppCompatActivity
         }
     }
 
+    //TODO: add constants for profile image
     protected void addSharedPref(String fullName, String email, String id) {
         preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
         preferenceManager.putString(Constants.KEY_FULL_NAME, fullName);
