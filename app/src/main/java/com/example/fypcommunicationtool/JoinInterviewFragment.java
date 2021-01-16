@@ -2,6 +2,7 @@ package com.example.fypcommunicationtool;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,15 +30,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class JoinInterviewFragment extends Fragment {
 
     private RelativeLayout appEmpty, scheduledEmpty;
     private RelativeLayout appFill, scheduledFill;
     private Button applyBtn, joinBtn;
+    private TextView dateApplied, timeApplied, statusTxt;
+    private TextView dateTxt, timeTxt, interviewerTxt;
     private final boolean isApplied;
     private final boolean isScheduled;
 
@@ -45,7 +51,6 @@ public class JoinInterviewFragment extends Fragment {
 
     public JoinInterviewFragment(boolean isApplied, boolean isScheduled) {
         // Required empty public constructor
-        Log.e(TAG, "x: " + isApplied + " y: " + isScheduled);
         this.isApplied = isApplied;
         this.isScheduled = isScheduled;
     }
@@ -67,6 +72,15 @@ public class JoinInterviewFragment extends Fragment {
         scheduledFill = view.findViewById(R.id.scheduledLayoutFill);
         applyBtn = view.findViewById(R.id.applyButton);
         joinBtn = view.findViewById(R.id.joinButton);
+        dateApplied = view.findViewById(R.id.dateApplied);
+        timeApplied = view.findViewById(R.id.timeApplied);
+        statusTxt = view.findViewById(R.id.statusTxt);
+        dateTxt = view.findViewById(R.id.dateTxt);
+        timeTxt = view.findViewById(R.id.timeTxt);
+        interviewerTxt = view.findViewById(R.id.interviewerTxt);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String id = user.getUid();
 
         if (isApplied == false && isScheduled == false) { //not yet apply
 
@@ -84,9 +98,6 @@ public class JoinInterviewFragment extends Fragment {
                     dialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-//                            sendApplication();
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            String id = user.getUid();
 
                             JoinInterviewFragment.AsyncTask task = new JoinInterviewFragment.AsyncTask(id);
                             task.execute();
@@ -106,17 +117,19 @@ public class JoinInterviewFragment extends Fragment {
 
         } else {  //if has applied
 
-            //TODO: get info from db
             appFill.setVisibility(View.VISIBLE);
+            updateUI(id);
 
             if (isScheduled == true) { //if admin has approved
                 scheduledFill.setVisibility(View.VISIBLE);
+                updateScheduleUI(id);
 
                 //TODO: Join video call
                 joinBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Intent intent = new Intent(getContext(), StartInterviewActivity.class);
+                        startActivity(intent);
                     }
                 });
 
@@ -127,68 +140,64 @@ public class JoinInterviewFragment extends Fragment {
         return view;
     }
 
-    /*
-    protected void sendApplication() {
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String id = user.getUid();
-        Map values = new HashMap<>();
-
-        Date date = new Date();
-        Long dateApplied = date.getTime();
-
-        boolean completeSubmission = false;
-        boolean completeAssessment = false;
-
-        DatabaseReference submissionRef = db.getReference().child("ManageCoursework").child("Submissions").child(id);
-        DatabaseReference assessmentRef = db.getReference().child("AssessmentMark").child(id);
-        if (!submissionRef.equals(null))
-            completeSubmission = true;
-        if (!assessmentRef.equals(null))
-            completeAssessment = true;
-
-        DatabaseReference userRef = db.getReference().child("Users").child(id);
-        userRef.addValueEventListener(new ValueEventListener() {
+    protected void updateUI(String id) {
+        DatabaseReference reference = db.getReference().child("ManageOnlineInterview").
+                child("NewApplication").child(id);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                name = snapshot.child("fullName").getValue().toString();
+                if (snapshot.exists()) {
+                    long time = Long.parseLong(snapshot.child("dateApplied").getValue().toString());
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                    sdf1.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
+                    String dateStr = sdf1.format(time);
+
+                    SimpleDateFormat sdf2 = new SimpleDateFormat("hh.mm aa");
+                    sdf2.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
+                    String timeStr = sdf2.format(time);
+
+                    dateApplied.setText(dateStr);
+                    timeApplied.setText(timeStr);
+
+                    statusTxt.setText("Awaiting approval");
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(TAG, "Error: "+error.getMessage());
-            }
-        });
 
-        values.put("dateApplied", dateApplied);
-        values.put("sortOrder", 0); //update later in submit coursework fragment
-        //TODO: in submit coursework fragment, get score from db
-        //TODO: get coursework mark
-        values.put("completeSubmission", completeSubmission);
-        values.put("completeAssessment", completeAssessment);
-        values.put("overallMark", 0); //update value in submit coursework fragment, calculation
-        values.put("name", name);
-
-        DatabaseReference applyRef = db.getReference().child("ManageOnlineInterview").child("NewApplication");
-
-        applyRef.child(id).setValue(values).addOnCompleteListener(new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                if (task.isSuccessful()) {
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new InterviewApplicationFragment()).commit();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e(TAG, "Error: "+e.getMessage());
-                Toast.makeText(getContext(), "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-     */
+    protected void updateScheduleUI(String id) {
+        DatabaseReference reference = db.getReference().child("ManageOnlineInterview").
+                child("ScheduledInterview").child(id);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    long time = Long.parseLong(snapshot.child("dateApplied").getValue().toString());
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                    sdf1.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
+                    String dateStr = sdf1.format(time);
+
+                    SimpleDateFormat sdf2 = new SimpleDateFormat("hh.mm aa");
+                    sdf2.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
+                    String timeStr = sdf2.format(time);
+
+                    dateApplied.setText(dateStr);
+                    timeApplied.setText(timeStr);
+
+                    interviewerTxt.setText(snapshot.child("interviewerName").getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
 
     private class AsyncTask extends android.os.AsyncTask {
 

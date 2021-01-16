@@ -18,12 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"> <!--added this line sebab compiler bising-->
-
+        android:usesCleartextTraffic="true">
+        <activity android:name=".StartInterviewActivity"></activity>
         <activity android:name=".ContactsToSendGIf" />
-        <activity android:name=".AddGIFActivity" android:parentActivityName=".ChatsPrivateActivity" />
-
-        <!-- Assessment & Admin -->
+        <activity
+            android:name=".AddGIFActivity"
+            android:parentActivityName=".ChatsPrivateActivity" /> <!-- Assessment & Admin -->
         <activity
             android:name=".AssessmentMenuActivity"
             android:theme="@style/AssessmentCustomTheme" />
@@ -46,11 +46,11 @@
         <activity
             android:name=".AssessmentLevel1Activity"
             android:theme="@style/AssessmentCustomTheme" />
-        <activity android:name=".JoinInterviewActivity"
+        <activity
+            android:name=".JoinInterviewActivity"
             android:parentActivityName=".AssessmentMenuActivity"
-            android:theme="@style/AssessmentCustomTheme"/>
+            android:theme="@style/AssessmentCustomTheme" />
         <activity android:name=".AssessmentLevelFinish" />
-
         <activity android:name=".Practicee" />
         <activity android:name=".Practice" />
         <activity android:name=".MainActivityLearning" /> <!-- <intent-filter> -->
@@ -93,6 +93,13 @@
 
         <service android:name=".ChallengeBGM" />
         <service android:name=".LearnBGM" />
+        <service
+            android:name=".services.MessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <receiver android:name=".BroadcastReceiver.AlarmReceiver" />
 

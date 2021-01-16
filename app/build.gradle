@@ -144,6 +144,10 @@ dependencies {
     //yvonne
     // FirebaseUI for Cloud Firestore
     implementation 'com.firebaseui:firebase-ui-firestore:7.1.1'
+    implementation 'com.google.firebase:firebase-messaging:21.0.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+    implementation 'com.firebaseui:firebase-ui-database:7.1.1'
 
 }
 repositories {
