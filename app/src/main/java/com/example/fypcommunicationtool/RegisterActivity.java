@@ -14,8 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.fypcommunicationtool.utilities.Constants;
-import com.example.fypcommunicationtool.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -42,14 +40,11 @@ public class RegisterActivity extends AppCompatActivity
     private Uri resultUri=null;
     private static final int GalleryPick = 1;
 
-    private PreferenceManager preferenceManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        preferenceManager = new PreferenceManager(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
         RootRef = FirebaseDatabase.getInstance().getReference();
         UserProfileImagesRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
@@ -160,7 +155,6 @@ public class RegisterActivity extends AppCompatActivity
                                 userProfile.put("password", password);
 
                                 RootRef.child("Users").child(currentUserID).setValue(userProfile);
-                                addSharedPref(fullName, email, currentUserID);
 
                                 SendUserToMainActivity();
                                 Toast.makeText(com.example.fypcommunicationtool.RegisterActivity.this, "Account Created Successfully.", Toast.LENGTH_SHORT).show();
@@ -175,14 +169,6 @@ public class RegisterActivity extends AppCompatActivity
                         }
                     });
         }
-    }
-
-    //TODO: add constants for profile image
-    protected void addSharedPref(String fullName, String email, String id) {
-        preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-        preferenceManager.putString(Constants.KEY_FULL_NAME, fullName);
-        preferenceManager.putString(Constants.KEY_EMAIL, email);
-        preferenceManager.putString(Constants.KEY_USER_ID, id);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
-import android.telecom.Call;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fypcommunicationtool.assessment.CallingActivity;
-import com.example.fypcommunicationtool.assessment.OutgoingInterviewActivity;
-import com.example.fypcommunicationtool.assessment.Users;
-import com.example.fypcommunicationtool.assessment.UsersListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -41,30 +37,26 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class JoinInterviewFragment extends Fragment implements UsersListener {
+public class JoinInterviewFragment extends Fragment {
 
     private RelativeLayout appEmpty, scheduledEmpty;
     private RelativeLayout appFill, scheduledFill;
     private Button applyBtn, joinBtn;
-    private TextView dateApplied, timeApplied, statusTxt;
+    private TextView dateApplied, timeApplied, statusTxt, applicationTxt;
     private TextView dateTxt, timeTxt, interviewerTxt;
     private boolean isApplied;
     private boolean isScheduled;
-    private UsersListener usersListener;
-    private Users users;
 
     private String userId, interviewerId;
 
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private static final String TAG = "JoinInterviewFragment";
 
-    private String calledBy ="";
+    private String calledBy = "";
 
-    public JoinInterviewFragment(boolean isApplied, boolean isScheduled, Users users) {
-        // Required empty public constructor
+    public JoinInterviewFragment(boolean isApplied, boolean isScheduled) {
         this.isApplied = isApplied;
         this.isScheduled = isScheduled;
-        this.users = users;
     }
 
     @Override
@@ -87,6 +79,7 @@ public class JoinInterviewFragment extends Fragment implements UsersListener {
         dateApplied = view.findViewById(R.id.dateApplied);
         timeApplied = view.findViewById(R.id.timeApplied);
         statusTxt = view.findViewById(R.id.statusTxt);
+        applicationTxt = view.findViewById(R.id.applicationTxt);
         dateTxt = view.findViewById(R.id.dateTxt);
         timeTxt = view.findViewById(R.id.timeTxt);
         interviewerTxt = view.findViewById(R.id.interviewerTxt);
@@ -110,7 +103,6 @@ public class JoinInterviewFragment extends Fragment implements UsersListener {
                     dialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-
                             JoinInterviewFragment.AsyncTask task = new JoinInterviewFragment.AsyncTask(userId);
                             task.execute();
                         }
@@ -127,32 +119,40 @@ public class JoinInterviewFragment extends Fragment implements UsersListener {
                 }
             });
 
-        } else {  //if has applied
+        } else if (isApplied == true && isScheduled == false) { //if has applied but not approved by admin
 
-            //TODO: kalau dah schedule nak buat apa
             appFill.setVisibility(View.VISIBLE);
+            statusTxt.setText("Awaiting approval");
             updateUI(userId);
 
-            if (isScheduled == true) { //if admin has approved
-                scheduledFill.setVisibility(View.VISIBLE);
-                updateScheduleUI(userId);
+        } else if (isScheduled == true) {   //if has scheduled (already approved)
 
-                //TODO: Join video call
-                joinBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                initiateVideoMeeting(users);
-                            }}, 1500);
-                    }
-                });
+            appEmpty.setVisibility(View.VISIBLE);
+            applicationTxt.setText("Your interview request has been approved. Your schedule is shown below.");
 
-            } else {  //if admin has not yet approved
-                scheduledEmpty.setVisibility(View.VISIBLE);
-            }
+            scheduledFill.setVisibility(View.VISIBLE);
+            updateScheduleUI(userId);
+
+            joinBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            initiateVideoMeeting();
+                        }
+                    }, 1500);
+                }
+            });
+
+        } else { //handle if has completed
+            appEmpty.setVisibility(View.VISIBLE);
+            scheduledFill.setVisibility(View.VISIBLE);
+            applicationTxt.setText("Your interview has been completed.");
+            updateScheduleUI(userId);
+
+            joinBtn.setVisibility(View.INVISIBLE);
         }
         return view;
     }
@@ -175,14 +175,12 @@ public class JoinInterviewFragment extends Fragment implements UsersListener {
 
                     dateApplied.setText(dateStr);
                     timeApplied.setText(timeStr);
-
-                    statusTxt.setText("Awaiting approval");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.e(TAG, error.getMessage());
             }
         });
     }
@@ -217,31 +215,10 @@ public class JoinInterviewFragment extends Fragment implements UsersListener {
         });
     }
 
-    @Override
-    public void initiateVideoMeeting(Users users) {
-        if (users.getFcmToken() == null || users.getFcmToken().trim().isEmpty()) {
-            Toast.makeText(getContext(), users.getFullName()+" is not available for meeting", Toast.LENGTH_SHORT)
-                    .show();
-        }
-        else {
-
-            //TODO: admin side, set id siapa yang approve
-            Intent intent = new Intent(getContext(), CallingActivity.class);
-            intent.putExtra("visit_user_id", interviewerId);
-            startActivity(intent);
-
-//            Intent intent = new Intent(getContext(), OutgoingInterviewActivity.class);
-//            intent.putExtra("users", users);
-//            intent.putExtra("type", "video");
-            startActivity(intent);
-//            Toast.makeText(getContext(), "Video meeting with "+users.getFullName(), Toast.LENGTH_SHORT)
-//                    .show();
-        }
-    }
-
-    @Override
-    public void initiateAudioMeeting(Users users) {
-
+    public void initiateVideoMeeting() {
+        Intent intent = new Intent(getContext(), CallingActivity.class);
+        intent.putExtra("visit_user_id", interviewerId);
+        startActivity(intent);
     }
 
     private class AsyncTask extends android.os.AsyncTask {
@@ -347,35 +324,24 @@ public class JoinInterviewFragment extends Fragment implements UsersListener {
         }
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//
-//        checkForReceivingCall() ;
-//
-//    }
-
     private void checkForReceivingCall() {
 
         DatabaseReference ref = db.getReference().child("Users").child(userId).child("Ringing");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChild("Ringing")) {
-                    calledBy = snapshot.child("Ringing").getValue().toString();
+                if (snapshot.hasChild("ringing")) {
+                    calledBy = snapshot.child("ringing").getValue().toString();
 
-                    Intent intent = new Intent(getContext(), CallingActivity.class);
+                    Intent intent = new Intent(requireActivity(), CallingActivity.class);
                     intent.putExtra("visit_user_id", calledBy);
                     startActivity(intent);
-                    getActivity().finish();
-
                 }
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.e(TAG, error.getMessage());
             }
         });
     }
@@ -384,5 +350,11 @@ public class JoinInterviewFragment extends Fragment implements UsersListener {
     public void onResume() {
         super.onResume();
         ((BaseActivity) getActivity()).setTitle("Join Online Interview");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        checkForReceivingCall();
     }
 }

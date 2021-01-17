@@ -2,8 +2,7 @@ package com.example.fypcommunicationtool;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
+import android.os.Bundle;;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -25,8 +24,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.fypcommunicationtool.utilities.Constants;
-import com.example.fypcommunicationtool.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -51,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private DatabaseReference RootRef;
-    private PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         RootRef = FirebaseDatabase.getInstance().getReference();
-        preferenceManager = new PreferenceManager(getApplicationContext());
 
 //        mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
 //        setSupportActionBar(mToolbar);
@@ -110,8 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         goToMainAssessmentModule();
                         break;
                     case R.id.sign_out:
-//                        mAuth.signOut();
-                        userSignOut(mAuth);
+                        mAuth.signOut();
                         goToLoginActivity();
                         break;
                     case R.id.setting_profile:
@@ -176,21 +170,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-    }
-
-    private void userSignOut(FirebaseAuth mAuth) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference().child(Constants.KEY_COLLECTION_USERS)
-                .child(preferenceManager.getString(Constants.KEY_USER_ID));
-        reference.child(Constants.KEY_FCM_TOKEN).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Log.e(TAG, "Successfully sign out");
-                    mAuth.signOut();
-                }
-            }
-        });
     }
 
     private void setDefaultFragment() {

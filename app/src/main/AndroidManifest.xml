@@ -19,22 +19,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".assessment.VideoCallActivity"></activity>
-        <activity android:name=".assessment.CallingActivity" />
+        <activity android:name=".assessment.VideoCallActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".assessment.CallingActivity"
+            android:screenOrientation="portrait"/>
         <activity
-            android:name=".assessment.OutgoingInterviewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".assessment.IncomingInvitationActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".StartInterviewActivity" />
+            android:name=".AssessmentMenuActivity"
+            android:theme="@style/AssessmentCustomTheme" />
+        <activity android:name=".BaseActivity" />
         <activity android:name=".ContactsToSendGIf" />
         <activity
             android:name=".AddGIFActivity"
             android:parentActivityName=".ChatsPrivateActivity" /> <!-- Assessment & Admin -->
-        <activity
-            android:name=".AssessmentMenuActivity"
-            android:theme="@style/AssessmentCustomTheme" />
         <activity
             android:name=".StartAssessmentActivity"
             android:parentActivityName=".AssessmentMenuActivity"
@@ -101,13 +97,6 @@
 
         <service android:name=".ChallengeBGM" />
         <service android:name=".LearnBGM" />
-        <service
-            android:name=".services.MessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
 
         <receiver android:name=".BroadcastReceiver.AlarmReceiver" />
 

@@ -145,10 +145,9 @@ dependencies {
     // FirebaseUI for Cloud Firestore
     implementation 'com.firebaseui:firebase-ui-firestore:7.1.1'
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
     implementation 'com.firebaseui:firebase-ui-database:7.1.1'
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation 'com.opentok.android:opentok-android-sdk:2.18.1'
+    implementation 'pub.devrel:easypermissions:3.0.0'
 
 }
 repositories {

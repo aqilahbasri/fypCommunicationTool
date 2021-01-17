@@ -15,22 +15,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.fypcommunicationtool.utilities.Constants;
-import com.example.fypcommunicationtool.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
 //    private FirebaseUser currentUser;
-    private PreferenceManager preferenceManager;
     private FirebaseAuth mAuth;
 
     private Button LoginButton, RegisterButton;
@@ -44,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        preferenceManager = new PreferenceManager(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
 //        currentUser = mAuth.getCurrentUser();
 
@@ -104,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
                         Log.e("LoginActivity", task.getResult().getUser().getUid());
-                        addSharedPref(task.getResult().getUser().getUid(), email);
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -123,28 +113,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    private void addSharedPref(String id, String email) {
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference ref = db.getReference().child("Users").child(id);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                preferenceManager.putString(Constants.KEY_FULL_NAME, snapshot.child("fullName").getValue().toString());
-                preferenceManager.putString(Constants.KEY_EMAIL, email);
-                preferenceManager.putString(Constants.KEY_USER_ID, id);
-                preferenceManager.putString(Constants.KEY_PROFILE_IMAGE, snapshot.child("profileImage").getValue().toString());
-                Log.e("LoginActivity", snapshot.child("profileImage").getValue().toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("LoginActivity", "Error: "+error.getMessage());
-            }
-        });
-
     }
 
     private void SendUserToMainActivity() {
