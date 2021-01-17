@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 public class JoinInterviewActivity extends BaseActivity {
 
     private static final String TAG = "JoinInterviewActivity";
-    private boolean isApplied, isScheduled;
+    private boolean isApplied = false, isScheduled = false, isCompleted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,9 @@ public class JoinInterviewActivity extends BaseActivity {
                     isApplied = true;
                 if (snapshot.child("ScheduledInterview").child(id).exists())
                     isScheduled = true;
+                if (snapshot.child("CompletedInterview").child(id).exists()) {
+                    isCompleted = true;
+                }
             }
 
             @Override
@@ -50,7 +53,7 @@ public class JoinInterviewActivity extends BaseActivity {
             @Override
             public void run() {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new JoinInterviewFragment(isApplied, isScheduled)).commit();
+                        new JoinInterviewFragment(isApplied, isScheduled, isCompleted)).commit();
             }
         }, 1000);
 

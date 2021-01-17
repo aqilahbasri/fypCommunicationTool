@@ -11,15 +11,22 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.fypcommunicationtool.assessment.CallingActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, FragmentManager.OnBackStackChangedListener {
 
@@ -29,6 +36,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
+    private String calledBy = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +169,32 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    private void checkForReceivingCall() {
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String id = user.getUid();
+
+        DatabaseReference ref = db.getReference().child("Users").child(id).child("Ringing");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild("ringing")) {
+                    calledBy = snapshot.child("ringing").getValue().toString();
+
+                    Intent intent = new Intent(BaseActivity.this, CallingActivity.class);
+                    intent.putExtra("visit_user_id", calledBy);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, error.getMessage());
+            }
+        });
+    }
+
     //Set action bar title.
     //P.s. have to use TextView instead of getSupportActionBar because nav_graph drawer is set to the right.
     public void setTitle(final String title) {
@@ -173,5 +207,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         assert fragment != null;
         fragment.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkForReceivingCall();
     }
 }

@@ -44,19 +44,19 @@ public class JoinInterviewFragment extends Fragment {
     private Button applyBtn, joinBtn;
     private TextView dateApplied, timeApplied, statusTxt, applicationTxt;
     private TextView dateTxt, timeTxt, interviewerTxt;
-    private boolean isApplied;
-    private boolean isScheduled;
+    private boolean isApplied, isScheduled, isCompleted;
 
     private String userId, interviewerId;
 
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private static final String TAG = "JoinInterviewFragment";
 
-    private String calledBy = "";
+//    private String calledBy = "";
 
-    public JoinInterviewFragment(boolean isApplied, boolean isScheduled) {
+    public JoinInterviewFragment(boolean isApplied, boolean isScheduled, boolean isCompleted) {
         this.isApplied = isApplied;
         this.isScheduled = isScheduled;
+        this.isCompleted = isCompleted;
     }
 
     @Override
@@ -122,6 +122,7 @@ public class JoinInterviewFragment extends Fragment {
         } else if (isApplied == true && isScheduled == false) { //if has applied but not approved by admin
 
             appFill.setVisibility(View.VISIBLE);
+            scheduledEmpty.setVisibility(View.VISIBLE);
             statusTxt.setText("Awaiting approval");
             updateUI(userId);
 
@@ -129,6 +130,7 @@ public class JoinInterviewFragment extends Fragment {
 
             appEmpty.setVisibility(View.VISIBLE);
             applicationTxt.setText("Your interview request has been approved. Your schedule is shown below.");
+            applyBtn.setVisibility(View.GONE);
 
             scheduledFill.setVisibility(View.VISIBLE);
             updateScheduleUI(userId);
@@ -146,13 +148,10 @@ public class JoinInterviewFragment extends Fragment {
                 }
             });
 
-        } else { //handle if has completed
+        } else if (isCompleted == true){ //handle if has completed
             appEmpty.setVisibility(View.VISIBLE);
-            scheduledFill.setVisibility(View.VISIBLE);
+            scheduledEmpty.setVisibility(View.VISIBLE);
             applicationTxt.setText("Your interview has been completed.");
-            updateScheduleUI(userId);
-
-            joinBtn.setVisibility(View.INVISIBLE);
         }
         return view;
     }
@@ -324,27 +323,27 @@ public class JoinInterviewFragment extends Fragment {
         }
     }
 
-    private void checkForReceivingCall() {
-
-        DatabaseReference ref = db.getReference().child("Users").child(userId).child("Ringing");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.hasChild("ringing")) {
-                    calledBy = snapshot.child("ringing").getValue().toString();
-
-                    Intent intent = new Intent(requireActivity(), CallingActivity.class);
-                    intent.putExtra("visit_user_id", calledBy);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(TAG, error.getMessage());
-            }
-        });
-    }
+//    private void checkForReceivingCall() {
+//
+//        DatabaseReference ref = db.getReference().child("Users").child(userId).child("Ringing");
+//        ref.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.hasChild("ringing")) {
+//                    calledBy = snapshot.child("ringing").getValue().toString();
+//
+//                    Intent intent = new Intent(requireActivity(), CallingActivity.class);
+//                    intent.putExtra("visit_user_id", calledBy);
+//                    startActivity(intent);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Log.e(TAG, error.getMessage());
+//            }
+//        });
+//    }
 
     @Override
     public void onResume() {
@@ -352,9 +351,9 @@ public class JoinInterviewFragment extends Fragment {
         ((BaseActivity) getActivity()).setTitle("Join Online Interview");
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        checkForReceivingCall();
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        checkForReceivingCall();
+//    }
 }
