@@ -97,6 +97,7 @@
 
         <service android:name=".ChallengeBGM" />
         <service android:name=".LearnBGM" />
+        <service android:name=".assessment.CallRingtoneService" />
 
         <receiver android:name=".BroadcastReceiver.AlarmReceiver" />
 
