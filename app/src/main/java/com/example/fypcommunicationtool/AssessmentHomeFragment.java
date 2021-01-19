@@ -1,5 +1,7 @@
 package com.example.fypcommunicationtool;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -31,11 +33,16 @@ public class AssessmentHomeFragment extends Fragment implements View.OnClickList
     private String mParam1;
     private String mParam2;
 
-    private boolean status = false;
     private static final String TAG = "AssessmentHomeFragment";
 
-    public AssessmentHomeFragment() {
-        // Required empty public constructor
+    private boolean isCompleteAssessment;
+    private boolean isCompleteSubmission;
+    private boolean isCompleteInterview;
+
+    public AssessmentHomeFragment(boolean isCompleteAssessment, boolean isCompleteInterview, boolean isCompleteSubmission) {
+        this.isCompleteAssessment = isCompleteAssessment;
+        this.isCompleteSubmission = isCompleteSubmission;
+        this.isCompleteInterview = isCompleteInterview;
     }
 
     @Override
@@ -59,30 +66,15 @@ public class AssessmentHomeFragment extends Fragment implements View.OnClickList
         CardView joinOnlineInterview = v.findViewById(R.id.joinOnlineInterview);
         CardView applyCertificate = v.findViewById(R.id.applyCertificate);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String id = user.getUid();
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference().child("AssessmentMark");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(id).exists()) {
-                    applyCertificate.setCardBackgroundColor(Color.parseColor("#32ACBA"));
-                } //TODO: dia tak boleh apply certificate
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(TAG, "error: " + error.getMessage());
-            }
-        });
-
         startAssessment.setOnClickListener(this);
         viewResult.setOnClickListener(this);
         submitCoursework.setOnClickListener(this);
         joinOnlineInterview.setOnClickListener(this);
         applyCertificate.setOnClickListener(this);
+
+        if (isCompleteInterview == true && isCompleteSubmission == true && isCompleteAssessment == true) {
+            applyCertificate.setCardBackgroundColor(Color.parseColor("#32ACBA"));
+        }
 
         return v;
     }
@@ -109,12 +101,29 @@ public class AssessmentHomeFragment extends Fragment implements View.OnClickList
                 startActivity(i);
                 break;
             case R.id.applyCertificate:
-                i = new Intent(getActivity(), ApplyCertificateActivity.class);
-                startActivity(i);
+                if (isCompleteInterview == true && isCompleteSubmission == true && isCompleteAssessment == true) {
+                    i = new Intent(getActivity(), ApplyCertificateActivity.class);
+                    startActivity(i);
+                } else viewDialog();
+
                 break;
             default:
                 break;
         }
+    }
+
+    private void viewDialog() {
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext(), R.style.CustomMaterialDialog);
+        dialog.setTitle("Access denied");
+        dialog.setMessage("You cannot access this option because you have not completed all assessment sections.");
+        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     //Set action bar title

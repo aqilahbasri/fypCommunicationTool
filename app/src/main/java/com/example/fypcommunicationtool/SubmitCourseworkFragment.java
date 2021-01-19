@@ -24,12 +24,18 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -38,7 +44,6 @@ public class SubmitCourseworkFragment extends Fragment {
     Button selectFile;
     Button upload;
     TextView notification;
-//    ListView listView;
 
     private Uri filepath; //Uri = URL for local storage
     ProgressDialog progressDialog;
@@ -46,7 +51,7 @@ public class SubmitCourseworkFragment extends Fragment {
     FirebaseStorage storage;
     FirebaseDatabase database;
 
-//    ArrayList<String> detailsArrayList = new ArrayList<>();
+    private String userID;
 
     public SubmitCourseworkFragment() {
         // Required empty public constructor
@@ -68,6 +73,8 @@ public class SubmitCourseworkFragment extends Fragment {
         upload = v.findViewById(R.id.uploadButton);
         selectFile = v.findViewById(R.id.selectButton);
         notification = v.findViewById(R.id.notification);
+
+        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         CourseworkDetails cd = new CourseworkDetails(getActivity(), v);
         cd.viewList();
@@ -105,27 +112,44 @@ public class SubmitCourseworkFragment extends Fragment {
         progressDialog.setProgress(0);
         progressDialog.show();
 
+
         //Store file in storage
-        final String fileName = System.currentTimeMillis()+"_Coursework";
-        StorageReference mStorageRef = storage.getReference().child("StudentCoursework").child("Coursework_Level1").child("Coursework_Submission");
+        final String fileName = userID+"_Coursework";
+        StorageReference mStorageRef = storage.getReference().child("ManageCoursework").child("CourseworkSubmissions").child(userID);
         mStorageRef.child(fileName).putFile(filepath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                String url = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-                DatabaseReference databaseReference = database.getReference().child("STUDENT_COURSEWORK").child("COURSEWORK_LEVEL1_ANSWER");
-                databaseReference.child(fileName).setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                mStorageRef.child(fileName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getContext(), "File submission successful", Toast.LENGTH_SHORT).show();
-                            notification.setText("File has been successfully uploaded: "+fileName);
-                        }
-                        else {
-                            progressDialog.dismiss();
-                            Toast.makeText(getContext(), "File submission failed", Toast.LENGTH_SHORT).show();
-                        }
+                    public void onSuccess(Uri uri) {
+
+                        Calendar calendar = Calendar.getInstance();
+
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("courseworkFile", uri.toString());
+                        map.put("submittedDate", calendar.getTimeInMillis());
+                        map.put("applicantId", userID);
+
+                        DatabaseReference databaseReference = database.getReference().child("ManageCoursework")
+                                .child("CourseworkSubmissions").child(userID);
+                        databaseReference.setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    selectFile.setVisibility(View.GONE);
+                                    upload.setVisibility(View.GONE);
+
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "File submission successful", Toast.LENGTH_SHORT).show();
+                                    notification.setText("File has been successfully uploaded: "+fileName);
+                                }
+                                else {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "File submission failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
                 });
 

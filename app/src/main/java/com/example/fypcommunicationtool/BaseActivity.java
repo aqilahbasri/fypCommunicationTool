@@ -63,13 +63,13 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         rightMenu.setOnClickListener(this);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (savedInstanceState == null) {
+//        if (savedInstanceState == null) {
             //bawah ni nanti tukar Fatin punya (communication)
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AssessmentHomeFragment()).commit();
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AssessmentHomeFragment()).commit();
 //            navigationView.setCheckedItem(R.id.nav_assessment);
 //            this will probably screw up because we use activity instead of fragments, so above code aku comment
-        }
-        getSupportFragmentManager().addOnBackStackChangedListener(this);
+//        }
+//        getSupportFragmentManager().addOnBackStackChangedListener(this);
     }
 
     @Override

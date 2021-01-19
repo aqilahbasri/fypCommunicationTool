@@ -2,6 +2,7 @@ package com.example.fypcommunicationtool;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class ManageCourseworkModalClass {
 
@@ -57,6 +58,7 @@ public class ManageCourseworkModalClass {
         try {
             String myFormat = "dd/MM/yyyy"; //In which you need put here
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+            sdf.setTimeZone(TimeZone.getTimeZone("Asisa/Kuala_Lumpur"));
             return sdf.format(getCreatedTimestamp());
         } catch (Exception e) {
             return "date";

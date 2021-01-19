@@ -52,6 +52,7 @@ public class JoinInterviewActivity extends BaseActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.i(TAG, isApplied+ " " +isScheduled+ " " +isCompleted);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new JoinInterviewFragment(isApplied, isScheduled, isCompleted)).commit();
             }

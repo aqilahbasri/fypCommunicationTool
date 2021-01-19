@@ -2,6 +2,8 @@ package com.example.fypcommunicationtool;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,11 +39,13 @@ public class SubmitCourseworkAdapter extends RecyclerView.Adapter<SubmitCoursewo
         holder.courseworkQuestion.setText(newApplicationList.get(position).getCourseworkQuestion());
         holder.dateCreated.setText(newApplicationList.get(position).getDateCreated());
 
-        //TODO: Review coursework
         holder.getFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: download file
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newApplicationList.get(position).getCourseworkFile()));
+                if (intent.resolveActivity(activity.getPackageManager()) != null) {
+                    activity.startActivity(intent);
+                }
             }
         });
     }

@@ -3,7 +3,6 @@ package com.example.fypcommunicationtool;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -87,7 +86,7 @@ public class JoinInterviewFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         userId = user.getUid();
 
-        if (isApplied == false && isScheduled == false) { //not yet apply
+        if (isApplied == false && isScheduled == false && isCompleted == false) { //not yet apply
 
             appEmpty.setVisibility(View.VISIBLE);
             scheduledEmpty.setVisibility(View.VISIBLE);
@@ -126,7 +125,7 @@ public class JoinInterviewFragment extends Fragment {
             statusTxt.setText("Awaiting approval");
             updateUI(userId);
 
-        } else if (isScheduled == true) {   //if has scheduled (already approved)
+        } else if (isScheduled == true && isCompleted == false) {   //if has scheduled (already approved)
 
             appEmpty.setVisibility(View.VISIBLE);
             applicationTxt.setText("Your interview request has been approved. Your schedule is shown below.");
@@ -148,10 +147,11 @@ public class JoinInterviewFragment extends Fragment {
                 }
             });
 
-        } else if (isCompleted == true){ //handle if has completed
+        } else if (isCompleted == true) { //handle if has completed
             appEmpty.setVisibility(View.VISIBLE);
+            applyBtn.setVisibility(View.GONE);
             scheduledEmpty.setVisibility(View.VISIBLE);
-            applicationTxt.setText("Your interview has been completed.");
+            applicationTxt.setText("Your interview has been completed. Your mark can be viewed in the \"View Marks\" section. ");
         }
         return view;
     }
@@ -215,7 +215,7 @@ public class JoinInterviewFragment extends Fragment {
     }
 
     public void initiateVideoMeeting() {
-        Intent intent = new Intent(getContext(), CallingActivity.class);
+        Intent intent = new Intent((JoinInterviewActivity) getActivity(), CallingActivity.class);
         intent.putExtra("visit_user_id", interviewerId);
         startActivity(intent);
     }
@@ -224,6 +224,7 @@ public class JoinInterviewFragment extends Fragment {
 
         private String name, id;
         private boolean completeSubmission = false, completeAssessment = false;
+        private int mark;
 
         AsyncTask(String id) {
             this.id = id;
@@ -323,37 +324,10 @@ public class JoinInterviewFragment extends Fragment {
         }
     }
 
-//    private void checkForReceivingCall() {
-//
-//        DatabaseReference ref = db.getReference().child("Users").child(userId).child("Ringing");
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.hasChild("ringing")) {
-//                    calledBy = snapshot.child("ringing").getValue().toString();
-//
-//                    Intent intent = new Intent(requireActivity(), CallingActivity.class);
-//                    intent.putExtra("visit_user_id", calledBy);
-//                    startActivity(intent);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.e(TAG, error.getMessage());
-//            }
-//        });
-//    }
-
     @Override
     public void onResume() {
         super.onResume();
         ((BaseActivity) getActivity()).setTitle("Join Online Interview");
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        checkForReceivingCall();
-//    }
 }

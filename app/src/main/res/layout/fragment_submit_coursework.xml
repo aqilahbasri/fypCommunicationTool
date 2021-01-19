@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/default_gap"
         android:text="Coursework List"
-        android:textColor="?attr/colorAccent"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp" />
 
     <LinearLayout
@@ -24,7 +24,8 @@
         android:orientation="horizontal"
         android:weightSum="100"
         android:background="@drawable/table_bottom_border"
-        android:paddingVertical="@dimen/default_gap">
+        android:paddingVertical="@dimen/default_gap"
+        android:id="@+id/courseworkDetails">
 
         <LinearLayout
             android:id="@+id/adapterViewHeader"
@@ -84,33 +85,24 @@
 
     </LinearLayout>
 
-
     <TextView
-        android:id="@+id/notification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24sp"
-        android:padding="16sp"
-        android:textSize="16sp" />
-
-    <!--    </GridLayout>-->
-
-    <!--<GridLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="5"
-        android:columnCount="1"
-        android:padding="25dp"
-        android:rowCount="1"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="190dp"> -->
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="@dimen/default_gap"
+        android:text="Submit Coursework"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        android:layout_below="@id/courseworkDetails"
+        android:id="@+id/submitCourseworkTitle"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="7"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/submitButtons"
+        android:layout_below="@id/submitCourseworkTitle">
 
         <Button
             android:id="@+id/selectButton"
@@ -133,5 +125,15 @@
             android:textColor="@android:color/white" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_gap"
+        android:padding="16sp"
+        android:textSize="16sp"
+        android:layout_below="@id/submitButtons"/>
+
 
 </RelativeLayout>
