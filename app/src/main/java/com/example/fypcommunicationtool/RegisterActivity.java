@@ -27,6 +27,7 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity
@@ -96,14 +97,50 @@ public class RegisterActivity extends AppCompatActivity
         final String password = UserPassword.getText().toString();
         final String confirmPassword = UserConfirmPassword.getText().toString();
         final String[] downloadUrl = {null};
+        final String[] profileImage = {"https://firebasestorage.googleapis.com/v0/b/mute-deaf-communication-tool.appspot.com/o/Image%20Files%2F230-2301779_best-classified-apps-default-user-profile.png?alt=media&token=8fcdb502-fd7d-43dd-949f-3e2c7ad675ef"};
+        ArrayList<String> required = new ArrayList<>();
 
+        if (TextUtils.isEmpty(fullName))
+        {
+            required.add("Name");
+//            Toast.makeText(this, "Please enter name...", Toast.LENGTH_SHORT).show();
+        }
+        if (TextUtils.isEmpty(username))
+        {
+            required.add("Username");
+//            Toast.makeText(this, "Please enter name...", Toast.LENGTH_SHORT).show();
+        }
         if (TextUtils.isEmpty(email))
         {
-            Toast.makeText(this, "Please enter email...", Toast.LENGTH_SHORT).show();
+            required.add("Email");
+//            Toast.makeText(this, "Please enter email...", Toast.LENGTH_SHORT).show();
         }
         if (TextUtils.isEmpty(password))
         {
-            Toast.makeText(this, "Please enter password...", Toast.LENGTH_SHORT).show();
+            required.add("Password");
+//            Toast.makeText(this, "Please enter password...", Toast.LENGTH_SHORT).show();
+        }
+        if (TextUtils.isEmpty(confirmPassword))
+        {
+            required.add("Confirm Password");
+//            Toast.makeText(this, "Please enter password...", Toast.LENGTH_SHORT).show();
+        }
+
+        if(!required.isEmpty()){
+            String message = " ";
+            for (String a:required){
+                if(a == required.get(required.size()-1))
+                    message+= a;
+                else
+                    message = message + a + ", ";
+            }
+
+            message+=" is required";
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
+        else if (!password.equals(confirmPassword))
+        {
+            Toast.makeText(this, "Password and confirm password are not matched.", Toast.LENGTH_SHORT).show();
         }
         else
         {
@@ -130,6 +167,7 @@ public class RegisterActivity extends AppCompatActivity
                                                 @Override
                                                 public void onSuccess(Uri uri) {
                                                     String downloadUrl = uri.toString();
+                                                    profileImage[0] = downloadUrl;
 
                                                     RootRef.child("Users").child(currentUserID).child("profileImage").setValue(downloadUrl)
                                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -148,7 +186,13 @@ public class RegisterActivity extends AppCompatActivity
                                         }
                                     });
                                 }
+
                                 HashMap<String, String> userProfile = new HashMap<>();
+
+                                if (resultUri==null)
+                                    userProfile.put("profileImage", "https://firebasestorage.googleapis.com/v0/b/mute-deaf-communication-tool.appspot.com/o/Image%20Files%2F230-2301779_best-classified-apps-default-user-profile.png?alt=media&token=8fcdb502-fd7d-43dd-949f-3e2c7ad675ef");
+
+                                userProfile.put("profileImage", profileImage[0]);
                                 userProfile.put("fullName", fullName);
                                 userProfile.put("userID", username);
                                 userProfile.put("email", email);

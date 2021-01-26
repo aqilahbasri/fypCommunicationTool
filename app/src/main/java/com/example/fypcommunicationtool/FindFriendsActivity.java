@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -61,6 +62,7 @@ public class FindFriendsActivity extends AppCompatActivity
                     @Override
                     protected void onBindViewHolder(@NonNull FindFriendViewHolder holder, final int position, @NonNull Contacts model)
                     {
+                        holder.chatContact.setVisibility(View.INVISIBLE);
                         holder.userName.setText(model.getUserID());
                         holder.userFullName.setText(model.getFullName());
                         Picasso.get().load(model.getProfileImage()).placeholder(R.drawable.profile_image).into(holder.profileImage);
@@ -94,6 +96,8 @@ public class FindFriendsActivity extends AppCompatActivity
     public static class FindFriendViewHolder extends RecyclerView.ViewHolder {
         TextView userName, userFullName;
         CircleImageView profileImage;
+        ImageView onlineIcon, chatContact;
+
 
         public FindFriendViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -101,6 +105,7 @@ public class FindFriendsActivity extends AppCompatActivity
             userName = itemView.findViewById(R.id.user_profile_name);
             userFullName = itemView.findViewById(R.id.user_fullName);
             profileImage = itemView.findViewById(R.id.users_profile_image);
+            chatContact = (ImageView) itemView.findViewById(R.id.contact_chat);
         }
     }
 }
