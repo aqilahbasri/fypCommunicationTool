@@ -102,8 +102,6 @@ public class ChatsPrivateActivity extends AppCompatActivity implements Runnable
     private DownloadManager downloadManager;
     private ProgressBar progressBar;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,7 +136,7 @@ public class ChatsPrivateActivity extends AppCompatActivity implements Runnable
         SendFilesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence options[] = new CharSequence[]{"Images", "Camera", "MS Word Files"};
+                CharSequence options[] = new CharSequence[]{"Images", "Camera"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(com.example.fypcommunicationtool.ChatsPrivateActivity.this);
                 builder.setTitle("Select the File");
 
@@ -156,9 +154,6 @@ public class ChatsPrivateActivity extends AppCompatActivity implements Runnable
                         if(which == 1){
                             checker = "gif";
                             checkCameraPermission();
-                        }
-                        if(which == 2){
-                            checker = "docx";
                         }
                     }
                 });

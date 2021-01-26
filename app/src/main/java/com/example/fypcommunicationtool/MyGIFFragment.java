@@ -155,7 +155,6 @@ public class MyGIFFragment extends Fragment {
         ArrayList<GIF> wordList = new ArrayList<>();
         ArrayList<GIF> categoryList = new ArrayList<>();
         ArrayList<GIFRecommendation> myRecommendationList = new ArrayList<>();
-//        boolean resultExist = false;
 
         myGIFList.setVisibility(View.VISIBLE);
         myGIFRecommendationList.setVisibility(View.INVISIBLE);
@@ -164,9 +163,7 @@ public class MyGIFFragment extends Fragment {
         for(GIF gif : list){
             if(gif.getEngCaption().toLowerCase().contains(s.toLowerCase()) || gif.getMalayCaption().toLowerCase().contains(s.toLowerCase())){
                 myList.add(gif);
-//                resultExist = true;
             }
-
         }
 
         if(myList.isEmpty()){
@@ -179,9 +176,24 @@ public class MyGIFFragment extends Fragment {
 
             //recommendation by word
             for(String searchWord : sw){
-                if(searchWord!="I" || searchWord!="i") {
+                if(!searchWord.equals("I") || !searchWord.equals("i")) {
                     for (GIF gif : list) {
                         if (gif.getEngCaption().toLowerCase().contains(searchWord.toLowerCase()) || gif.getMalayCaption().toLowerCase().contains(searchWord.toLowerCase())) {
+                            wordList.add(gif);
+                            if (sc.contains(gif.getCategory())) {
+
+                            } else {
+                                sc.add(gif.getCategory());
+                            }
+                        }
+                    }
+                }
+            }
+
+            for(String searchWord : sw){
+                if(!searchWord.equals("I") || !searchWord.equals("i")) {
+                    for (GIF gif : list) {
+                        if (searchWord.toLowerCase().contains(gif.getEngCaption().toLowerCase()) || searchWord.toLowerCase().contains(gif.getMalayCaption().toLowerCase())) {
                             wordList.add(gif);
                             if (sc.contains(gif.getCategory())) {
 
