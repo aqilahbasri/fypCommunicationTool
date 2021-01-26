@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,10 +81,18 @@ public class AssessmentInstructionsFragment extends Fragment implements View.OnC
             DatabaseReference ref = database.getReference().child("AssessmentMark").child(id).child("Assessment");
             ref.child("Status").setValue(true);
 
-            Intent i = new Intent(getActivity(), AssessmentLevel1Activity.class);
-            i.putExtra("docReference", reference);
-            i.putExtra("duration", duration);
-            startActivity(i);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(getActivity(), AssessmentLevel1Activity.class);
+                    i.putExtra("docReference", reference);
+                    i.putExtra("duration", duration);
+                    Log.i(TAG, "duration" + duration);
+                    startActivity(i);
+                }
+            },1000);
+
         }
 
         else

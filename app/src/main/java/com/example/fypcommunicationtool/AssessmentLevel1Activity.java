@@ -12,6 +12,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -66,6 +67,7 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
         Intent intent = getIntent();
         String reference = intent.getStringExtra("docReference");
         Long duration = intent.getLongExtra("duration", 0);
+        Log.i(TAG, "duration: "+duration);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -79,6 +81,7 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
         questionGIF = findViewById(R.id.image_question);
         questionGIF.getSettings().setLoadWithOverviewMode(true);
         questionGIF.getSettings().setUseWideViewPort(true);
+//        questionGIF.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 
         nextBtn = findViewById(R.id.nextBtn);
         backBtn = findViewById(R.id.backBtn);   //TODO: OnClick back button
@@ -99,8 +102,9 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
 
         new CountDownTimer(duration, 1000) {
             public void onTick(long millisUntilFinished) {
-                String text = String.format(Locale.getDefault(), "Time left: %02d min: %02d sec",
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) % 60,
+                String text = String.format(Locale.getDefault(), "Time left: %02d hr %02d min: %02d sec",
+                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)%60,
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60);
                 timerTxt.setText(text);
             }
@@ -132,7 +136,8 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
 
                         //Question level
                         CollectionReference testRef = sectionRef.document(secSnapshot.getId()).collection("Questions");
-                        testRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        Query query1 = testRef.limit(6);
+                        query1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task1) {
 
@@ -153,18 +158,11 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
     }
 
     private void setQuestion() {
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-                questionCounter.setText((questionNum+1) +" / "+(questionList.size()));
-                progressBar.setMax(questionList.size());
-                progressBar.setProgress(questionNum+1);
-//            }
-//        }).start();
+        questionCounter.setText((questionNum + 1) + " / " + 6);
+        progressBar.setMax(questionList.size());
+        progressBar.setProgress(questionNum + 1);
 
         if (questionList.size() == 0) {
-//            Toast.makeText(getApplicationContext(), "Category " + data + " do not have any sign language challenge!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, AssessmentMenuActivity.class);
             startActivity(intent);
         } else {
@@ -189,8 +187,9 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
 
     private void changeQuestion() {
 
-        if (questionNum < questionList.size() - 1) {
+        if (questionNum < questionList.size() - 2) {
             questionNum++;
+//            questionGIF.loadUrl("about:blank");
             playAnim(0);
         } else {
 
@@ -222,17 +221,31 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
                 .setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
+//                        questionGIF.clearCache(true);[p
+
+//                        questionGIF.reload();
                     }
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
 
-                        questionGIF.loadUrl(questionList.get(questionNum).getGifUrl());
+//                        questionGIF.postDelayed(new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+                        questionGIF.clearCache(true);
+                                questionGIF.loadUrl(questionList.get(questionNum).getGifUrl());
+//                            }
+//                        }, 500);
+
+//                        questionGIF.loadUrl(questionList.get(questionNum).getGifUrl());
                         questionGIF.refreshDrawableState();
+
+//                        questionGIF.
                         questionTxt.setText(questionList.get(questionNum).getQuestionDetail());
 
-                        questionCounter.setText((questionNum+1) +" / "+(questionList.size()));
-                        progressBar.setProgress(questionNum+1);
+                        questionCounter.setText((questionNum + 1) + " / " + 6);
+                        progressBar.setProgress(questionNum + 1);
 
                         playAnim(1);
                     }
@@ -249,9 +262,9 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
 
     protected void submitAnswer() {
         //TODO: set mark for each question
-        double numberQ = questionList.size();
+        double numberQ = 6;
         double percentScore = score * 100 / numberQ;
-        String finalScore = score + "/" + questionList.size();
+        String finalScore = score + "/" + 6;
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String id = user.getUid();

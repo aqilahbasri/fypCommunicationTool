@@ -112,7 +112,6 @@ public class SubmitCourseworkFragment extends Fragment {
         progressDialog.setProgress(0);
         progressDialog.show();
 
-
         //Store file in storage
         final String fileName = userID+"_Coursework";
         StorageReference mStorageRef = storage.getReference().child("ManageCoursework").child("CourseworkSubmissions").child(userID);

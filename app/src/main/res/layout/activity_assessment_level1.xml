@@ -51,7 +51,8 @@
         android:textColor="?attr/colorPrimary"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:layout_marginHorizontal="25dp"/>
+        android:layout_marginHorizontal="25dp"
+        android:visibility="gone"/>
 
     <!--    Question-->
     <TextView

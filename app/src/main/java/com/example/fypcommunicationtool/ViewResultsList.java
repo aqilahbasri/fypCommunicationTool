@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
+
 public class ViewResultsList {
 
     private static final String TAG = "ViewResultsList";
@@ -28,9 +30,10 @@ public class ViewResultsList {
     TextView sectionText1, sectionText2, sectionText3, sectionText4;
     Button downloadBtn, passingGradeBtn;
 
-    private int assessmentMark = 0;
-    private int courseworkMark = 0;
-    private int interviewMark = 0;
+    private double assessmentMark = 0;
+    private double courseworkMark = 0;
+    private double interviewMark = 0;
+    private static DecimalFormat REAL_FORMATTER = new DecimalFormat("0.##");
 
     protected ViewResultsList(Activity activity, View view) {
         super();
@@ -72,8 +75,9 @@ public class ViewResultsList {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.child(id).exists()) {
                     String mark = snapshot.child(id).child("Score").getValue().toString();
-                    assessmentMark = Integer.parseInt(mark);
-                    markText1.setText(mark);
+                    assessmentMark = Double.parseDouble(mark);
+//                    String assessmentMarkStr = "%2d"+assessmentMark;
+                    markText1.setText(REAL_FORMATTER.format(assessmentMark));
                 } else {
                     markText1.setText("No record");
                     markText1.setTextColor(Color.parseColor("#FF0000"));
@@ -91,8 +95,8 @@ public class ViewResultsList {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.child(id).exists() && snapshot.child(id).child("courseworkMark").exists()) {
                     String mark = snapshot.child(id).child("courseworkMark").getValue().toString();
-                    courseworkMark = Integer.parseInt(mark);
-                    markText2.setText(mark);
+                    courseworkMark = Double.parseDouble(mark);
+                    markText2.setText(REAL_FORMATTER.format(courseworkMark));
                 } else  {
                     markText2.setText("No record");
                     markText2.setTextColor(Color.parseColor("#FF0000"));
@@ -110,8 +114,8 @@ public class ViewResultsList {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.child(id).exists() && snapshot.child(id).child("interviewMark").exists()) {
                     String mark = snapshot.child(id).child("interviewMark").getValue().toString();
-                    interviewMark = Integer.parseInt(mark);
-                    markText3.setText(mark);
+                    interviewMark = Double.parseDouble(mark);
+                    markText3.setText(REAL_FORMATTER.format(interviewMark));
                 }
                 else {
                     markText3.setTextColor(Color.parseColor("#FF0000"));
@@ -130,8 +134,8 @@ public class ViewResultsList {
             @Override
             public void run() {
                 if (assessmentMark != 0 && courseworkMark != 0 && interviewMark!=0) {
-                    int overallMark = assessmentMark + courseworkMark + interviewMark;
-                    overallMarkText.setText(String.valueOf(overallMark));
+                    double overallMark = assessmentMark + courseworkMark + interviewMark;
+                    overallMarkText.setText(REAL_FORMATTER.format(overallMark));
                 }
                 else {
                     overallMarkText.setText("Incomplete");

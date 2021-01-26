@@ -116,8 +116,6 @@ public class ApplyCertificateFragment extends Fragment {
                     String phoneNumberField = phoneNumber.getText().toString();
                     String stateField = spinner.getItem();
 
-                    ApplyCertContactInfo info = new ApplyCertContactInfo();
-//                    ApplyCertContactInfo info = new ApplyCertContactInfo(addressField, cityField, postcodeField, phoneNumberField, stateField);
                     HashMap<String, Object> values = new HashMap<>();
                     values.put("address", addressField);
                     values.put("city", cityField);
@@ -125,17 +123,10 @@ public class ApplyCertificateFragment extends Fragment {
                     values.put("postcode", postcodeField);
                     values.put("state", stateField);
 
-//                    info.setAddress(addressField);
-//                    info.setCity(cityField);
-//                    info.setPhoneNumber(phoneNumberField);
-//                    info.setPostcode(postcodeField);
-//                    info.setState(stateField);
-
                     DatabaseReference reference = database.getReference().child("Users").child(userId);
                     reference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            myRef.updateChildren(values);
                             String name = snapshot.child("fullName").getValue().toString();
                             myRef.child(userId).child("name").setValue(name);
                         }
@@ -154,8 +145,6 @@ public class ApplyCertificateFragment extends Fragment {
                                 myRef.child(userId).child("appliedTimestamp").setValue(ServerValue.TIMESTAMP);
                                 Toast.makeText(getActivity(), "Application sent successfully", Toast.LENGTH_SHORT).show();
                                 getActivity().finish();
-//                                if (isTaskFinished == true)
-//                                getActivity().finish();
                             }
                         }
                     });
