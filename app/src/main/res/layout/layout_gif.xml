@@ -4,8 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:clickable="false"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layout_width="120dp"
-    android:layout_height="195dp"
+    android:layout_width="110dp"
+    android:layout_height="191dp"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
     cardview:cardCornerRadius="4dp">
@@ -34,7 +34,7 @@
         <WebView
             android:id="@+id/gifPicture"
             android:layout_width="match_parent"
-            android:layout_height="136dp"
+            android:layout_height="130dp"
             android:background="#2d2d2d"
             android:layout_gravity="center_horizontal"/>
 
@@ -70,10 +70,10 @@
 <!--            android:text="sample"-->
 <!--            android:padding="10dp"/>-->
         
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000"/>
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="#000"/>-->
 
     </LinearLayout>
 
