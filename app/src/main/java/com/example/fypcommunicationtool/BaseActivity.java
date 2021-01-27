@@ -1,6 +1,7 @@
 package com.example.fypcommunicationtool;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -70,7 +71,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 //            this will probably screw up because we use activity instead of fragments, so above code aku comment
 //        }
 //        getSupportFragmentManager().addOnBackStackChangedListener(this);
+
     }
+
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

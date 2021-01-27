@@ -21,7 +21,6 @@
                 android:id="@+id/list_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/adapterViewHeader"
                 android:layout_marginBottom="@dimen/default_gap" />
         </LinearLayout>
     </ScrollView>

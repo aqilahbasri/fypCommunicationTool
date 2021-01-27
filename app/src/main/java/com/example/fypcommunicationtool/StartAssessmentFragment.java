@@ -16,7 +16,7 @@ import com.google.firebase.firestore.Query;
 
 public class StartAssessmentFragment extends Fragment {
 
-    private static final String TAG = "ManageQuestionsFgmt";
+    private static final String TAG = "StartAssessmentFgmt";
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TestSettingsLevelAdapter adapter;
 
@@ -49,13 +49,6 @@ public class StartAssessmentFragment extends Fragment {
         mRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-//        CardView level1 = view.findViewById(R.id.level1);
-//        CardView level2 = view.findViewById(R.id.level2);
-//        CardView level3 = view.findViewById(R.id.level3);
-//
-//        level1.setOnClickListener(this);
-//        level2.setOnClickListener(this);
-//        level3.setOnClickListener(this);
         return view;
     }
 

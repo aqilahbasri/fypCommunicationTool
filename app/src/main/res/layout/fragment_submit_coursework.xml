@@ -17,16 +17,18 @@
         android:textColor="@color/colorPrimary"
         android:textSize="24sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/page_title"
-        android:orientation="horizontal"
-        android:weightSum="100"
-        android:background="@drawable/table_bottom_border"
-        android:paddingVertical="@dimen/default_gap"
-        android:id="@+id/courseworkDetails">
 
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/page_title"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:weightSum="100"-->
+<!--        android:background="@drawable/table_bottom_border"-->
+<!--        android:paddingVertical="@dimen/default_gap"-->
+<!--        android:id="@+id/courseworkDetails">-->
+
+        <!--
         <LinearLayout
             android:id="@+id/adapterViewHeader"
             android:layout_width="0dp"
@@ -75,16 +77,18 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
+        -->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_name"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/adapterViewHeader"
-            android:layout_weight="70" />
+            android:layout_below="@id/page_title"
+            android:paddingVertical="@dimen/default_gap"/>
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
+    <!--
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -126,14 +130,15 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/notification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_gap"
-        android:padding="16sp"
-        android:textSize="16sp"
-        android:layout_below="@id/submitButtons"/>
+-->
+<!--    <TextView-->
+<!--        android:id="@+id/notification"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/default_gap"-->
+<!--        android:padding="16sp"-->
+<!--        android:textSize="16sp"-->
+<!--        android:layout_below="@id/submitButtons"/>-->
 
 
 </RelativeLayout>

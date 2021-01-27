@@ -189,6 +189,7 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
 
         if (questionNum < questionList.size() - 2) {
             questionNum++;
+            questionGIF.clearCache(true);
 //            questionGIF.loadUrl("about:blank");
             playAnim(0);
         } else {
@@ -233,7 +234,7 @@ public class AssessmentLevel1Activity extends AppCompatActivity implements View.
 //
 //                            @Override
 //                            public void run() {
-                        questionGIF.clearCache(true);
+
                                 questionGIF.loadUrl(questionList.get(questionNum).getGifUrl());
 //                            }
 //                        }, 500);

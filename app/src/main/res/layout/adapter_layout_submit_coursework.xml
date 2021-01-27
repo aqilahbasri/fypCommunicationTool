@@ -1,43 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:id="@+id/adapterViewLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/adapterViewLayout">
+    android:orientation="vertical"
+    android:background="@drawable/table_bottom_border"
+    android:paddingVertical="@dimen/default_gap">
 
-    <TextView
-        android:gravity="start"
-        android:textAlignment="textStart"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:id="@+id/textView1"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100">
 
-    <TextView
-        android:gravity="start"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/textView2"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="35"
+            android:text="No : "
+            android:textStyle="bold" />
 
-    <TextView
-        android:gravity="start"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/textView3"/>
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="65"
+            android:gravity="start"
+            android:textAlignment="textStart"
+            android:layout_marginStart="@dimen/default_gap"/>
 
-    <TextView
-        android:gravity="start"
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:id="@+id/textView4"/>
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="2dp"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="35"
+            android:text="Coursework Name : "
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="65"
+            android:gravity="start"
+            android:textAlignment="textStart"
+            android:layout_marginStart="@dimen/default_gap"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="2dp"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="35"
+            android:text="Question : "
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="65"
+            android:gravity="start"
+            android:textAlignment="textStart"
+            android:layout_marginStart="@dimen/default_gap"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="2dp"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="35"
+            android:text="Date Created : "
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="65"
+            android:gravity="start"
+            android:textAlignment="textStart"
+            android:layout_marginStart="@dimen/default_gap"/>
+
+    </LinearLayout>
 
     <Button
-        android:layout_width="150dp"
-        android:layout_height="30dp"
         android:id="@+id/review_button"
-        android:layout_marginStart="@dimen/default_gap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/default_gap"
-        android:text="View"
-        android:textColor="@android:color/white"
-        android:background="@drawable/roundbtn"/>
+        android:background="@drawable/roundbtn"
+        android:minHeight="0dp"
+        android:padding="8dp"
+        android:text="View related file"
+        android:textColor="@android:color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="@dimen/default_gap">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40"
+            android:gravity="center_vertical"
+            android:text="Submit your answer"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/selectButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16sp"
+            android:layout_weight="30"
+            android:background="@drawable/roundbtnpurple"
+            android:minHeight="0dp"
+            android:padding="8dp"
+            android:text="SELECT FILE"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/uploadButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16sp"
+            android:layout_weight="30"
+            android:background="@drawable/roundbtnpurple"
+            android:minHeight="0dp"
+            android:padding="8dp"
+            android:text="UPLOAD FILE"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_gap"
+        android:padding="16sp"
+        android:textSize="16sp"
+        android:visibility="gone"/>
 
 </LinearLayout>
