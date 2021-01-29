@@ -2,14 +2,14 @@ package com.example.fypcommunicationtool;
 
 public class Messages
 {
-    private String from, message, type, to, messageID, time, date, name;
+    private String from, message, type, to, messageID, time, date, name, readStatus;
 
     public Messages()
     {
 
     }
 
-    public Messages(String from, String message, String type, String to, String messageID, String time, String date, String name) {
+    public Messages(String from, String message, String type, String to, String messageID, String time, String date, String name, String readStatus) {
         this.from = from;
         this.message = message;
         this.type = type;
@@ -18,6 +18,7 @@ public class Messages
         this.time = time;
         this.date = date;
         this.name = name;
+        this.readStatus = readStatus;
     }
 
     public String getFrom() {
@@ -83,4 +84,8 @@ public class Messages
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getReadStatus() { return readStatus; }
+
+    public void setReadStatus(String readStatus) { this.readStatus = readStatus; }
 }

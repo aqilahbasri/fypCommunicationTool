@@ -126,9 +126,15 @@ public class ContactsToSendGIf extends AppCompatActivity {
                     messagePictureBody.put("time", saveCurrentTime);
                     messagePictureBody.put("date", saveCurrentDate);
 
+                    Map messageTextBody1 = messagePictureBody;
+                    Map messageTextBody2 = messagePictureBody;
+
+                    messageTextBody1.put("readStatus", "read");
+                    messageTextBody2.put("readStatus", "unread");
+
                         Map messageBodyDetails = new HashMap();
-                        messageBodyDetails.put(messageSenderRef + "/" + messagePushID, messagePictureBody);
-                        messageBodyDetails.put( messageReceiverRef + "/" + messagePushID, messagePictureBody);
+                        messageBodyDetails.put(messageSenderRef + "/" + messagePushID, messageTextBody1);
+                        messageBodyDetails.put( messageReceiverRef + "/" + messagePushID, messageTextBody2);
 
 
                     rootref.updateChildren(messageBodyDetails).addOnCompleteListener(new OnCompleteListener() {

@@ -296,9 +296,14 @@ public class ChatsPrivateActivity extends AppCompatActivity implements Runnable
                             messagePictureBody.put("time", saveCurrentTime);
                             messagePictureBody.put("date", saveCurrentDate);
 
-                            Map messageBodyDetails = new HashMap();
-                            messageBodyDetails.put(messageSenderRef + "/" + messagePushID, messagePictureBody);
-                            messageBodyDetails.put( messageReceiverRef + "/" + messagePushID, messagePictureBody);
+                            Map messageBodyDetails = messagePictureBody;
+                            Map messageBodyDetails2 = messagePictureBody;
+
+                            messageBodyDetails.put("readStatus", "read");
+                            messageBodyDetails2.put("readStatus", "unread");
+
+                            messageBodyDetails.put(messageSenderRef + "/" + messagePushID, messageBodyDetails);
+                            messageBodyDetails.put( messageReceiverRef + "/" + messagePushID, messageBodyDetails2);
 
                             RootRef.updateChildren(messageBodyDetails).addOnCompleteListener(new OnCompleteListener() {
                                 @Override
@@ -417,9 +422,16 @@ public class ChatsPrivateActivity extends AppCompatActivity implements Runnable
             messageTextBody.put("time", saveCurrentTime);
             messageTextBody.put("date", saveCurrentDate);
 
+            Map messageTextBody1 = messageTextBody;
+            Map messageTextBody2 = messageTextBody;
+
+            messageTextBody1.put("readStatus", "read");
+            messageTextBody2.put("readStatus", "unread");
+
+
             Map messageBodyDetails = new HashMap();
-            messageBodyDetails.put(messageSenderRef + "/" + messagePushID, messageTextBody);
-            messageBodyDetails.put( messageReceiverRef + "/" + messagePushID, messageTextBody);
+            messageBodyDetails.put(messageSenderRef + "/" + messagePushID, messageTextBody1);
+            messageBodyDetails.put( messageReceiverRef + "/" + messagePushID, messageTextBody2);
 
             RootRef.updateChildren(messageBodyDetails).addOnCompleteListener(new OnCompleteListener() {
                 @Override
