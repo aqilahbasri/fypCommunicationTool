@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="THIS ASSESSMENT CONSISTS OF X QUESTIONS.\n\n
+        android:text="THIS ASSESSMENT CONSISTS OF 6 QUESTIONS.\n\n
 You have 15 minutes to answer all questions.\n
 Once you tap Start, you cannot cancel this window."
         android:textSize="16sp"
