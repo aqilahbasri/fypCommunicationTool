@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,9 +41,9 @@ public class JoinInterviewFragment extends Fragment {
 
     private RelativeLayout appEmpty, scheduledEmpty;
     private RelativeLayout appFill, scheduledFill;
-    private Button applyBtn, joinBtn;
+    private Button applyBtn;
     private TextView dateApplied, timeApplied, statusTxt, applicationTxt;
-    private TextView dateTxt, timeTxt, interviewerTxt;
+    private TextView dateTxt, timeTxt, interviewerTxt, meetingLinkTxt;
     private boolean isApplied, isScheduled, isCompleted;
 
     private String userId, interviewerId;
@@ -74,7 +75,7 @@ public class JoinInterviewFragment extends Fragment {
         appFill = view.findViewById(R.id.applicationFillLayout);
         scheduledFill = view.findViewById(R.id.scheduledLayoutFill);
         applyBtn = view.findViewById(R.id.applyButton);
-        joinBtn = view.findViewById(R.id.joinButton);
+//        joinBtn = view.findViewById(R.id.joinButton);
         dateApplied = view.findViewById(R.id.dateApplied);
         timeApplied = view.findViewById(R.id.timeApplied);
         statusTxt = view.findViewById(R.id.statusTxt);
@@ -82,6 +83,7 @@ public class JoinInterviewFragment extends Fragment {
         dateTxt = view.findViewById(R.id.dateTxt);
         timeTxt = view.findViewById(R.id.timeTxt);
         interviewerTxt = view.findViewById(R.id.interviewerTxt);
+        meetingLinkTxt = view.findViewById(R.id.meetingLinkTxt);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         userId = user.getUid();
@@ -134,18 +136,18 @@ public class JoinInterviewFragment extends Fragment {
             scheduledFill.setVisibility(View.VISIBLE);
             updateScheduleUI(userId);
 
-            joinBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            initiateVideoMeeting();
-                        }
-                    }, 1500);
-                }
-            });
+//            joinBtn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Handler handler = new Handler();
+//                    handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            initiateVideoMeeting();
+//                        }
+//                    }, 1500);
+//                }
+//            });
 
         } else if (isCompleted == true) { //handle if has completed
             appEmpty.setVisibility(View.VISIBLE);
@@ -203,6 +205,9 @@ public class JoinInterviewFragment extends Fragment {
                     dateTxt.setText(dateStr);
                     timeTxt.setText(timeStr);
                     interviewerTxt.setText(snapshot.child("interviewerName").getValue().toString());
+                    meetingLinkTxt.setText(snapshot.child("meetingLink").getValue().toString());
+
+                    Linkify.addLinks(meetingLinkTxt, Linkify.WEB_URLS);
 
                     interviewerId = snapshot.child("interviewerId").getValue().toString();
                 }
@@ -214,11 +219,11 @@ public class JoinInterviewFragment extends Fragment {
         });
     }
 
-    public void initiateVideoMeeting() {
-        Intent intent = new Intent((JoinInterviewActivity) getActivity(), CallingActivity.class);
-        intent.putExtra("visit_user_id", interviewerId);
-        startActivity(intent);
-    }
+//    public void initiateVideoMeeting() {
+//        Intent intent = new Intent((JoinInterviewActivity) getActivity(), CallingActivity.class);
+//        intent.putExtra("visit_user_id", interviewerId);
+//        startActivity(intent);
+//    }
 
     private class AsyncTask extends android.os.AsyncTask {
 
