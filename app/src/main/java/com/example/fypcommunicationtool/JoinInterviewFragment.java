@@ -97,7 +97,7 @@ public class JoinInterviewFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity(), R.style.CustomMaterialDialog);
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(getContext(), R.style.CustomMaterialDialog);
 
                     dialog.setTitle("Confirm application");
                     dialog.setMessage("Once you confirm application, your application will be sent to the system and be reviewed.");
